@@ -68,11 +68,17 @@ public class addSolicitudVehiculo extends javax.swing.JDialog {
         manager_vehiculo = new ManagerVehiculos();
           
         
-        
+        iniciarEstados();
         
         AutoCompleteDecorator.decorate(this.comboEmpleados);
         AutoCompleteDecorator.decorate(this.cmb_Vehiculo);
         
+    }
+    private void iniciarEstados(){
+        List<String> estados=cbd.acceder("select nombre from estado;");
+        for(int i=0;i<estados.size();i++){
+            cmbEstado.addItem(estados.get(i));
+        }
     }
 
     /**
@@ -94,9 +100,10 @@ public class addSolicitudVehiculo extends javax.swing.JDialog {
         jScrollPane1 = new javax.swing.JScrollPane();
         txt_Actividad = new javax.swing.JTextArea();
         jLabel8 = new javax.swing.JLabel();
-        txt_Lugar = new javax.swing.JTextField();
         jLabel10 = new javax.swing.JLabel();
         lblAviso = new javax.swing.JLabel();
+        cmbLocalidad = new javax.swing.JComboBox<>();
+        cmbEstado = new javax.swing.JComboBox<>();
         date_Salida = new com.toedter.calendar.JDateChooser();
         date_Llegada = new com.toedter.calendar.JDateChooser();
         chb_Pernoctado = new javax.swing.JCheckBox();
@@ -168,20 +175,23 @@ public class addSolicitudVehiculo extends javax.swing.JDialog {
         jLabel8.setText("Lugar:");
         pn_addInventario.add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(93, 193, -1, -1));
 
-        txt_Lugar.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        txt_Lugar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txt_LugarActionPerformed(evt);
-            }
-        });
-        pn_addInventario.add(txt_Lugar, new org.netbeans.lib.awtextra.AbsoluteConstraints(154, 183, 215, -1));
-
         jLabel10.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel10.setText("Pernoctado:");
         pn_addInventario.add(jLabel10, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 157, -1, -1));
 
         lblAviso.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         pn_addInventario.add(lblAviso, new org.netbeans.lib.awtextra.AbsoluteConstraints(446, 228, 15, 233));
+
+        cmbLocalidad.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Seleccione localidad" }));
+        pn_addInventario.add(cmbLocalidad, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 190, -1, -1));
+
+        cmbEstado.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Seleccione estado" }));
+        cmbEstado.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                cmbEstadoItemStateChanged(evt);
+            }
+        });
+        pn_addInventario.add(cmbEstado, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 190, -1, -1));
         pn_addInventario.add(date_Salida, new org.netbeans.lib.awtextra.AbsoluteConstraints(154, 81, 215, -1));
         date_Salida.getDateEditor().addPropertyChangeListener(
             new java.beans.PropertyChangeListener() {
@@ -290,10 +300,10 @@ public class addSolicitudVehiculo extends javax.swing.JDialog {
 
             pn_addInventario.add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(580, 40, -1, 387));
             pn_addInventario.add(hora_Llegada, new org.netbeans.lib.awtextra.AbsoluteConstraints(387, 117, -1, -1));
-            JSpinner.DateEditor de2 = new JSpinner.DateEditor(hora_Llegada, "h:mm:ss a");
+            JSpinner.DateEditor de2 = new JSpinner.DateEditor(hora_Llegada, "HH:mm");
             hora_Llegada.setEditor(de2);
             pn_addInventario.add(hora_Salida, new org.netbeans.lib.awtextra.AbsoluteConstraints(387, 81, -1, -1));
-            JSpinner.DateEditor de = new JSpinner.DateEditor(hora_Salida, "h:mm:ss a");
+            JSpinner.DateEditor de = new JSpinner.DateEditor(hora_Salida, "HH:mm");
             hora_Salida.setEditor(de);
 
             jLabel6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/formularios.png"))); // NOI18N
@@ -318,14 +328,11 @@ public class addSolicitudVehiculo extends javax.swing.JDialog {
            javax.swing.JOptionPane.showMessageDialog(null, "Error"); 
         }
     }
-    private void txt_LugarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txt_LugarActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txt_LugarActionPerformed
-
     private void btnAceptarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAceptarActionPerformed
        int indiceCarro = cmb_Vehiculo.getSelectedIndex();
         try{
             verificar_excepcion=true;
+            
             validarDatos(true,"");
             
             //inserta solicitud
@@ -357,10 +364,10 @@ public class addSolicitudVehiculo extends javax.swing.JDialog {
         ResultSet res;
         try{
             Connection cn=cbd.getConexion();
-            res=cbd.getTabla("select marca,linea,clase,matricula from vehiculos where Estado='Disponible'",cn);
+            res=cbd.getTabla("select marca,matricula from vehiculos where Estado='Disponible'",cn);
             List<String> autos=new ArrayList<String>();
             while(res.next()){
-                String aux=res.getString("marca")+"-"+res.getString("linea")+"-"+res.getString("clase")+"-"+res.getString("matricula");
+                String aux=res.getString("marca")+"-"+res.getString("matricula");
                 System.out.println(aux);
                 autos.add(aux);
             }
@@ -388,12 +395,12 @@ public class addSolicitudVehiculo extends javax.swing.JDialog {
         if(cmb_Vehiculo.getSelectedIndex() != 0){
             String separador [] = cmb_Vehiculo.getSelectedItem().toString().split("-");
             try {
-                ResultSet res=cbd.getTabla("select kilometraje from vehiculo_usado where vehiculos_Matricula='"+separador[3]+"'", cn);
-                System.out.println("select kilometraje from vehiculo_usado where vehiculos_Matricula='"+separador[3]+"'");
+                ResultSet res=cbd.getTabla("select kilometraje from vehiculo_usado where vehiculos_Matricula='"+separador[1]+"'", cn);
+                System.out.println("select kilometraje from vehiculo_usado where vehiculos_Matricula='"+separador[1]+"'");
                 res.next();
                 txtKilometraje.setText(res.getString("kilometraje"));
                 
-                res=cbd.getTabla("select observaciones from vehiculos where Matricula='"+separador[3]+"'", cn);
+                res=cbd.getTabla("select observaciones from vehiculos where Matricula='"+separador[1]+"'", cn);
                 res.next();
                 txtADescripcion.setText(res.getString("observaciones"));
             } catch (SQLException ex) {
@@ -406,6 +413,16 @@ public class addSolicitudVehiculo extends javax.swing.JDialog {
         }
         
     }//GEN-LAST:event_cmb_VehiculoActionPerformed
+
+    private void cmbEstadoItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cmbEstadoItemStateChanged
+        // TODO add your handling code here:
+        cmbLocalidad.removeAllItems();
+        cmbLocalidad.addItem("Seleccione localidad");
+        List<String> localidades=cbd.acceder("select L.nombre from localidad L inner join estado E on L.estado_idestado=E.idestado where E.nombre='"+cmbEstado.getSelectedItem().toString()+"' order by L.nombre;");
+        for(int i=0;i<localidades.size();i++){
+            cmbLocalidad.addItem(localidades.get(i));
+        }
+    }//GEN-LAST:event_cmbEstadoItemStateChanged
     public void insertar_Solicitud(int ConCarro){
         try{
             SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd");
@@ -420,22 +437,25 @@ public class addSolicitudVehiculo extends javax.swing.JDialog {
             }
             cn=cbd.getConexion();
             String[] arr=cmb_Vehiculo.getSelectedItem().toString().split("-");
-            ResultSet res=cbd.getTabla("select idvehiculo_usado from vehiculo_usado where vehiculo_usado.vehiculos_Matricula='"+arr[3]+"';", cn);
-            System.out.println("select idvehiculo_usado from vehiculo_usado where vehiculo_usado.vehiculos_Matricula='"+arr[3]+"';");
+            ResultSet res=cbd.getTabla("select idvehiculo_usado from vehiculo_usado where vehiculo_usado.vehiculos_Matricula='"+arr[1]+"';", cn);
+            System.out.println("select idvehiculo_usado from vehiculo_usado where vehiculo_usado.vehiculos_Matricula='"+arr[1]+"';");
             res.next();
             String idVehiculo_usado=res.getString("idvehiculo_usado");
             //Inserción de solicitud
             SimpleDateFormat format=new SimpleDateFormat("h:mm:ss a");
             conexion.getConexion();
-            boolean insersion = insersion=conexion.ejecutar("insert into Solicitud_vehiculo (Fecha_Salida,Lugar,Nombre,Actividad,Pernoctado,Vehiculo,Puesto,Fecha_Llegada,Estado,Reporte,Hora_Llegada,Hora_Salida,vehiculo_usado_idvehiculo_usado) values('"+fecha_Salida+"','"+txt_Lugar.getText()+"'"
+            boolean insersion = insersion=conexion.ejecutar("insert into Solicitud_vehiculo (Fecha_Salida,Lugar,Nombre,Actividad,Pernoctado,Vehiculo,Puesto,Fecha_Llegada,Estado,Reporte,Hora_Llegada,Hora_Salida,vehiculo_usado_idvehiculo_usado) values('"+fecha_Salida+"','"+
+                    cmbLocalidad.getSelectedItem().toString()+","+cmbEstado.getSelectedItem().toString()+"'"
                 + ",'"+comboEmpleados.getSelectedItem().toString()+"','"+txt_Actividad.getText()+"','"+pernoctado+"','"+cmb_Vehiculo.getSelectedItem().toString()+"'"
                 + ",'"+txt_Puesto.getText()+"','"+fecha_Llegada+"','P','0','"+format.format((Date)hora_Llegada.getValue())+"','"+format.format((Date)hora_Salida.getValue())+"',"+idVehiculo_usado+")");
             
             if(insersion){
                 JOptionPane.showMessageDialog(this, "Insersión correcta");
+                PrincipalS.tablasolic.setModel(manager_viaticos.getTasol());
                 this.setVisible(false);
             }else{
-                System.out.println("insert into Solicitud_vehiculo (Fecha_Salida,Lugar,Nombre,Actividad,Pernoctado,Vehiculo,Puesto,Fecha_Llegada,Estado,Reporte,Hora_Llegada,Hora_Salida,vehiculo_usado_idvehiculo_usado) values('"+fecha_Salida+"','"+txt_Lugar.getText()+"'"
+                System.out.println("insert into Solicitud_vehiculo (Fecha_Salida,Lugar,Nombre,Actividad,Pernoctado,Vehiculo,Puesto,Fecha_Llegada,Estado,Reporte,Hora_Llegada,Hora_Salida,vehiculo_usado_idvehiculo_usado) values('"+fecha_Salida+"','"+
+                        cmbLocalidad.getSelectedItem().toString()+","+cmbEstado.getSelectedItem().toString()+"'"
                 + ",'"+comboEmpleados.getSelectedItem().toString()+"','"+txt_Actividad.getText()+"','"+pernoctado+"','"+cmb_Vehiculo.getSelectedItem().toString()+"'"
                 + ",'"+txt_Puesto.getText()+"','"+fecha_Llegada+"','P','0','"+format.format((Date)hora_Llegada.getValue())+"','"+format.format((Date)hora_Salida.getValue())+"',"+idVehiculo_usado+")");
                 JOptionPane.showMessageDialog(this, "Error al insertar pero no excepción");
@@ -488,7 +508,7 @@ public class addSolicitudVehiculo extends javax.swing.JDialog {
                 cad+="\n-No se ha insertado ninguna actividad, escriba la acitividad y vuelva a intentarlo";
             }
         }
-        if(txt_Lugar.getText().equals("")){
+        if(cmbEstado.getSelectedItem().toString().equals("Seleccione estado") || cmbLocalidad.getSelectedItem().toString().equals("Seleccione localidad")){
             if(cad.equals("")){
                 cad+="-No se ha insertado el lugar, escriba el lugar y vuelva a intentarlo";
             }
@@ -580,6 +600,8 @@ public class addSolicitudVehiculo extends javax.swing.JDialog {
     private javax.swing.JButton btnAceptar;
     private javax.swing.JButton btnCancelar;
     private javax.swing.JCheckBox chb_Pernoctado;
+    private javax.swing.JComboBox<String> cmbEstado;
+    private javax.swing.JComboBox<String> cmbLocalidad;
     private javax.swing.JComboBox cmb_Vehiculo;
     private javax.swing.JComboBox<String> comboEmpleados;
     private com.toedter.calendar.JDateChooser date_Llegada;
@@ -605,7 +627,6 @@ public class addSolicitudVehiculo extends javax.swing.JDialog {
     private javax.swing.JTextArea txtADescripcion;
     private javax.swing.JTextField txtKilometraje;
     private javax.swing.JTextArea txt_Actividad;
-    private javax.swing.JTextField txt_Lugar;
     private javax.swing.JTextField txt_Puesto;
     // End of variables declaration//GEN-END:variables
 }
