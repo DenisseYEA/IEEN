@@ -18,6 +18,7 @@ import static Interfaces.Principal.Username;
 import static Interfaces.Principal.tablaInventario;
 import static Interfaces.Principal.tablaUsuarios;
 import com.itextpdf.text.DocumentException;
+import java.awt.Frame;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -45,6 +46,7 @@ public class PrincipalS extends javax.swing.JFrame {
     DefaultTableModel modelo;
     CrearPDF pdf = new CrearPDF();
     boolean limpiar = false;
+    public static int conVehiculo;//Sirve para saber si se tiene que solicitar un vehiculo cuando está en 1
 
     /**
      * Creates new form PrincipalS
@@ -322,7 +324,7 @@ public class PrincipalS extends javax.swing.JFrame {
         });
         MenuTablonC.add(AceptarC);
 
-        Add1.setText("Añadir");
+        Add1.setText("Solicitud viático");
         Add1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 Add1ActionPerformed(evt);
@@ -353,7 +355,6 @@ public class PrincipalS extends javax.swing.JFrame {
             }
         });
         MenuInfSA.add(GenerarInf);
-        GenerarInf.getAccessibleContext().setAccessibleName("Generar informe");
 
         ConsultarInf.setText("Consultar");
         ConsultarInf.addActionListener(new java.awt.event.ActionListener() {
@@ -371,7 +372,6 @@ public class PrincipalS extends javax.swing.JFrame {
             }
         });
         MenuGI.add(AñadirA);
-        AñadirA.getAccessibleContext().setAccessibleName("Añadir actividad");
 
         EliminarA.setText("Eliminar actividad");
         EliminarA.addActionListener(new java.awt.event.ActionListener() {
@@ -380,7 +380,6 @@ public class PrincipalS extends javax.swing.JFrame {
             }
         });
         MenuGI.add(EliminarA);
-        EliminarA.getAccessibleContext().setAccessibleName("Eliminar actividad");
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         addWindowListener(new java.awt.event.WindowAdapter() {
@@ -742,19 +741,19 @@ public class PrincipalS extends javax.swing.JFrame {
 
         jLabel2.setText("Observaciones Vehículo");
         jPanel1.add(jLabel2);
-        jLabel2.setBounds(810, 320, 150, 14);
+        jLabel2.setBounds(810, 320, 150, 17);
         jPanel1.add(NoFact);
-        NoFact.setBounds(540, 20, 220, 20);
+        NoFact.setBounds(540, 20, 220, 27);
         jPanel1.add(GaTot);
-        GaTot.setBounds(210, 440, 240, 20);
+        GaTot.setBounds(210, 440, 240, 27);
 
         jLabel3.setText("Gasto total");
         jPanel1.add(jLabel3);
-        jLabel3.setBounds(140, 440, 70, 14);
+        jLabel3.setBounds(140, 440, 70, 17);
 
         jLabel4.setText("# Factura");
         jPanel1.add(jLabel4);
-        jLabel4.setBounds(480, 20, 60, 14);
+        jLabel4.setBounds(480, 20, 60, 17);
 
         btnguardar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Iconos/guardarsol.png"))); // NOI18N
         btnguardar.setText("Guardar");
@@ -1311,6 +1310,7 @@ public class PrincipalS extends javax.swing.JFrame {
             // If Nimbus is not available, you can set the GUI to another look and feel.
         }
         addSolicitudViaticos asv = new addSolicitudViaticos(this, true);
+        conVehiculo=0;
         asv.setVisible(true);
     }//GEN-LAST:event_Add1ActionPerformed
 
@@ -1354,7 +1354,8 @@ public class PrincipalS extends javax.swing.JFrame {
         } catch (Exception e) {
             // If Nimbus is not available, you can set the GUI to another look and feel.
         }
-        addSolicitudVehiculo asv = new addSolicitudVehiculo(this, true);
+        addSolicitudViaticos asv = new addSolicitudViaticos(this, true);
+        conVehiculo=1;
         asv.setVisible(true);
     }//GEN-LAST:event_SolicitarVehiculo1ActionPerformed
 

@@ -20,6 +20,7 @@ import Clases.ManagerSoViaticos;
 
 import Interfaces.PrincipalS;
 import com.toedter.calendar.JTextFieldDateEditor;
+import java.awt.Frame;
 import java.util.Calendar;
 import java.util.Vector;
 import java.util.Date;
@@ -41,12 +42,14 @@ public class addSolicitudViaticos extends javax.swing.JDialog {
     Conexion cbd=new Conexion();
     Connection cn=cbd.getConexion();
     public static boolean imprimirSolicitud=false;
+    Frame parentVehiculo=null;
     /**
      * Creates new form addSolicitudViaticos
      */
     public addSolicitudViaticos(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
+        parentVehiculo=parent;
         JTextFieldDateEditor date_Salida_Editor=(JTextFieldDateEditor) date_Salida.getDateEditor();
         JTextFieldDateEditor date_Llegada_Editor=(JTextFieldDateEditor) date_Llegada.getDateEditor();
         date_Salida_Editor.setEditable(false);
@@ -243,8 +246,12 @@ public class addSolicitudViaticos extends javax.swing.JDialog {
         }
     }
     private void btnAceptarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAceptarActionPerformed
-
-        try{
+       if(PrincipalS.conVehiculo==1){
+         addSolicitudVehiculo asv;  
+           asv = new addSolicitudVehiculo(parentVehiculo,true);
+           asv.setVisible(true);
+       }else{
+           try{
             verificar_excepcion=true;
             validarDatos(true,"");
             
@@ -257,7 +264,7 @@ public class addSolicitudViaticos extends javax.swing.JDialog {
         }catch(NumberFormatException e){
             JOptionPane.showMessageDialog(this, "El kilometraje debe ser un numero sin letras.");
         }
-       
+       }
     }//GEN-LAST:event_btnAceptarActionPerformed
 
     private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed

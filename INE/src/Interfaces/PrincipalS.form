@@ -53,7 +53,7 @@
             </Property>
             <Property name="text" type="java.lang.String" value="Nueva solicitud"/>
             <Property name="cursor" type="java.awt.Cursor" editor="org.netbeans.modules.form.editors2.CursorEditor">
-              <Color id="Cursor Por defecto"/>
+              <Color id="Default Cursor"/>
             </Property>
           </Properties>
           <Events>
@@ -221,7 +221,7 @@
       <SubComponents>
         <MenuItem class="javax.swing.JMenuItem" name="Add1">
           <Properties>
-            <Property name="text" type="java.lang.String" value="A&#xf1;adir"/>
+            <Property name="text" type="java.lang.String" value="Solicitud vi&#xe1;tico"/>
           </Properties>
           <Events>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="Add1ActionPerformed"/>
@@ -255,9 +255,6 @@
           <Properties>
             <Property name="text" type="java.lang.String" value="Generar informe"/>
           </Properties>
-          <AccessibilityProperties>
-            <Property name="AccessibleContext.accessibleName" type="java.lang.String" value="Generar informe"/>
-          </AccessibilityProperties>
           <Events>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="GenerarInfActionPerformed"/>
           </Events>
@@ -293,9 +290,6 @@
           <Properties>
             <Property name="text" type="java.lang.String" value="A&#xf1;adir actividad"/>
           </Properties>
-          <AccessibilityProperties>
-            <Property name="AccessibleContext.accessibleName" type="java.lang.String" value="A&#xf1;adir actividad"/>
-          </AccessibilityProperties>
           <Events>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="A&#xf1;adirAActionPerformed"/>
           </Events>
@@ -304,9 +298,6 @@
           <Properties>
             <Property name="text" type="java.lang.String" value="Eliminar actividad"/>
           </Properties>
-          <AccessibilityProperties>
-            <Property name="AccessibleContext.accessibleName" type="java.lang.String" value="Eliminar actividad"/>
-          </AccessibilityProperties>
           <Events>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="EliminarAActionPerformed"/>
           </Events>
