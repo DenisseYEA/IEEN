@@ -247,8 +247,13 @@ public class addSolicitudViaticos extends javax.swing.JDialog {
     }
     private void btnAceptarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAceptarActionPerformed
        if(PrincipalS.conVehiculo==1){
-         addSolicitudVehiculo asv;  
-           asv = new addSolicitudVehiculo(parentVehiculo,true);
+           SimpleDateFormat format=new SimpleDateFormat("HH:mm");
+         addSolicitudVehiculo asv;
+           asv = new addSolicitudVehiculo(parentVehiculo,true,comboEmpleados.getSelectedIndex(),
+           txt_Puesto.getText(),date_Salida.getDate(),date_Llegada.getDate(),
+           hora_Salida.getValue(),hora_Llegada.getValue(),
+           chb_Pernoctado.isSelected(),cmbEstado.getSelectedIndex(),cmbLocalidad.getSelectedIndex(),
+           txt_Actividad.getText());
            asv.setVisible(true);
        }else{
            try{
@@ -331,7 +336,7 @@ public class addSolicitudViaticos extends javax.swing.JDialog {
             String carro = "Sin vehiculo";
             
             String pernoctado="No";
-            SimpleDateFormat format=new SimpleDateFormat("h:mm:ss a");
+            SimpleDateFormat format=new SimpleDateFormat("HH:mm");
             String fecha_Salida=sdf.format(date_Salida.getDate().getTime());
             String fecha_Llegada=sdf.format(date_Llegada.getDate().getTime());
             System.out.print("insert into Solicitud_viatico (Fecha_Salida,Lugar,Nombre,Actividad,Pernoctado,Vehiculo,Puesto,Fecha_Llegada,Estado,Reporte,Hora_Llegada,Hora_Salida) values('"+fecha_Salida+"','"+cmbEstado.getSelectedItem().toString()+"'"

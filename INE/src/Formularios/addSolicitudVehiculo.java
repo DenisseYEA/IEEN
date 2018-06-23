@@ -42,6 +42,7 @@ public class addSolicitudVehiculo extends javax.swing.JDialog {
     ManagerSoViaticos manager_viaticos;
     ManagerUsers manager_users;
     ManagerVehiculos manager_vehiculo;
+    List<Object> datos=new ArrayList<Object>();
     
     public int varida[];
     Conexion cbd=new Conexion();
@@ -50,6 +51,58 @@ public class addSolicitudVehiculo extends javax.swing.JDialog {
     /**
      * Creates new form addSolicitudViaticos
      */
+    public addSolicitudVehiculo(java.awt.Frame parent, boolean modal,
+            int empleado,String puesto,Date fecha_salida,Date fecha_llegada,
+            Object hora_salida,Object hora_llegada,boolean pernoctado,int estado,
+            int municipio,String actividad){
+        super(parent, modal);
+        initComponents();
+        JTextFieldDateEditor date_Salida_Editor=(JTextFieldDateEditor) date_Salida.getDateEditor();
+        JTextFieldDateEditor date_Llegada_Editor=(JTextFieldDateEditor) date_Llegada.getDateEditor();
+        date_Salida.getJCalendar().setMinSelectableDate(new Date()); // sets today as minimum selectable date
+        date_Llegada.getJCalendar().setMinSelectableDate(new Date());
+        date_Salida_Editor.setEditable(false);
+        date_Llegada_Editor.setEditable(false);
+        
+        
+        //maxid();
+        //txtid.setText(varida[0]+1+"");
+        manager_viaticos = new ManagerSoViaticos();
+        manager_users = new ManagerUsers();
+        manager_vehiculo = new ManagerVehiculos();
+          
+        
+        iniciarEstados();
+        
+        AutoCompleteDecorator.decorate(this.comboEmpleados);
+        AutoCompleteDecorator.decorate(this.cmb_Vehiculo);
+        
+        
+        /////////////////////////////////
+        datos.add(empleado);
+        datos.add(puesto);
+        datos.add(fecha_salida);
+        datos.add(fecha_llegada);
+        datos.add(hora_salida);
+        datos.add(hora_llegada);
+        datos.add(pernoctado);
+        datos.add(estado);
+        datos.add(municipio);
+        datos.add(actividad);
+    }
+    private void agregarDatos(){
+        comboEmpleados.setSelectedIndex((int)datos.get(0));//Se agrega el empleado
+        txt_Puesto.setText(datos.get(1)+"");
+        date_Salida.setDate((Date)datos.get(2));
+        date_Llegada.setDate((Date)datos.get(3));
+        hora_Salida.setValue(datos.get(4));
+        hora_Llegada.setValue(datos.get(5));
+        chb_Pernoctado.setSelected((boolean)datos.get(6));
+        cmbEstado.setSelectedIndex((int)datos.get(7));
+        cmbLocalidad.setSelectedIndex((int)datos.get(8));
+        txt_Actividad.setText(datos.get(9)+"");
+        
+    }
     public addSolicitudVehiculo(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
@@ -377,6 +430,8 @@ public class addSolicitudVehiculo extends javax.swing.JDialog {
         }catch(SQLException e){
             
         } 
+        
+        agregarDatos();
     }//GEN-LAST:event_formWindowOpened
 
     private void comboEmpleadosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_comboEmpleadosActionPerformed
