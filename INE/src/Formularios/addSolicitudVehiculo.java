@@ -410,15 +410,23 @@ public class addSolicitudVehiculo extends javax.swing.JDialog {
         comboEmpleados.setModel(new javax.swing.DefaultComboBoxModel(new String[] {}));
         comboEmpleados.addItem("Selecione empleado...");
         manager_users.getNombresEmpleados(comboEmpleados);
-        
+        agregarDatos();
         cmb_Vehiculo.setModel(new javax.swing.DefaultComboBoxModel(new String[] {}));
         cmb_Vehiculo.addItem("Selecione vehiculo...");
         //manager_vehiculo.getVehiculosDisponibles(cmb_Vehiculo);
-        ResultSet res;
         try{
-            Connection cn=cbd.getConexion();
+            getAutosDisponibles();
+        }catch(SQLException e){
+            
+        } 
+    }//GEN-LAST:event_formWindowOpened
+    private void getAutosDisponibles() throws SQLException{
+        ResultSet res;
+        Connection cn=cbd.getConexion();
             res=cbd.getTabla("select marca,matricula from vehiculos where Estado='Disponible'",cn);
+            SimpleDateFormat format=new SimpleDateFormat("h:mm:ss a");
             List<String> autos=new ArrayList<String>();
+            List<Integer> autos_disponibles=getAutosDisponiblesFecha(new Date("2018-06-25"),"1:10:00 PM");
             while(res.next()){
                 String aux=res.getString("marca")+"-"+res.getString("matricula");
                 System.out.println(aux);
@@ -427,13 +435,87 @@ public class addSolicitudVehiculo extends javax.swing.JDialog {
             for(int i=0;i<autos.size();i++){
                 cmb_Vehiculo.addItem(autos.get(i));
             }
-        }catch(SQLException e){
-            
-        } 
+    }
+    private List<Integer> getAutosDisponiblesFecha(Date fecha_solicitada,String hora_solicitada)
+    throws SQLException{
+        //Asigna al combo box los vehiculos disponibles entre fecha de salida y de llegada
+        Connection connection=cbd.getConexion();
+        List<Integer> datos=new ArrayList<Integer>();
+        connection=cbd.getConexion();
+        ResultSet res;
+        res=cbd.getTabla("select fecha_salida,Fecha_Llegada,hora_llegada,vehiculo_usado_idvehiculo_usado from solicitud_vehiculo where estado !='C' and fecha_llegada>='"+Calendar.YEAR+
+                "-"+Calendar.MONTH+"-"+Calendar.DAY_OF_MONTH+"'",connection);
+        //Recorremos todos los registros para obtener los vehiculos que si podemos solicitar
+        while(res.next()){
+            //Obtenemos la fehca de llegada y de salida del registro de la solicitud
+            String fecha_salida_string=res.getString("fecha_salida");
+            Date fec_salida=new Date(fecha_salida_string);
+            String fecha_llegada_string=res.getString("fecha_llegada");
+            Date fec_llegada=new Date(fecha_llegada_string);
+            //-------------------------------------------
+            //Verificamos si la fecha solicitada es antes o después de las fechas de la solicitud
+            if(fecha_solicitada.after(fec_llegada) || fecha_solicitada.before(fec_salida)){
+                //Si la fecha solicitada no afecta a las de la solicitud, entonces este vehiculo está disponible
+                datos.add(res.getInt("vehiculo_usado_idvehiculo_usado"));
+            }
+            //-----------------------------------
+            //Verificamos si la fecha solicitada es la misma que la de llegada del vehículo
+            if(fecha_solicitada.equals(fec_llegada)){
+                //Tenemos que verificar la hora de salida con la hora de llegada del vehículo
+                //Separamos las horas de llegada en hora,minuto,pm o am
+                String[] hora_llegada_string=res.getString("hora_llegada").split(":");
+                int hora_llegada=Integer.parseInt(hora_llegada_string[0]);
+                int minuto_llegada=Integer.parseInt(hora_llegada_string[1]);
+                //------------------------------------------------------------
+                String horario=hora_llegada_string[2].split(" ")[1];//Obtenemos si es am o pm
+                //si es pm sumamos 12 horas para tener la horas en sistema de 24 horas
+                if(horario.equals("PM")){
+                    hora_llegada+=12;
+                }else{
+                    //Si es am entonces verificamos si la hora es a media noche
+                    if(hora_llegada==12){
+                        //Si es media noche ponemos la hora en 0
+                        hora_llegada=0;
+                    }
+                }
+                //--------------------
+                //Separamos la hora solicitada en hora,minuto, pm o am
+                String[] hora_solicitada_string=hora_solicitada.split(":");
+                int hora_solic=Integer.parseInt(hora_llegada_string[0]);
+                int minuto_solic=Integer.parseInt(hora_llegada_string[1]);
+                //------------------------------------------------------------
+                String horario_solic=hora_solicitada_string[2].split(" ")[1];//Obtenemos si es am o pm
+                //si es pm sumamos 12 horas para tener la horas en sistema de 24 horas
+                if(horario.equals("PM")){
+                    hora_solic+=12;
+                }else{
+                    //Si es am comparamos si es media noche
+                    if(hora_solic==12){
+                        //Si es media noche ponemos la hora en 0.
+                        hora_solic=0;
+                    }
+                }
+                //-----------------
+                
+                //Comparamos las horas y si la solicitada es mayor a la de llegada, entonces el vehículo está disponible
+                if(hora_solic>hora_llegada){
+                    datos.add(res.getInt("vehiculo_usado_idvehiculo_usado"));
+                }else{
+                    if(hora_solic==hora_llegada){
+                        //Si la hora de llegada es igua a la solicitada, entonces comparamos los minutos
+                        //Comparamos los minutos, si el minuto solicitado es mayor que el de llegada, entonces el vehículo está disponible
+                        if(minuto_solic>minuto_llegada){
+                            datos.add(res.getInt("vehiculo_usado_idvehiculo_usado"));
+                        }
+                    }
+                }
+            }
+            //------------------------------------
+        }
+        //-----------------------------
+        return datos;//Regresamos la lista de vehiculos disponibles por fecha
         
-        agregarDatos();
-    }//GEN-LAST:event_formWindowOpened
-
+    }
     private void comboEmpleadosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_comboEmpleadosActionPerformed
         // TODO add your handling code here:
         int empleado = comboEmpleados.getSelectedIndex();
