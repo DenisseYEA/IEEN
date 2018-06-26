@@ -426,22 +426,52 @@ public class addSolicitudVehiculo extends javax.swing.JDialog {
             res=cbd.getTabla("select marca,matricula from vehiculos where Estado='Disponible'",cn);
             SimpleDateFormat format=new SimpleDateFormat("h:mm:ss a");
             List<String> autos=new ArrayList<String>();
-            List<Integer> autos_disponibles=getAutosDisponiblesFecha(new Date("2018-06-25"),"1:10:00 PM");
+            List<Integer> autos_disponibles=getAutosDisponiblesFecha(date_Salida.getDate().getYear()+"-"+date_Salida.getDate().getMonth()+"-"+date_Salida.getDate().getDate(),format.format((Date)hora_Salida.getValue())+"");
+            List<String> autos_noDisponibles=getAutosNoDisponibles(autos_disponibles,date_Salida.getDate().getYear()+"-"+date_Salida.getDate().getMonth()+"-"+date_Salida.getDate().getDate());
             while(res.next()){
                 String aux=res.getString("marca")+"-"+res.getString("matricula");
                 System.out.println(aux);
-                autos.add(aux);
+                //Verificamos si el auto se encuentra en el registro de autos no disponibles
+                for(int i=0;i<autos_noDisponibles.size();i++){
+                    if(!res.getString("matricula").equals(autos_noDisponibles.get(i))){
+                        autos.add(aux);
+                        i=autos_noDisponibles.size();
+                    }
+                }
             }
             for(int i=0;i<autos.size();i++){
                 cmb_Vehiculo.addItem(autos.get(i));
             }
     }
-    private List<Integer> getAutosDisponiblesFecha(Date fecha_solicitada,String hora_solicitada)
+    private List<String> getAutosNoDisponibles(List<Integer> id,String fecha)throws SQLException{
+        //Buscamos entre las solicitudes de vehículo los vehiculos que no están disponibles
+        //a partir de los que ya se han validado que esten dispnibles
+        Connection connection=cbd.getConexion();
+        ResultSet res;
+        //Obtenemos todos los vehiculos que tienen solicitud de vehiculo a partir de la fecha de salida solicitada
+        res=cbd.getTabla("select idvehiculo_usado from vehiculo_usado inner join solicitud_vehiculo on idvehiculo_usado=vehiculo_usado_idvehiculo_usado where fecha_salida>'"+fecha+"';", connection);
+        List<Integer> aux=new ArrayList<Integer>();
+        List<String> matricula_nodisponible=new ArrayList<String>();
+        while(res.next()){
+            aux.add(res.getInt("idvehiculo_usado"));
+        }
+        res=cbd.getTabla("select marca,matricula,idvehiculo_usado from vehiculos V inner join vehiculo_usado VU on V.matricula=VU.vehiculos_Matricula where Estado='Disponible';", connection);
+        while(res.next()){
+            int idvehiculo_usado=res.getInt("idvehiculo_usado");
+            for(int i=0;i<aux.size();i++){
+                if(idvehiculo_usado==aux.get(i)){
+                    matricula_nodisponible.add(res.getString("matricula"));
+                    i=aux.size();
+                }
+            }
+        }
+        return matricula_nodisponible;
+    }
+    private List<Integer> getAutosDisponiblesFecha(String fecha_solicitada,String hora_solicitada)
     throws SQLException{
         //Asigna al combo box los vehiculos disponibles entre fecha de salida y de llegada
         Connection connection=cbd.getConexion();
         List<Integer> datos=new ArrayList<Integer>();
-        connection=cbd.getConexion();
         ResultSet res;
         res=cbd.getTabla("select fecha_salida,Fecha_Llegada,hora_llegada,vehiculo_usado_idvehiculo_usado from solicitud_vehiculo where estado !='C' and fecha_llegada>='"+Calendar.YEAR+
                 "-"+Calendar.MONTH+"-"+Calendar.DAY_OF_MONTH+"'",connection);
@@ -449,18 +479,16 @@ public class addSolicitudVehiculo extends javax.swing.JDialog {
         while(res.next()){
             //Obtenemos la fehca de llegada y de salida del registro de la solicitud
             String fecha_salida_string=res.getString("fecha_salida");
-            Date fec_salida=new Date(fecha_salida_string);
             String fecha_llegada_string=res.getString("fecha_llegada");
-            Date fec_llegada=new Date(fecha_llegada_string);
             //-------------------------------------------
             //Verificamos si la fecha solicitada es antes o después de las fechas de la solicitud
-            if(fecha_solicitada.after(fec_llegada) || fecha_solicitada.before(fec_salida)){
+            if(valida_fecha(fecha_solicitada,fecha_llegada_string)==2 || valida_fecha(fecha_solicitada,fecha_salida_string)==0){
                 //Si la fecha solicitada no afecta a las de la solicitud, entonces este vehiculo está disponible
                 datos.add(res.getInt("vehiculo_usado_idvehiculo_usado"));
             }
             //-----------------------------------
             //Verificamos si la fecha solicitada es la misma que la de llegada del vehículo
-            if(fecha_solicitada.equals(fec_llegada)){
+            if(valida_fecha(fecha_solicitada,fecha_llegada_string)==1){
                 //Tenemos que verificar la hora de salida con la hora de llegada del vehículo
                 //Separamos las horas de llegada en hora,minuto,pm o am
                 String[] hora_llegada_string=res.getString("hora_llegada").split(":");
@@ -514,7 +542,82 @@ public class addSolicitudVehiculo extends javax.swing.JDialog {
         }
         //-----------------------------
         return datos;//Regresamos la lista de vehiculos disponibles por fecha
-        
+    }
+    private int valida_fecha(String fecha1,String fecha2){
+        int[] fechas=separarFecha(fecha1,fecha2);
+        int year1=fechas[0];
+        int month1=fechas[1];
+        int day1=fechas[2];
+        int year2=fechas[3];
+        int month2=fechas[4];
+        int day2=fechas[5];
+        if(fecha_antes(year1,month1,day1,year2,month2,day2)){
+            return 0;
+        }
+        if(fecha_igual(year1,month1,day1,year2,month2,day2)){
+            return 1;
+        }
+        if(fecha_despues(year1,month1,day1,year2,month2,day2)){
+            return 2;
+        }
+        return -1;
+    }
+    private int[] separarFecha(String fecha1,String fecha2){
+        //Seaparamos las 2 fechas en año, mes y día y los convertimos a entero
+        String[] fecha1_array=fecha1.split("-");
+        String[] fecha2_array=fecha2.split("-");
+        int[] aux=new int[fecha1_array.length+fecha2_array.length];
+        aux[0]=Integer.parseInt(fecha1_array[0]);
+        aux[1]=Integer.parseInt(fecha1_array[1]);
+        aux[2]=Integer.parseInt(fecha1_array[2]);
+        aux[3]=Integer.parseInt(fecha1_array[0]);
+        aux[4]=Integer.parseInt(fecha1_array[1]);
+        aux[5]=Integer.parseInt(fecha1_array[2]);
+        return aux;
+    }
+    private boolean fecha_despues(int year1,int month1,int day1,int year2,int month2,int day2){
+        //Validar si la primera fecha es despues de la segunda
+        if(year1>year2){
+            return true;
+        }else{
+            if(year1==year2){
+                if(month1>month2){
+                    return true;
+                }else{
+                    if(month1==month2){
+                        if(day1>day2){
+                            return true;
+                        }
+                    }
+                }
+            }
+        }
+        return false;
+    }
+    private boolean fecha_igual(int year1,int month1,int day1,int year2,int month2,int day2){
+        //Valida si las dos fechas son iguales
+        if(year1==year2 && month1==month2 && day1==day2){
+            return true;
+        }
+        return false;
+    }
+    private boolean fecha_antes(int year1,int month1,int day1,int year2,int month2,int day2){
+        if(year1<year2){
+            return true;
+        }else{
+            if(year1==year2){
+                if(month1<month2){
+                    return true;
+                }else{
+                    if(month1==month2){
+                        if(day1<day2){
+                            return true;
+                        }
+                    }
+                }
+            }
+        }
+        return false;
     }
     private void comboEmpleadosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_comboEmpleadosActionPerformed
         // TODO add your handling code here:
