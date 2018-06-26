@@ -1157,6 +1157,7 @@ public class PrincipalS extends javax.swing.JFrame {
                         javax.swing.JOptionPane.showMessageDialog(null, "Monto no valido");
                     } else {
                         sentencia.executeUpdate("UPDATE oficio_comision SET Monto = " + monto + "WHERE(Folio =" + folio + ")");
+                        //sentencia.executeUpdate("UPDATE solicitud_viatico SET Estado = 'C' WHERE (idSolicitud = '" + id + "')");
                         javax.swing.JOptionPane.showMessageDialog(null, "Monto Asignado");
                     }
                 }
