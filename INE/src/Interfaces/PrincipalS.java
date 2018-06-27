@@ -1157,6 +1157,7 @@ public class PrincipalS extends javax.swing.JFrame {
                         javax.swing.JOptionPane.showMessageDialog(null, "Monto no valido");
                     } else {
                         sentencia.executeUpdate("UPDATE oficio_comision SET Monto = " + monto + "WHERE(Folio =" + folio + ")");
+                        //sentencia.executeUpdate("UPDATE solicitud_viatico SET Estado = 'C' WHERE (idSolicitud = '" + id + "')");
                         javax.swing.JOptionPane.showMessageDialog(null, "Monto Asignado");
                     }
                 }
@@ -1423,7 +1424,7 @@ public class PrincipalS extends javax.swing.JFrame {
                 int filas = tablaact.getRowCount();
                 if (filas != 0) {
                     for (int j = 0; filas > j; j++) {
-                        sentencia.execute("INSERT INTO gastos (Descripcion,Precio) VALUES('" + tablaact.getValueAt(j, 0).toString() + "','" + tablaact.getValueAt(j, 1).toString() + "')");
+                        sentencia.execute("INSERT INTO gastos (Descripcion,Precio,NoFactura) VALUES('" + tablaact.getValueAt(j, 0).toString() + "','" + tablaact.getValueAt(j, 1).toString()+ "','" + tablaact.getValueAt(j, 3).toString() + "')");
                         ResultSet rs3 = sentencia.executeQuery("SELECT MAX(id_gastos) AS id_gastos FROM gastos");
                         while (rs3.next()) {
                             idGastos = rs3.getString("id_gastos");
@@ -1951,6 +1952,7 @@ public class PrincipalS extends javax.swing.JFrame {
             modelo = new DefaultTableModel();
             modelo.addColumn("Descripción");
             modelo.addColumn("Precio");
+            modelo.addColumn("# Factura");
             this.tablaact.setModel(modelo);
             txtobvia.enable(true);
             txtobvia.setVisible(true);
@@ -2024,9 +2026,9 @@ public class PrincipalS extends javax.swing.JFrame {
         // TODO add your handling code here:
         int filas = tablaact.getRowCount();
         if (filas == 0) {
-            modelo.addRow(new Object[]{"", ""});
+            modelo.addRow(new Object[]{"", "", ""});
         } else if (tablaact.getValueAt(filas - 1, 0) != "" && tablaact.getValueAt(filas - 1, 1) != "") {
-            modelo.addRow(new Object[]{"", ""});
+            modelo.addRow(new Object[]{"", "", ""});
         }
     }//GEN-LAST:event_AñadirAActionPerformed
 
