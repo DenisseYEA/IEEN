@@ -426,17 +426,25 @@ public class addSolicitudVehiculo extends javax.swing.JDialog {
             res=cbd.getTabla("select marca,matricula from vehiculos where Estado='Disponible'",cn);
             SimpleDateFormat format=new SimpleDateFormat("h:mm:ss a");
             List<String> autos=new ArrayList<String>();
-            List<Integer> autos_disponibles=getAutosDisponiblesFecha(date_Salida.getDate().getYear()+"-"+date_Salida.getDate().getMonth()+"-"+date_Salida.getDate().getDate(),format.format((Date)hora_Salida.getValue())+"");
+            SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd");
+            List<Integer> autos_disponibles=getAutosDisponiblesFecha(sdf.format(date_Salida.getDate().getTime()),format.format((Date)hora_Salida.getValue())+"");
             List<String> autos_noDisponibles=getAutosNoDisponibles(autos_disponibles,date_Salida.getDate().getYear()+"-"+date_Salida.getDate().getMonth()+"-"+date_Salida.getDate().getDate());
             while(res.next()){
+                boolean disponible=true;//se cambia a false si el registro está en los autos no disponibles
                 String aux=res.getString("marca")+"-"+res.getString("matricula");
                 System.out.println(aux);
                 //Verificamos si el auto se encuentra en el registro de autos no disponibles
-                for(int i=0;i<autos_noDisponibles.size();i++){
-                    if(!res.getString("matricula").equals(autos_noDisponibles.get(i))){
-                        autos.add(aux);
+                for(int i=0;i<autos_noDisponibles.size();i++){////ERROR AQUI, INSERTA TODOS AUNQUE NO ESTÉN DISPONIBLES.
+                    if(res.getString("matricula").equals(autos_noDisponibles.get(i))){
+                        disponible=false;
                         i=autos_noDisponibles.size();
                     }
+                }
+                if(disponible){
+                    autos.add(aux);
+                }
+                if(autos_noDisponibles.size()==0){
+                    autos.add(aux);
                 }
             }
             for(int i=0;i<autos.size();i++){
@@ -449,22 +457,21 @@ public class addSolicitudVehiculo extends javax.swing.JDialog {
         Connection connection=cbd.getConexion();
         ResultSet res;
         //Obtenemos todos los vehiculos que tienen solicitud de vehiculo a partir de la fecha de salida solicitada
-        res=cbd.getTabla("select idvehiculo_usado from vehiculo_usado inner join solicitud_vehiculo on idvehiculo_usado=vehiculo_usado_idvehiculo_usado where fecha_salida>'"+fecha+"';", connection);
-        List<Integer> aux=new ArrayList<Integer>();
+        res=cbd.getTabla("select idvehiculo_usado,vehiculos_Matricula from vehiculo_usado inner join solicitud_vehiculo on idvehiculo_usado=vehiculo_usado_idvehiculo_usado where fecha_salida>'"+fecha+"';", connection);
         List<String> matricula_nodisponible=new ArrayList<String>();
         while(res.next()){
-            aux.add(res.getInt("idvehiculo_usado"));
-        }
-        res=cbd.getTabla("select marca,matricula,idvehiculo_usado from vehiculos V inner join vehiculo_usado VU on V.matricula=VU.vehiculos_Matricula where Estado='Disponible';", connection);
-        while(res.next()){
-            int idvehiculo_usado=res.getInt("idvehiculo_usado");
-            for(int i=0;i<aux.size();i++){
-                if(idvehiculo_usado==aux.get(i)){
-                    matricula_nodisponible.add(res.getString("matricula"));
-                    i=aux.size();
+            boolean disponible=false;//Si el registro no está en los autos disponibles entonces no se puede utilizar.
+            for(int i=0;i<id.size();i++){
+                if(res.getInt("idvehiculo_usado")==id.get(i)){
+                    disponible=true;
+                    i=id.size();
                 }
             }
+            if(!disponible){
+                matricula_nodisponible.add(res.getString("vehiculos_Matricula"));
+            }
         }
+            
         return matricula_nodisponible;
     }
     private List<Integer> getAutosDisponiblesFecha(String fecha_solicitada,String hora_solicitada)
@@ -509,12 +516,12 @@ public class addSolicitudVehiculo extends javax.swing.JDialog {
                 //--------------------
                 //Separamos la hora solicitada en hora,minuto, pm o am
                 String[] hora_solicitada_string=hora_solicitada.split(":");
-                int hora_solic=Integer.parseInt(hora_llegada_string[0]);
-                int minuto_solic=Integer.parseInt(hora_llegada_string[1]);
+                int hora_solic=Integer.parseInt(hora_solicitada_string[0]);
+                int minuto_solic=Integer.parseInt(hora_solicitada_string[1]);
                 //------------------------------------------------------------
                 String horario_solic=hora_solicitada_string[2].split(" ")[1];//Obtenemos si es am o pm
                 //si es pm sumamos 12 horas para tener la horas en sistema de 24 horas
-                if(horario.equals("PM")){
+                if(horario_solic.equals("PM")){
                     hora_solic+=12;
                 }else{
                     //Si es am comparamos si es media noche
@@ -570,9 +577,9 @@ public class addSolicitudVehiculo extends javax.swing.JDialog {
         aux[0]=Integer.parseInt(fecha1_array[0]);
         aux[1]=Integer.parseInt(fecha1_array[1]);
         aux[2]=Integer.parseInt(fecha1_array[2]);
-        aux[3]=Integer.parseInt(fecha1_array[0]);
-        aux[4]=Integer.parseInt(fecha1_array[1]);
-        aux[5]=Integer.parseInt(fecha1_array[2]);
+        aux[3]=Integer.parseInt(fecha2_array[0]);
+        aux[4]=Integer.parseInt(fecha2_array[1]);
+        aux[5]=Integer.parseInt(fecha2_array[2]);
         return aux;
     }
     private boolean fecha_despues(int year1,int month1,int day1,int year2,int month2,int day2){
