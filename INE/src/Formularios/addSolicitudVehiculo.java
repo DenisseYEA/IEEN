@@ -428,7 +428,7 @@ public class addSolicitudVehiculo extends javax.swing.JDialog {
             List<String> autos=new ArrayList<String>();
             SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd");
             List<Integer> autos_disponibles=getAutosDisponiblesFecha(sdf.format(date_Salida.getDate().getTime()),format.format((Date)hora_Salida.getValue())+"");
-            List<String> autos_noDisponibles=getAutosNoDisponibles(autos_disponibles,date_Salida.getDate().getYear()+"-"+date_Salida.getDate().getMonth()+"-"+date_Salida.getDate().getDate());
+            List<String> autos_noDisponibles=getAutosNoDisponibles(autos_disponibles,sdf.format(date_Salida.getDate().getTime()));
             while(res.next()){
                 boolean disponible=true;//se cambia a false si el registro está en los autos no disponibles
                 String aux=res.getString("marca")+"-"+res.getString("matricula");
@@ -443,9 +443,9 @@ public class addSolicitudVehiculo extends javax.swing.JDialog {
                 if(disponible){
                     autos.add(aux);
                 }
-                if(autos_noDisponibles.size()==0){
+                /*if(autos_noDisponibles.size()==0){
                     autos.add(aux);
-                }
+                }*/
             }
             for(int i=0;i<autos.size();i++){
                 cmb_Vehiculo.addItem(autos.get(i));
@@ -461,12 +461,14 @@ public class addSolicitudVehiculo extends javax.swing.JDialog {
         List<String> matricula_nodisponible=new ArrayList<String>();
         while(res.next()){
             boolean disponible=false;//Si el registro no está en los autos disponibles entonces no se puede utilizar.
+            //Recorremos todos los vehiculos disponibles y los restantes los ponemos como no disponibles
             for(int i=0;i<id.size();i++){
                 if(res.getInt("idvehiculo_usado")==id.get(i)){
                     disponible=true;
                     i=id.size();
                 }
             }
+            //si disponible es false agregamos ese vehiculo a vehiculos no disponibles
             if(!disponible){
                 matricula_nodisponible.add(res.getString("vehiculos_Matricula"));
             }
@@ -482,6 +484,10 @@ public class addSolicitudVehiculo extends javax.swing.JDialog {
         ResultSet res;
         res=cbd.getTabla("select fecha_salida,Fecha_Llegada,hora_llegada,vehiculo_usado_idvehiculo_usado from solicitud_vehiculo where estado !='C' and fecha_llegada>='"+Calendar.YEAR+
                 "-"+Calendar.MONTH+"-"+Calendar.DAY_OF_MONTH+"'",connection);
+        //En caso de que sea la primera solicitud
+        if(!res.next()){
+            datos=obtenerTodosVehiculos();
+        }
         //Recorremos todos los registros para obtener los vehiculos que si podemos solicitar
         while(res.next()){
             //Obtenemos la fehca de llegada y de salida del registro de la solicitud
@@ -549,6 +555,17 @@ public class addSolicitudVehiculo extends javax.swing.JDialog {
         }
         //-----------------------------
         return datos;//Regresamos la lista de vehiculos disponibles por fecha
+    }
+    private List<Integer> obtenerTodosVehiculos() {
+        List<Integer> autos=new ArrayList<Integer>();
+        //Obtenermos todos los vehiculos existentes
+        try{
+            ResultSet res=cbd.getTabla("select idvehiculo_usado from vehiculo_usado;", cn);
+            while(res.next()){
+                autos.add(Integer.parseInt(res.getString("idvehiculo_usado")));
+            }
+        }catch(SQLException e){}
+        return autos;
     }
     private int valida_fecha(String fecha1,String fecha2){
         int[] fechas=separarFecha(fecha1,fecha2);
