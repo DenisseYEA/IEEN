@@ -34,7 +34,7 @@
                   </Group>
                   <Group type="102" alignment="0" attributes="0">
                       <EmptySpace min="-2" pref="159" max="-2" attributes="0"/>
-                      <Component id="jButton1" min="-2" max="-2" attributes="0"/>
+                      <Component id="btnAceptar" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <Group type="102" alignment="0" attributes="0">
                       <EmptySpace min="-2" pref="24" max="-2" attributes="0"/>
@@ -53,7 +53,7 @@
               <EmptySpace type="separate" max="-2" attributes="0"/>
               <Component id="cmbEmpleados" min="-2" max="-2" attributes="0"/>
               <EmptySpace pref="38" max="32767" attributes="0"/>
-              <Component id="jButton1" min="-2" max="-2" attributes="0"/>
+              <Component id="btnAceptar" min="-2" max="-2" attributes="0"/>
               <EmptySpace min="-2" pref="35" max="-2" attributes="0"/>
           </Group>
       </Group>
@@ -80,10 +80,13 @@
         <Property name="text" type="java.lang.String" value="Seleccione el id de la solicitud de vi&#xe1;tico y el empleado"/>
       </Properties>
     </Component>
-    <Component class="javax.swing.JButton" name="jButton1">
+    <Component class="javax.swing.JButton" name="btnAceptar">
       <Properties>
         <Property name="text" type="java.lang.String" value="Aceptar"/>
       </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnAceptarActionPerformed"/>
+      </Events>
     </Component>
   </SubComponents>
 </Form>

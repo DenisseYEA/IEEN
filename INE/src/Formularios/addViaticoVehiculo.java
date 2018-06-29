@@ -19,6 +19,7 @@ import java.util.List;
 public class addViaticoVehiculo extends javax.swing.JFrame {
     Conexion cbd=new Conexion();
     Connection cn=cbd.getConexion();
+    int idSolicitudVehiculo=-1;
     /**
      * Creates new form addViaticoVehiculo
      */
@@ -27,6 +28,7 @@ public class addViaticoVehiculo extends javax.swing.JFrame {
     }
     public addViaticoVehiculo(String idSolicitud,String fecha){
         initComponents();
+        idSolicitudVehiculo=Integer.parseInt(idSolicitud);
         try{
             //Obtenemos todos los empleados que están asociados a esta solicitud de vehiculo
             ResultSet res=cbd.getTabla("select * from vehiculo_viatico where solicitud_vehiculo_idsolicitud_vehiculo="+idSolicitud+";", cn); 
@@ -73,7 +75,7 @@ public class addViaticoVehiculo extends javax.swing.JFrame {
 
         cmbEmpleados = new javax.swing.JComboBox<>();
         jLabel1 = new javax.swing.JLabel();
-        jButton1 = new javax.swing.JButton();
+        btnAceptar = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         addWindowListener(new java.awt.event.WindowAdapter() {
@@ -86,7 +88,12 @@ public class addViaticoVehiculo extends javax.swing.JFrame {
 
         jLabel1.setText("Seleccione el id de la solicitud de viático y el empleado");
 
-        jButton1.setText("Aceptar");
+        btnAceptar.setText("Aceptar");
+        btnAceptar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAceptarActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -99,7 +106,7 @@ public class addViaticoVehiculo extends javax.swing.JFrame {
                         .addComponent(jLabel1))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(159, 159, 159)
-                        .addComponent(jButton1))
+                        .addComponent(btnAceptar))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(24, 24, 24)
                         .addComponent(cmbEmpleados, javax.swing.GroupLayout.PREFERRED_SIZE, 228, javax.swing.GroupLayout.PREFERRED_SIZE)))
@@ -113,7 +120,7 @@ public class addViaticoVehiculo extends javax.swing.JFrame {
                 .addGap(18, 18, 18)
                 .addComponent(cmbEmpleados, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 38, Short.MAX_VALUE)
-                .addComponent(jButton1)
+                .addComponent(btnAceptar)
                 .addGap(35, 35, 35))
         );
 
@@ -123,6 +130,14 @@ public class addViaticoVehiculo extends javax.swing.JFrame {
     private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
         // TODO add your handling code here:
     }//GEN-LAST:event_formWindowOpened
+
+    private void btnAceptarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAceptarActionPerformed
+        // TODO add your handling code here:
+        String item=cmbEmpleados.getSelectedItem()+"";
+        String idSolicitud=item.split("-")[0];
+        cbd.ejecutar("INSERT INTO vehiculo_viatico values("+idSolicitudVehiculo+","+idSolicitud+");");
+        dispose();
+    }//GEN-LAST:event_btnAceptarActionPerformed
 
     /**
      * @param args the command line arguments
@@ -160,8 +175,8 @@ public class addViaticoVehiculo extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnAceptar;
     private javax.swing.JComboBox<String> cmbEmpleados;
-    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     // End of variables declaration//GEN-END:variables
 }

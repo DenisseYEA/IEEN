@@ -13,6 +13,7 @@ import Clases.CrearPDF;
 import Formularios.addSolicitudVehiculo;
 
 import Formularios.addSolicitudViaticos;
+import Formularios.addViaticoVehiculo;
 import Formularios.visSolicitudViaticos;
 import static Interfaces.Principal.Username;
 import static Interfaces.Principal.tablaInventario;
@@ -82,6 +83,7 @@ public class PrincipalS extends javax.swing.JFrame {
         Impri_Sol = new javax.swing.JMenuItem();
         Add = new javax.swing.JMenuItem();
         SolicitarVehiculo = new javax.swing.JMenuItem();
+        AgregarEmpleados = new javax.swing.JMenuItem();
         CambiarConsejero = new javax.swing.JMenuItem();
         MenuTablonP = new javax.swing.JPopupMenu();
         ConsultarP = new javax.swing.JMenuItem();
@@ -235,6 +237,14 @@ public class PrincipalS extends javax.swing.JFrame {
             }
         });
         MenuSolicitudViaticos.add(SolicitarVehiculo);
+
+        AgregarEmpleados.setText("Agregar empleados al vehiculo");
+        AgregarEmpleados.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                AgregarEmpleadosActionPerformed(evt);
+            }
+        });
+        MenuSolicitudViaticos.add(AgregarEmpleados);
 
         CambiarConsejero.setText("Cambiar Consejero Presidente");
         CambiarConsejero.addActionListener(new java.awt.event.ActionListener() {
@@ -418,11 +428,11 @@ public class PrincipalS extends javax.swing.JFrame {
             }
         ));
         tablasolic.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                tablasolicMouseClicked(evt);
-            }
             public void mouseReleased(java.awt.event.MouseEvent evt) {
                 tablasolicMouseReleased(evt);
+            }
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tablasolicMouseClicked(evt);
             }
         });
         jScrollPane11.setViewportView(tablasolic);
@@ -444,11 +454,11 @@ public class PrincipalS extends javax.swing.JFrame {
             }
         ));
         tablasolicvehiculo.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                tablasolicvehiculoMouseClicked(evt);
-            }
             public void mouseReleased(java.awt.event.MouseEvent evt) {
                 tablasolicvehiculoMouseReleased(evt);
+            }
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tablasolicvehiculoMouseClicked(evt);
             }
         });
         jScrollPane12.setViewportView(tablasolicvehiculo);
@@ -1617,6 +1627,14 @@ public class PrincipalS extends javax.swing.JFrame {
 
     private void tablasolicvehiculoMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tablasolicvehiculoMouseReleased
         // TODO add your handling code here:
+        if (SwingUtilities.isRightMouseButton(evt)) {
+            int r = tablasolicvehiculo.rowAtPoint(evt.getPoint());
+            if (r >= 0 && r < tablasolicvehiculo.getRowCount()) {
+                tablasolicvehiculo.setRowSelectionInterval(r, r);
+            }
+            MenuSolicitudViaticos.show(evt.getComponent(), evt.getX(), evt.getY());//Mostramos el popMenu en la posición donde esta el cursor
+
+        }//clic derecho
     }//GEN-LAST:event_tablasolicvehiculoMouseReleased
 
     private void tablasolicvehiculoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tablasolicvehiculoMouseClicked
@@ -1675,6 +1693,9 @@ public class PrincipalS extends javax.swing.JFrame {
 
     private void jScrollPane12MouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jScrollPane12MouseReleased
         // TODO add your handling code here:
+        if (SwingUtilities.isRightMouseButton(evt)) {
+            MenuPanelSolicitudViatico.show(evt.getComponent(), evt.getX(), evt.getY());//Mostramos el popMenu en la posición donde esta el cursor
+        }//clic derecho
     }//GEN-LAST:event_jScrollPane12MouseReleased
 
     private void solicitudviaticos1MouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_solicitudviaticos1MouseReleased
@@ -2038,6 +2059,15 @@ public class PrincipalS extends javax.swing.JFrame {
         modelo.removeRow(i);
     }//GEN-LAST:event_EliminarAActionPerformed
 
+    private void AgregarEmpleadosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AgregarEmpleadosActionPerformed
+        // TODO add your handling code here:
+        int fila = tablasolicvehiculo.getSelectedRow();
+        String idSolicitud=tablasolicvehiculo.getValueAt(fila, 0)+"";
+        String fecha=tablasolicvehiculo.getValueAt(fila, 1)+"";
+        addViaticoVehiculo avv=new addViaticoVehiculo(idSolicitud,fecha);
+        avv.setVisible(true);
+    }//GEN-LAST:event_AgregarEmpleadosActionPerformed
+
     public void Solicitud(String s) {
         modelo = new DefaultTableModel() {
             public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -2141,6 +2171,7 @@ public class PrincipalS extends javax.swing.JFrame {
     private javax.swing.JMenuItem AceptarP;
     private javax.swing.JMenuItem Add;
     private javax.swing.JMenuItem Add1;
+    private javax.swing.JMenuItem AgregarEmpleados;
     private javax.swing.JMenuItem AsignarMonto;
     private javax.swing.JMenuItem AñadirA;
     private javax.swing.JMenuItem CambiarConsejero;

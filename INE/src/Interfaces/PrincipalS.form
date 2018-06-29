@@ -53,7 +53,7 @@
             </Property>
             <Property name="text" type="java.lang.String" value="Nueva solicitud"/>
             <Property name="cursor" type="java.awt.Cursor" editor="org.netbeans.modules.form.editors2.CursorEditor">
-              <Color id="Cursor Por defecto"/>
+              <Color id="Default Cursor"/>
             </Property>
           </Properties>
           <Events>
@@ -97,6 +97,14 @@
           </Properties>
           <Events>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="SolicitarVehiculoActionPerformed"/>
+          </Events>
+        </MenuItem>
+        <MenuItem class="javax.swing.JMenuItem" name="AgregarEmpleados">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="Agregar empleados al vehiculo"/>
+          </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="AgregarEmpleadosActionPerformed"/>
           </Events>
         </MenuItem>
         <MenuItem class="javax.swing.JMenuItem" name="CambiarConsejero">
@@ -566,8 +574,8 @@
                             </Property>
                           </Properties>
                           <Events>
-                            <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="tablasolicMouseClicked"/>
                             <EventHandler event="mouseReleased" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="tablasolicMouseReleased"/>
+                            <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="tablasolicMouseClicked"/>
                           </Events>
                           <AuxValues>
                             <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="new JTable(){  public boolean isCellEditable(int rowIndex, int colIndex){  return false;  }  };"/>
@@ -647,8 +655,8 @@
                             </Property>
                           </Properties>
                           <Events>
-                            <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="tablasolicvehiculoMouseClicked"/>
                             <EventHandler event="mouseReleased" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="tablasolicvehiculoMouseReleased"/>
+                            <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="tablasolicvehiculoMouseClicked"/>
                           </Events>
                           <AuxValues>
                             <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="new JTable(){  public boolean isCellEditable(int rowIndex, int colIndex){  return false;  }  };"/>
