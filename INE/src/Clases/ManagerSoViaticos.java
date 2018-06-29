@@ -43,7 +43,7 @@ public class ManagerSoViaticos {
         try {
             
             //Consulta de los empleados
-            String sql = "select idSolicitud,Fecha_salida,Lugar,Nombre,Actividad,Pernoctado,Puesto,Fecha_llegada,Estado from solicitud_viatico";
+            String sql = "select idSolicitud,Fecha_salida,Lugar,Nombre,Actividad,Pernoctado,Puesto,Fecha_llegada,Estado from Solicitud_viatico";
             //String sql="select * from solicitud_viatico";
             Statement st = cn.createStatement();
             Object datos[] = new Object[taso.getColumnCount()];
@@ -149,7 +149,7 @@ public class ManagerSoViaticos {
         modelo.addColumn("Lugar");
         try {
             //conexion = db.getConexion();
-            String sql="SELECT O.Folio, O.Monto, S.Fecha_salida, S.Fecha_llegada,S.Lugar FROM solicitud_viatico S, Oficio_comision O WHERE S.Estado = 'A' AND S.idSolicitud = O.Solicitud_idSolicitud";
+            String sql="SELECT O.Folio, O.Monto, S.Fecha_salida, S.Fecha_llegada,S.Lugar FROM Solicitud_viatico S, Oficio_comision O WHERE S.Estado = 'A' AND S.idSolicitud = O.Solicitud_idSolicitud";
             Statement sentencia = cn.createStatement();
             Object datos[] = new Object[5];
             ResultSet rs = sentencia.executeQuery(sql);
@@ -187,7 +187,7 @@ public class ManagerSoViaticos {
             //conexion = db.getConexion();
             Statement sentencia = cn.createStatement();
 
-            ResultSet rs = sentencia.executeQuery("SELECT idSolicitud, Nombre, Puesto, Fecha_salida, Fecha_llegada,Lugar FROM solicitud_viatico WHERE Estado = 'C'");
+            ResultSet rs = sentencia.executeQuery("SELECT idSolicitud, Nombre, Puesto, Fecha_salida, Fecha_llegada,Lugar FROM Solicitud_viatico WHERE Estado = 'C'");
 
             Object datos[] = new Object[6];
             while (rs.next()) {
@@ -219,7 +219,7 @@ public class ManagerSoViaticos {
         modelo.addColumn("Lugar");
 
         try {
-            String sql="SELECT idSolicitud, Nombre, Puesto, Fecha_salida, Fecha_llegada,Lugar FROM solicitud_viatico WHERE Estado = 'P'";
+            String sql="SELECT idSolicitud, Nombre, Puesto, Fecha_salida, Fecha_llegada,Lugar FROM Solicitud_viatico WHERE Estado = 'P'";
             //conexion = db.getConexion();
             Statement sentencia = cn.createStatement();
             ResultSet rs = sentencia.executeQuery(sql);

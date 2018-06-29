@@ -41,7 +41,7 @@ public class ManagerUsers {
             table.addColumn("Telefono");
             
             //Consulta de los empleados
-            String sql = "select id_empleado,nombres,apellido_p,apellido_m,area from empleados where id_empleado not in (select id_empleado from user);";
+            String sql = "select id_empleado,nombres,apellido_p,apellido_m,area from Empleados where id_empleado not in (select id_empleado from User);";
             conexion = db.getConexion();
             Statement st = conexion.createStatement();
             Object datos[] = new Object[5];
@@ -83,8 +83,8 @@ public class ManagerUsers {
             
             
             //Consulta de los usuarios
-            String sql = "select u.id_user,e.nombres,e.apellido_p,e.apellido_m,u.puesto,e.area,u.estatus from user u " +
-                         "inner join empleados e on (u.id_empleado = e.id_empleado) where u.puesto != 'SuperUsuario' and u.id_user != '"+usuario+"';";
+            String sql = "select u.id_user,e.nombres,e.apellido_p,e.apellido_m,u.puesto,e.area,u.estatus from User u " +
+                         "inner join Empleados e on (u.id_empleado = e.id_empleado) where u.puesto != 'SuperUsuario' and u.id_user != '"+usuario+"';";
             conexion = db.getConexion();
             Statement st = conexion.createStatement();
             Object datos[] = new Object[7];
@@ -145,7 +145,7 @@ public class ManagerUsers {
             table.addColumn("Area");
             
             //Consulta de los empleados
-            String sql = "select id_empleado,nombres,apellido_p,apellido_m,area from empleados " +
+            String sql = "select id_empleado,nombres,apellido_p,apellido_m,area from Empleados " +
                          "where "+tipoBusqueda+" like '"+busqueda+"%' and id_empleado not in (select id_empleado from user);";
             conexion = db.getConexion();
             Statement st = conexion.createStatement();
@@ -224,8 +224,8 @@ public class ManagerUsers {
             table.addColumn("Estatus");
             
             //Consulta de los empleados
-            String sql = "select u.id_user,e.nombres,e.apellido_p,e.apellido_m,u.puesto,e.area.u.estatus from user u " +
-                         "inner join empleados e on (u.id_empleado = e.id_empleado) where u.puesto != 'SuperUsuario' "
+            String sql = "select u.id_user,e.nombres,e.apellido_p,e.apellido_m,u.puesto,e.area.u.estatus from User u " +
+                         "inner join Empleados e on (u.id_empleado = e.id_empleado) where u.puesto != 'SuperUsuario' "
                     +    "and u.id_user != '"+usuario+"' and "+tipoBusqueda+" like '"+busqueda+"%';";
             conexion = db.getConexion();
             Statement st = conexion.createStatement();
@@ -279,7 +279,7 @@ public class ManagerUsers {
 
             }//Buscamos el nombre de la columna con lo que vamos a buscar la coincidencia
             
-            String sql = "select id_empleado,nombres,apellido_p,apellido_m,area from empleados " +
+            String sql = "select id_empleado,nombres,apellido_p,apellido_m,area from Empleados " +
                          "where "+tipoBusqueda+" like '"+busqueda+"%' and id_empleado not in (select id_empleado from user);";
             conexion = db.getConexion();
             Statement st = conexion.createStatement();
@@ -307,7 +307,7 @@ public class ManagerUsers {
             ResultSet rs;
             
             //Primero insertamos al empleado
-            String sql = "insert into empleados (nombres,apellido_p,apellido_m,calle,colonia,telefono,codigo_postal,fecha_nacimiento,curp,rfc,municipio,localidad,area) "
+            String sql = "insert into Empleados (nombres,apellido_p,apellido_m,calle,colonia,telefono,codigo_postal,fecha_nacimiento,curp,rfc,municipio,localidad,area) "
                          +"values('"+nombres+"','"+apellidoP+"','"+apellidoM+"','"+calle+"','"+colonia+"','"
                          +telefono+"','"+codigoP+"','"+fecha+"','"+curp+"','"+rfc+"','"+municipio+"','"+localidad+"','"+area+"');";
             st.executeUpdate(sql);
@@ -333,12 +333,12 @@ public class ManagerUsers {
             ResultSet rs;
             
             //Ya se realizo la inserción y se encontro el ID de ese nuevo registro, ahora insertamos el usuario y ligamos el ID, su cargo y su área
-            String sql = "insert into user values('"+usuario+"',"+id_empleado+",true,'"+pass+"','"+puesto+"','Activo');";
+            String sql = "insert into User values('"+usuario+"',"+id_empleado+",true,'"+pass+"','"+puesto+"','Activo');";
             st.executeUpdate(sql);
             
             //Registramos el nuevo usuario en la tabla de permisos(por el momento no tendra ningún permiso, ya que solo es el registro)
             //Primero obtenemos la cantidad de modulos que hay
-            sql = "select count(*) from modulos";
+            sql = "select count(*) from Modulos";
             rs = st.executeQuery(sql);
             rs.next();
             int tamaño = rs.getInt(1);
@@ -346,7 +346,7 @@ public class ManagerUsers {
             //Creamos el arreglo donde guardaremos el nombre de cada modulo
             String[] modulos = new String[tamaño];
             //Hacemos la consulta para obtener todos los nombres de los modulos
-            sql = "select * from modulos";
+            sql = "select * from Modulos";
             rs = st.executeQuery(sql);
             rs.next();
             //Llenamos el arreglo con los nombres de los modulos
@@ -378,7 +378,7 @@ public class ManagerUsers {
 
         try {
             //Primero obtenemos el id del empleado
-            String sql = "select id_empleado from user where id_user = '"+usuario+"';";
+            String sql = "select id_empleado from User where id_user = '"+usuario+"';";
             conexion = db.getConexion();
             Statement st = conexion.createStatement();
             ResultSet rs = st.executeQuery(sql);
@@ -386,7 +386,7 @@ public class ManagerUsers {
             int empleado = rs.getInt(1);
             
             //Ahora actualizamos el perfil del empleado
-            sql = "update empleados set nombres = '"+nombres+"',apellido_p = '"+apellidoP+"',apellido_m = '"+apellidoM
+            sql = "update Empleados set nombres = '"+nombres+"',apellido_p = '"+apellidoP+"',apellido_m = '"+apellidoM
                   +"',calle = '"+calle+"',colonia = '"+colonia+"',telefono = '"+telefono+"',codigo_postal = '"+codigoP
                   +"',fecha_nacimiento = '"+fecha+"',curp = '"+curp+"',rfc = '"+rfc+"',municipio = '"+municipio+"',localidad = '"+localidad+"' "
                   + "where id_empleado = "+empleado+";";
@@ -408,7 +408,7 @@ public class ManagerUsers {
         boolean coincidencia = false;
         try {
             //Actualizamos la contraseña
-            String sql = "select password from user where id_user = '"+usuario+"' and password = '"+pass+"';";
+            String sql = "select password from User where id_user = '"+usuario+"' and password = '"+pass+"';";
             conexion = db.getConexion();
             Statement st = conexion.createStatement();
             ResultSet rs = st.executeQuery(sql);
@@ -428,7 +428,7 @@ public class ManagerUsers {
 
         try {
             //Actualizamos la contraseña
-            String sql = "update user set password = '"+nueva+"' where id_user = '"+usuario+"' and password = '"+antigüa+"';";
+            String sql = "update User set password = '"+nueva+"' where id_user = '"+usuario+"' and password = '"+antigüa+"';";
             conexion = db.getConexion();
             Statement st = conexion.createStatement();
             st.executeUpdate(sql);
@@ -446,7 +446,7 @@ public class ManagerUsers {
     public boolean estatusUsuario(String usuario,String estatus) {
         try {
             //Actualizamos el estatus del usuario
-            String sql = "update user set estatus = '"+estatus+"' where id_user = '"+usuario+"';";
+            String sql = "update User set estatus = '"+estatus+"' where id_user = '"+usuario+"';";
             conexion = db.getConexion();
             Statement st = conexion.createStatement();
             st.executeUpdate(sql);
@@ -468,7 +468,7 @@ public class ManagerUsers {
         
         try {
             //Consulta para saber si existe o no dicho usuario
-            String sql = "select * from user where id_user = '"+usuario+"';";
+            String sql = "select * from User where id_user = '"+usuario+"';";
             conexion = db.getConexion();
             Statement st = conexion.createStatement();
             ResultSet rs = st.executeQuery(sql);
@@ -488,8 +488,8 @@ public class ManagerUsers {
         String empleado;
         try {
             //Consulta para saber si existe o no dicho usuario
-            String sql = "select e.nombres,e.apellido_p,e.apellido_m,e.calle,e.colonia,e.telefono,e.codigo_postal,e.fecha_nacimiento,e.curp,e.rfc,e.municipio,e.localidad,u.puesto,e.area from empleados e "
-                    + "inner join user u on (u.id_empleado = e.id_empleado)where u.id_user = '"+usuario+"';";
+            String sql = "select e.nombres,e.apellido_p,e.apellido_m,e.calle,e.colonia,e.telefono,e.codigo_postal,e.fecha_nacimiento,e.curp,e.rfc,e.municipio,e.localidad,u.puesto,e.area from Empleados e "
+                    + "inner join User u on (u.id_empleado = e.id_empleado)where u.id_user = '"+usuario+"';";
             conexion = db.getConexion();
             Statement st = conexion.createStatement();
             ResultSet rs = st.executeQuery(sql);
@@ -545,13 +545,13 @@ public class ManagerUsers {
             int idEmpleado = rs.getInt(1);
             
             //Ahora obtenemos el usuario gracias al id del empleado
-            sql = "select u.id_user from user u inner join empleados e on(e.id_empleado = u.id_empleado) where e.id_empleado = "+idEmpleado+";";
+            sql = "select u.id_user from User u inner join Empleados e on(e.id_empleado = u.id_empleado) where e.id_empleado = "+idEmpleado+";";
             rs = st.executeQuery(sql);
             rs.next();
             String usuario = rs.getString(1);
             
             //Ahora obtenemos el usuario gracias al id del empleado
-            sql = "select puesto from user where id_user = '"+usuario+"';";
+            sql = "select puesto from User where id_user = '"+usuario+"';";
             rs = st.executeQuery(sql);
             rs.next();
             String puesto = rs.getString(1);

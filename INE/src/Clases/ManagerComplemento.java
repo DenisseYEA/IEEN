@@ -137,7 +137,7 @@ public class ManagerComplemento {
             table.addColumn("Observaciones");
             
             //Consulta de los empleados
-            String sql = "select nombre_prod,date(fecha_alta),observaciones from resguardo_personal where id_user = '"+usuario+"';";
+            String sql = "select nombre_prod,date(fecha_alta),observaciones from Resguardo_personal where id_user = '"+usuario+"';";
             conexion = db.getConexion();
             Statement st = conexion.createStatement();
             ResultSet rs = st.executeQuery(sql);
@@ -169,7 +169,7 @@ public class ManagerComplemento {
     public boolean insertarResguardo(String usuario,String producto,String observaciones) {
         try{
            
-            String sql = "insert into resguardo_personal values('"+usuario+"','"+producto+"',now(),'"+observaciones+"');";
+            String sql = "insert into Resguardo_personal values('"+usuario+"','"+producto+"',now(),'"+observaciones+"');";
             conexion = db.getConexion();
             Statement st = conexion.createStatement();
             st.executeUpdate(sql);
@@ -212,115 +212,115 @@ public class ManagerComplemento {
             
             switch(permiso){
                 case 14:
-                    sql = "select count(*) from detalle_solicitud ds " +
-                            "inner join solicitudes s on (s.id_solicitud = ds.id_solicitud) " +
-                            "inner join user u on (u.id_user = s.id_user) " +
-                            "inner join empleados e on (e.id_empleado = u.id_empleado) " +
-                            "inner join inventario i on (i.id_producto = ds.id_producto) "+ 
+                    sql = "select count(*) from Detalle_solicitud ds " +
+                            "inner join Solicitudes s on (s.id_solicitud = ds.id_solicitud) " +
+                            "inner join User u on (u.id_user = s.id_user) " +
+                            "inner join Empleados e on (e.id_empleado = u.id_empleado) " +
+                            "inner join Inventario i on (i.id_producto = ds.id_producto) "+ 
                             "where (s.estado = 'SOLICITUD' or s.estado = 'SOLICITUD PERSONAL');";
                     break;
                 case 13:
-                    sql = "select count(*) from detalle_solicitud ds " +
-                            "inner join solicitudes s on (s.id_solicitud = ds.id_solicitud) " +
-                            "inner join user u on (u.id_user = s.id_user) " +
-                            "inner join empleados e on (e.id_empleado = u.id_empleado) " +
-                            "inner join inventario i on (i.id_producto = ds.id_producto)"
+                    sql = "select count(*) from Detalle_solicitud ds " +
+                            "inner join Solicitudes s on (s.id_solicitud = ds.id_solicitud) " +
+                            "inner join User u on (u.id_user = s.id_user) " +
+                            "inner join Empleados e on (e.id_empleado = u.id_empleado) " +
+                            "inner join Inventario i on (i.id_producto = ds.id_producto)"
                             + " where (s.tipo_solicitud = 'Solicitud baja' or s.tipo_solicitud = 'Solicitud donación' or s.tipo_solicitud = 'Solicitud comodato') and (s.estado = 'SOLICITUD' or s.estado = 'SOLICITUD PERSONAL');";
                     break;
                 case 12:
-                    sql = "select count(*) from detalle_solicitud ds " +
-                            "inner join solicitudes s on (s.id_solicitud = ds.id_solicitud) " +
-                            "inner join user u on (u.id_user = s.id_user) " +
-                            "inner join empleados e on (e.id_empleado = u.id_empleado) " +
-                            "inner join inventario i on (i.id_producto = ds.id_producto)"
+                    sql = "select count(*) from Detalle_solicitud ds " +
+                            "inner join Solicitudes s on (s.id_solicitud = ds.id_solicitud) " +
+                            "inner join User u on (u.id_user = s.id_user) " +
+                            "inner join Empleados e on (e.id_empleado = u.id_empleado) " +
+                            "inner join Inventario i on (i.id_producto = ds.id_producto)"
                             + " where (s.tipo_solicitud = 'Solicitud baja' or s.tipo_solicitud = 'Solicitud donación' or s.tipo_solicitud = 'Solicitud reemplazo') and (s.estado = 'SOLICITUD' or s.estado = 'SOLICITUD PERSONAL');";
                     break;
                 case 11:
-                    sql = "select count(*) from detalle_solicitud ds " +
-                            "inner join solicitudes s on (s.id_solicitud = ds.id_solicitud) " +
-                            "inner join user u on (u.id_user = s.id_user) " +
-                            "inner join empleados e on (e.id_empleado = u.id_empleado) " +
-                            "inner join inventario i on (i.id_producto = ds.id_producto)"
+                    sql = "select count(*) from Detalle_solicitud ds " +
+                            "inner join Solicitudes s on (s.id_solicitud = ds.id_solicitud) " +
+                            "inner join User u on (u.id_user = s.id_user) " +
+                            "inner join Empleados e on (e.id_empleado = u.id_empleado) " +
+                            "inner join Inventario i on (i.id_producto = ds.id_producto)"
                             + " where (s.tipo_solicitud = 'Solicitud baja' or s.tipo_solicitud = 'Solicitud comodato' or s.tipo_solicitud = 'Solicitud reemplazo') and (s.estado = 'SOLICITUD' or s.estado = 'SOLICITUD PERSONAL');";
                     break;
                 case 10:
-                    sql = "select count(*) from detalle_solicitud ds " +
-                            "inner join solicitudes s on (s.id_solicitud = ds.id_solicitud) " +
-                            "inner join user u on (u.id_user = s.id_user) " +
-                            "inner join empleados e on (e.id_empleado = u.id_empleado) " +
-                            "inner join inventario i on (i.id_producto = ds.id_producto)"
+                    sql = "select count(*) from Detalle_solicitud ds " +
+                            "inner join Solicitudes s on (s.id_solicitud = ds.id_solicitud) " +
+                            "inner join User u on (u.id_user = s.id_user) " +
+                            "inner join Empleados e on (e.id_empleado = u.id_empleado) " +
+                            "inner join Inventario i on (i.id_producto = ds.id_producto)"
                             + " where (s.tipo_solicitud = 'Solicitud baja' or s.tipo_solicitud = 'Solicitud donación') and (s.estado = 'SOLICITUD' or s.estado = 'SOLICITUD PERSONAL');";
                     break;
                 case 9:
-                    sql = "select count(*) from detalle_solicitud ds " +
-                            "inner join solicitudes s on (s.id_solicitud = ds.id_solicitud) " +
-                            "inner join user u on (u.id_user = s.id_user) " +
-                            "inner join empleados e on (e.id_empleado = u.id_empleado) " +
-                            "inner join inventario i on (i.id_producto = ds.id_producto)"
+                    sql = "select count(*) from Detalle_solicitud ds " +
+                            "inner join Solicitudes s on (s.id_solicitud = ds.id_solicitud) " +
+                            "inner join User u on (u.id_user = s.id_user) " +
+                            "inner join Empleados e on (e.id_empleado = u.id_empleado) " +
+                            "inner join Inventario i on (i.id_producto = ds.id_producto)"
                             + " where (s.tipo_solicitud = 'Solicitud baja' or s.tipo_solicitud = 'Solicitud comodato') and (s.estado = 'SOLICITUD' or s.estado = 'SOLICITUD PERSONAL');";
                     break;
                 case 8:
-                    sql = "select count(*) from detalle_solicitud ds " +
-                            "inner join solicitudes s on (s.id_solicitud = ds.id_solicitud) " +
-                            "inner join user u on (u.id_user = s.id_user) " +
-                            "inner join empleados e on (e.id_empleado = u.id_empleado) " +
-                            "inner join inventario i on (i.id_producto = ds.id_producto)"
+                    sql = "select count(*) from Detalle_solicitud ds " +
+                            "inner join Solicitudes s on (s.id_solicitud = ds.id_solicitud) " +
+                            "inner join User u on (u.id_user = s.id_user) " +
+                            "inner join Empleados e on (e.id_empleado = u.id_empleado) " +
+                            "inner join Inventario i on (i.id_producto = ds.id_producto)"
                             + " where (s.tipo_solicitud = 'Solicitud baja' or s.tipo_solicitud = 'Solicitud reemplazo') and (s.estado = 'SOLICITUD' or s.estado = 'SOLICITUD PERSONAL');";
                     break;
                 case 7:
-                    sql = "select count(*) from detalle_solicitud ds " +
-                            "inner join solicitudes s on (s.id_solicitud = ds.id_solicitud) " +
-                            "inner join user u on (u.id_user = s.id_user) " +
-                            "inner join empleados e on (e.id_empleado = u.id_empleado) " +
-                            "inner join inventario i on (i.id_producto = ds.id_producto) "+
+                    sql = "select count(*) from Detalle_solicitud ds " +
+                            "inner join Solicitudes s on (s.id_solicitud = ds.id_solicitud) " +
+                            "inner join User u on (u.id_user = s.id_user) " +
+                            "inner join Empleados e on (e.id_empleado = u.id_empleado) " +
+                            "inner join Inventario i on (i.id_producto = ds.id_producto) "+
                             "where (s.tipo_solicitud = 'Solicitud reemplazo' or s.tipo_solicitud = 'Solicitud comodato') and (s.estado = 'SOLICITUD' or s.estado = 'SOLICITUD PERSONAL');";
                     break;
                 case 6:
-                    sql = "select count(*) from detalle_solicitud ds " +
-                            "inner join solicitudes s on (s.id_solicitud = ds.id_solicitud) " +
-                            "inner join user u on (u.id_user = s.id_user) " +
-                            "inner join empleados e on (e.id_empleado = u.id_empleado) " +
-                            "inner join inventario i on (i.id_producto = ds.id_producto)"
+                    sql = "select count(*) from Detalle_solicitud ds " +
+                            "inner join Solicitudes s on (s.id_solicitud = ds.id_solicitud) " +
+                            "inner join User u on (u.id_user = s.id_user) " +
+                            "inner join Empleados e on (e.id_empleado = u.id_empleado) " +
+                            "inner join Inventario i on (i.id_producto = ds.id_producto)"
                             + " where (s.tipo_solicitud = 'Solicitud reemplazo' or s.tipo_solicitud = 'Solicitud donación') and (s.estado = 'SOLICITUD' or s.estado = 'SOLICITUD PERSONAL');";
                     break;
                 case 5:
-                    sql = "select count(*) from detalle_solicitud ds " +
-                            "inner join solicitudes s on (s.id_solicitud = ds.id_solicitud) " +
-                            "inner join user u on (u.id_user = s.id_user) " +
-                            "inner join empleados e on (e.id_empleado = u.id_empleado) " +
-                            "inner join inventario i on (i.id_producto = ds.id_producto)"
+                    sql = "select count(*) from Detalle_solicitud ds " +
+                            "inner join Solicitudes s on (s.id_solicitud = ds.id_solicitud) " +
+                            "inner join User u on (u.id_user = s.id_user) " +
+                            "inner join Empleados e on (e.id_empleado = u.id_empleado) " +
+                            "inner join Inventario i on (i.id_producto = ds.id_producto)"
                             + " where (s.tipo_solicitud = 'Solicitud comodato or s.tipo_solicitud = 'Solicitud donación') and (s.estado = 'SOLICITUD' or s.estado = 'SOLICITUD PERSONAL');";
                     break;
                 case 4:
-                    sql = "select count(*) from detalle_solicitud ds " +
-                            "inner join solicitudes s on (s.id_solicitud = ds.id_solicitud) " +
-                            "inner join user u on (u.id_user = s.id_user) " +
-                            "inner join empleados e on (e.id_empleado = u.id_empleado) " +
-                            "inner join inventario i on (i.id_producto = ds.id_producto)"
+                    sql = "select count(*) from Detalle_solicitud ds " +
+                            "inner join Solicitudes s on (s.id_solicitud = ds.id_solicitud) " +
+                            "inner join User u on (u.id_user = s.id_user) " +
+                            "inner join Empleados e on (e.id_empleado = u.id_empleado) " +
+                            "inner join Inventario i on (i.id_producto = ds.id_producto)"
                             + " where s.tipo_solicitud = 'Solicitud baja' and (s.estado = 'SOLICITUD' or s.estado = 'SOLICITUD PERSONAL');";
                     break;
                 case 3:
-                    sql = "select count(*) from detalle_solicitud ds " +
-                            "inner join solicitudes s on (s.id_solicitud = ds.id_solicitud) " +
-                            "inner join user u on (u.id_user = s.id_user) " +
-                            "inner join empleados e on (e.id_empleado = u.id_empleado) " +
-                            "inner join inventario i on (i.id_producto = ds.id_producto)"
+                    sql = "select count(*) from Detalle_solicitud ds " +
+                            "inner join Solicitudes s on (s.id_solicitud = ds.id_solicitud) " +
+                            "inner join User u on (u.id_user = s.id_user) " +
+                            "inner join Empleados e on (e.id_empleado = u.id_empleado) " +
+                            "inner join Inventario i on (i.id_producto = ds.id_producto)"
                             + " where s.tipo_solicitud = 'Solicitud comodato' and (s.estado = 'SOLICITUD' or s.estado = 'SOLICITUD PERSONAL');";
                     break;
                 case 2:
-                    sql = "select count(*) from detalle_solicitud ds " +
-                            "inner join solicitudes s on (s.id_solicitud = ds.id_solicitud) " +
-                            "inner join user u on (u.id_user = s.id_user) " +
-                            "inner join empleados e on (e.id_empleado = u.id_empleado) " +
-                            "inner join inventario i on (i.id_producto = ds.id_producto)"
+                    sql = "select count(*) from Detalle_solicitud ds " +
+                            "inner join Solicitudes s on (s.id_solicitud = ds.id_solicitud) " +
+                            "inner join User u on (u.id_user = s.id_user) " +
+                            "inner join Empleados e on (e.id_empleado = u.id_empleado) " +
+                            "inner join Inventario i on (i.id_producto = ds.id_producto)"
                             + " where s.tipo_solicitud = 'Solicitud donación' and (s.estado = 'SOLICITUD' or s.estado = 'SOLICITUD PERSONAL');";
                     break;
                 case 1:
-                    sql = "select count(*) from detalle_solicitud ds " +
-                            "inner join solicitudes s on (s.id_solicitud = ds.id_solicitud) " +
-                            "inner join user u on (u.id_user = s.id_user) " +
-                            "inner join empleados e on (e.id_empleado = u.id_empleado) " +
-                            "inner join inventario i on (i.id_producto = ds.id_producto)"
+                    sql = "select count(*) from Detalle_solicitud ds " +
+                            "inner join Solicitudes s on (s.id_solicitud = ds.id_solicitud) " +
+                            "inner join User u on (u.id_user = s.id_user) " +
+                            "inner join Empleados e on (e.id_empleado = u.id_empleado) " +
+                            "inner join Inventario i on (i.id_producto = ds.id_producto)"
                             + " where s.tipo_solicitud = 'Solicitud reemplazo' and (s.estado = 'SOLICITUD' or s.estado = 'SOLICITUD PERSONAL');";
                     break;
             }
@@ -348,11 +348,11 @@ public class ManagerComplemento {
             
             conexion = db.getConexion();
             
-            String sql="select count(*) from detalle_solicitud ds " +
-                            "inner join solicitudes s on (s.id_solicitud = ds.id_solicitud) " +
-                            "inner join user u on (u.id_user = s.id_user) " +
-                            "inner join empleados e on (e.id_empleado = u.id_empleado) " +
-                            "inner join inventario i on (i.id_producto = ds.id_producto) "+ 
+            String sql="select count(*) from Detalle_solicitud ds " +
+                            "inner join Solicitudes s on (s.id_solicitud = ds.id_solicitud) " +
+                            "inner join User u on (u.id_user = s.id_user) " +
+                            "inner join Empleados e on (e.id_empleado = u.id_empleado) " +
+                            "inner join Inventario i on (i.id_producto = ds.id_producto) "+ 
                             "where s.estado = 'PENDIENTE' or s.estado = 'PENDIENTE PERSONAL';";
             Statement st = conexion.createStatement();
             ResultSet rs = st.executeQuery(sql);

@@ -1006,8 +1006,8 @@ public class PrincipalS extends javax.swing.JFrame {
         tablonpendientes.setModel(manager_soviaticos.SolicitudP());
         tablonaceptadas.setModel(manager_soviaticos.SolicitudA());
         tabloncanceladas.setModel(manager_soviaticos.SolicitudC());
-        Solicitud("SELECT O.Folio, S.Nombre, S.Actividad, S.Lugar, O.Monto FROM solicitud_viatico S, oficio_comision O WHERE S.Estado = 'A' AND S.Reporte = '0' AND S.idSolicitud = O.Solicitud_idSolicitud AND O.Monto != 0");
-        SolicitudR("SELECT I.Id_Informe, O.FOLIO, S.Nombre, O.Monto, I.Total, I.Factura FROM solicitud_viatico S, oficio_comision O, informe I WHERE S.Estado = 'A' AND S.Reporte = '1' AND S.idSolicitud = O.Solicitud_idSolicitud AND I.Solicitud_idSolicitud = S.idSolicitud AND O.Monto != 0");
+        Solicitud("SELECT O.Folio, S.Nombre, S.Actividad, S.Lugar, O.Monto FROM Solicitud_viatico S, Oficio_comision O WHERE S.Estado = 'A' AND S.Reporte = '0' AND S.idSolicitud = O.Solicitud_idSolicitud AND O.Monto != 0");
+        SolicitudR("SELECT I.Id_Informe, O.FOLIO, S.Nombre, O.Monto, I.Total, I.Factura FROM Solicitud_viatico S, Oficio_comision O, Informe I WHERE S.Estado = 'A' AND S.Reporte = '1' AND S.idSolicitud = O.Solicitud_idSolicitud AND I.Solicitud_idSolicitud = S.idSolicitud AND O.Monto != 0");
     }//GEN-LAST:event_formWindowOpened
 
     private void mi_inventarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mi_inventarioActionPerformed
@@ -1071,7 +1071,7 @@ public class PrincipalS extends javax.swing.JFrame {
             String idSolicitud = "";
             try {
                 Statement sentencia = cn.createStatement();
-                ResultSet rs = sentencia.executeQuery("SELECT Solicitud_idSolicitud FROM oficio_comision WHERE Folio = '" + folio + "'");
+                ResultSet rs = sentencia.executeQuery("SELECT Solicitud_idSolicitud FROM Oficio_comision WHERE Folio = '" + folio + "'");
                 rs.next();
                 idSolicitud = rs.getString("Solicitud_idSolicitud");
 
@@ -1156,7 +1156,7 @@ public class PrincipalS extends javax.swing.JFrame {
                     if (monto < 0) {
                         javax.swing.JOptionPane.showMessageDialog(null, "Monto no valido");
                     } else {
-                        sentencia.executeUpdate("UPDATE oficio_comision SET Monto = " + monto + "WHERE(Folio =" + folio + ")");
+                        sentencia.executeUpdate("UPDATE Oficio_comision SET Monto = " + monto + "WHERE(Folio =" + folio + ")");
                         //sentencia.executeUpdate("UPDATE solicitud_viatico SET Estado = 'C' WHERE (idSolicitud = '" + id + "')");
                         javax.swing.JOptionPane.showMessageDialog(null, "Monto Asignado");
                     }
@@ -1184,7 +1184,7 @@ public class PrincipalS extends javax.swing.JFrame {
 
                 String total = "";
                 Statement sentencia = cn.createStatement();
-                ResultSet rs0 = sentencia.executeQuery("SELECT COUNT(*) as Folio FROM oficio_comision");
+                ResultSet rs0 = sentencia.executeQuery("SELECT COUNT(*) as Folio FROM Oficio_comision");
                 while (rs0.next()) {
                     total = rs0.getString("Folio");
                 }
@@ -1192,7 +1192,7 @@ public class PrincipalS extends javax.swing.JFrame {
                 int folio = 0;
                 String valor = "";
                 if (total1 != 0) {
-                    ResultSet rs = sentencia.executeQuery("SELECT MAX(Folio) AS Folio FROM oficio_comision");
+                    ResultSet rs = sentencia.executeQuery("SELECT MAX(Folio) AS Folio FROM Oficio_comision");
                     while (rs.next()) {
                         valor = rs.getString("Folio");
                     }
@@ -1210,8 +1210,8 @@ public class PrincipalS extends javax.swing.JFrame {
                     valor = calendar.get(Calendar.YEAR) + "1";
                     folio = Integer.parseInt(valor);
                 }
-                sentencia.execute("INSERT INTO oficio_comision VALUES(" + folio + "," + id + "," + 0.00 + ")");
-                sentencia.executeUpdate("UPDATE solicitud_viatico SET Estado = 'A' WHERE (idSolicitud = '" + id + "')");
+                sentencia.execute("INSERT INTO Oficio_comision VALUES(" + folio + "," + id + "," + 0.00 + ")");
+                sentencia.executeUpdate("UPDATE Solicitud_viatico SET Estado = 'A' WHERE (idSolicitud = '" + id + "')");
                 javax.swing.JOptionPane.showMessageDialog(null, "Solicitud aceptada");
 
             } catch (SQLException ex) {
@@ -1237,7 +1237,7 @@ public class PrincipalS extends javax.swing.JFrame {
 
                 String total = "";
                 Statement sentencia = cn.createStatement();
-                ResultSet rs0 = sentencia.executeQuery("SELECT COUNT(*) as Folio FROM oficio_comision");
+                ResultSet rs0 = sentencia.executeQuery("SELECT COUNT(*) as Folio FROM Oficio_comision");
                 while (rs0.next()) {
                     total = rs0.getString("Folio");
                 }
@@ -1245,7 +1245,7 @@ public class PrincipalS extends javax.swing.JFrame {
                 int folio = 0;
                 String valor = "";
                 if (total1 != 0) {
-                    ResultSet rs = sentencia.executeQuery("SELECT MAX(Folio) AS Folio FROM oficio_comision");
+                    ResultSet rs = sentencia.executeQuery("SELECT MAX(Folio) AS Folio FROM Oficio_comision");
                     while (rs.next()) {
                         valor = rs.getString("Folio");
                     }
@@ -1263,9 +1263,9 @@ public class PrincipalS extends javax.swing.JFrame {
                     valor = calendar.get(Calendar.YEAR) + "1";
                     folio = Integer.parseInt(valor);
                 }
-                sentencia.execute("INSERT INTO oficio_comision VALUES(" + folio + "," + id + "," + 0.00 + ")");
-                sentencia.executeUpdate("UPDATE solicitud_viatico SET Estado = 'A' WHERE (idSolicitud = '" + id + "')");
-                sentencia.executeUpdate("UPDATE solicitud_viatico SET Motivo = NULL WHERE (idSolicitud = '" + id + "')");
+                sentencia.execute("INSERT INTO Oficio_comision VALUES(" + folio + "," + id + "," + 0.00 + ")");
+                sentencia.executeUpdate("UPDATE Solicitud_viatico SET Estado = 'A' WHERE (idSolicitud = '" + id + "')");
+                sentencia.executeUpdate("UPDATE Solicitud_viatico SET Motivo = NULL WHERE (idSolicitud = '" + id + "')");
                 javax.swing.JOptionPane.showMessageDialog(null, "Solicitud aceptada");
 
             } catch (SQLException ex) {
@@ -1405,18 +1405,18 @@ public class PrincipalS extends javax.swing.JFrame {
             if (s == JOptionPane.YES_OPTION) {
                 String id = "";
                 Statement sentencia = cn.createStatement();
-                ResultSet rs = sentencia.executeQuery("SELECT Solicitud_idSolicitud FROM Oficio_Comision WHERE Folio = " + folio);
+                ResultSet rs = sentencia.executeQuery("SELECT Solicitud_idSolicitud FROM Oficio_comision WHERE Folio = " + folio);
                 while (rs.next()) {
                     id = rs.getString("Solicitud_idSolicitud");
                 }
                 if (c == 1) {
-                    sentencia.execute("INSERT INTO informe (Observaciones,Observaciones_Vehiculo,Factura,Total,Solicitud_idSolicitud) VALUES('" + txtobvia.getText() + "','" + txtobveh.getText() + "','" + NoFact.getText() + "'," + GaTot.getText() + "," + id + ")");
+                    sentencia.execute("INSERT INTO Informe (Observaciones,Observaciones_Vehiculo,Factura,Total,Solicitud_idSolicitud) VALUES('" + txtobvia.getText() + "','" + txtobveh.getText() + "','" + NoFact.getText() + "'," + GaTot.getText() + "," + id + ")");
                 } else {
-                    sentencia.execute("INSERT INTO informe (Observaciones,Observaciones_Vehiculo,Factura,Total,Solicitud_idSolicitud) VALUES('" + txtobvia.getText() + "',' '," + NoFact.getText() + "'," + GaTot.getText() + "," + id + ")");
+                    sentencia.execute("INSERT INTO Informe (Observaciones,Observaciones_Vehiculo,Factura,Total,Solicitud_idSolicitud) VALUES('" + txtobvia.getText() + "',' '," + NoFact.getText() + "'," + GaTot.getText() + "," + id + ")");
                 }
-                sentencia.executeUpdate("UPDATE solicitud_viatico SET Reporte = '1' WHERE (idSolicitud = " + id + ")");
+                sentencia.executeUpdate("UPDATE Solicitud_viatico SET Reporte = '1' WHERE (idSolicitud = " + id + ")");
                 String idInforme = "";
-                ResultSet rs2 = sentencia.executeQuery("SELECT MAX(id_informe) AS id_informe FROM informe");
+                ResultSet rs2 = sentencia.executeQuery("SELECT MAX(id_informe) AS id_informe FROM Informe");
                 while (rs2.next()) {
                     idInforme = rs2.getString("id_informe");
                 }
@@ -1424,12 +1424,12 @@ public class PrincipalS extends javax.swing.JFrame {
                 int filas = tablaact.getRowCount();
                 if (filas != 0) {
                     for (int j = 0; filas > j; j++) {
-                        sentencia.execute("INSERT INTO gastos (Descripcion,Precio,NoFactura) VALUES('" + tablaact.getValueAt(j, 0).toString() + "','" + tablaact.getValueAt(j, 1).toString()+ "','" + tablaact.getValueAt(j, 3).toString() + "')");
-                        ResultSet rs3 = sentencia.executeQuery("SELECT MAX(id_gastos) AS id_gastos FROM gastos");
+                        sentencia.execute("INSERT INTO Gastos (Descripcion,Precio,NoFactura) VALUES('" + tablaact.getValueAt(j, 0).toString() + "','" + tablaact.getValueAt(j, 1).toString()+ "','" + tablaact.getValueAt(j, 3).toString() + "')");
+                        ResultSet rs3 = sentencia.executeQuery("SELECT MAX(id_gastos) AS id_gastos FROM Gastos");
                         while (rs3.next()) {
                             idGastos = rs3.getString("id_gastos");
                         }
-                        sentencia.execute("INSERT INTO informe_gastos VALUES(" + idInforme + "," + idGastos + ")");
+                        sentencia.execute("INSERT INTO Informe_gastos VALUES(" + idInforme + "," + idGastos + ")");
                     }
                 }
                 javax.swing.JOptionPane.showMessageDialog(null, "Reporte Generado");
@@ -1466,7 +1466,7 @@ public class PrincipalS extends javax.swing.JFrame {
             try {
                 Statement sentencia = cn.createStatement();
 
-                ResultSet rs = sentencia.executeQuery("SELECT O.Folio, S.Nombre, S.Actividad, S.Lugar, O.Monto FROM solicitud_viatico S, oficio_comision O WHERE S.Estado = 'A' AND S.Reporte = '0' AND S.idSolicitud = O.Solicitud_idSolicitud AND O.Monto != 0 AND (O.Folio LIKE '%" + txtbusquedasoli2.getText() + "%'"
+                ResultSet rs = sentencia.executeQuery("SELECT O.Folio, S.Nombre, S.Actividad, S.Lugar, O.Monto FROM Solicitud_viatico S, Oficio_comision O WHERE S.Estado = 'A' AND S.Reporte = '0' AND S.idSolicitud = O.Solicitud_idSolicitud AND O.Monto != 0 AND (O.Folio LIKE '%" + txtbusquedasoli2.getText() + "%'"
                         + "OR S.Nombre LIKE '%" + txtbusquedasoli2.getText() + "%' OR S.Actividad LIKE '%" + txtbusquedasoli2.getText() + "%' OR S.Lugar LIKE '%" + txtbusquedasoli2.getText() + "%'OR O.Monto LIKE '%" + txtbusquedasoli2.getText() + "%') ");
 
                 String solicitud[] = new String[5];
@@ -1499,7 +1499,7 @@ public class PrincipalS extends javax.swing.JFrame {
             this.tablainfo1.setModel(modelo);
             try {
                 Statement sentencia = cn.createStatement();
-                ResultSet rs = sentencia.executeQuery("SELECT I.Id_Informe, O.Folio, S.Nombre, O.Monto, I.Total, I.Factura FROM solicitud_viatico S, oficio_comision O, informe I WHERE S.Estado = 'A' AND S.Reporte = '1' AND S.idSolicitud = O.Solicitud_idSolicitud AND I.Solicitud_idSolicitud = S.idSolicitud AND (I.Id_Informe LIKE '%" + txtbusquedasoli2.getText()
+                ResultSet rs = sentencia.executeQuery("SELECT I.Id_Informe, O.Folio, S.Nombre, O.Monto, I.Total, I.Factura FROM Solicitud_viatico S, Oficio_comision O, Informe I WHERE S.Estado = 'A' AND S.Reporte = '1' AND S.idSolicitud = O.Solicitud_idSolicitud AND I.Solicitud_idSolicitud = S.idSolicitud AND (I.Id_Informe LIKE '%" + txtbusquedasoli2.getText()
                         + "%' OR O.Folio LIKE '%" + txtbusquedasoli2.getText() + "%' OR S.Nombre LIKE '%" + txtbusquedasoli2.getText() + "%' OR O.Monto LIKE '%" + txtbusquedasoli2.getText() + "%' OR I.Total LIKE '%" + txtbusquedasoli2.getText() + "%' OR I.Factura LIKE '%" + txtbusquedasoli2.getText() + "%') ");
 
                 String solicitud[] = new String[6];
@@ -1548,7 +1548,7 @@ public class PrincipalS extends javax.swing.JFrame {
 
                 Statement sentencia = cn.createStatement();
 
-                ResultSet rs = sentencia.executeQuery("SELECT idSolicitud, Nombre, Puesto, Fecha_salida, Fecha_llegada, Lugar, Pernoctado, Actividad, Vehiculo, Estado FROM solicitud_viatico WHERE idSolicitud LIKE '%" + txtbusquedasoli.getText() + "%'"
+                ResultSet rs = sentencia.executeQuery("SELECT idSolicitud, Nombre, Puesto, Fecha_salida, Fecha_llegada, Lugar, Pernoctado, Actividad, Vehiculo, Estado FROM Solicitud_viatico WHERE idSolicitud LIKE '%" + txtbusquedasoli.getText() + "%'"
                         + "OR Nombre LIKE '%" + txtbusquedasoli.getText() + "%' OR Puesto LIKE '%" + txtbusquedasoli.getText() + "%' OR Fecha_salida LIKE '%" + txtbusquedasoli.getText() + "%' OR Fecha_llegada LIKE '%" + txtbusquedasoli.getText() + "%'"
                         + "OR Lugar LIKE '%" + txtbusquedasoli.getText() + "%' OR Pernoctado LIKE '%" + txtbusquedasoli.getText() + "%' OR Actividad LIKE '%" + txtbusquedasoli.getText() + "%' OR Vehiculo LIKE '%" + txtbusquedasoli.getText() + "%' OR Estado LIKE '%" + txtbusquedasoli.getText() + "%'");
 
@@ -1656,7 +1656,7 @@ public class PrincipalS extends javax.swing.JFrame {
             } else {
                 try {
                     Statement sentencia = cn.createStatement();
-                    sentencia.executeUpdate("UPDATE solicitud_viatico SET Estado = 'C', Motivo= '" + motivo + "' WHERE (idSolicitud = '" + id + "')");
+                    sentencia.executeUpdate("UPDATE Solicitud_viatico SET Estado = 'C', Motivo= '" + motivo + "' WHERE (idSolicitud = '" + id + "')");
                     javax.swing.JOptionPane.showMessageDialog(null, "Solicitud cancelada");
                 } catch (SQLException ex) {
                     javax.swing.JOptionPane.showMessageDialog(null, "Error en la consulta");
@@ -1722,7 +1722,7 @@ public class PrincipalS extends javax.swing.JFrame {
 
                 Statement sentencia = cn.createStatement();
 
-                ResultSet rs = sentencia.executeQuery("SELECT idSolicitud, Nombre, Puesto, Fecha_salida, Fecha_llegada,Lugar FROM solicitud_viatico WHERE Estado = 'P' AND (idSolicitud LIKE '%" + txtbusquedasoli1.getText() + "%'"
+                ResultSet rs = sentencia.executeQuery("SELECT idSolicitud, Nombre, Puesto, Fecha_salida, Fecha_llegada,Lugar FROM Solicitud_viatico WHERE Estado = 'P' AND (idSolicitud LIKE '%" + txtbusquedasoli1.getText() + "%'"
                         + "OR Nombre LIKE '%" + txtbusquedasoli1.getText() + "%' OR Puesto LIKE '%" + txtbusquedasoli1.getText() + "%' OR Fecha_salida LIKE '%" + txtbusquedasoli1.getText() + "%' OR Fecha_llegada LIKE '%" + txtbusquedasoli1.getText() + "%'"
                         + "OR Lugar LIKE '%" + txtbusquedasoli1.getText() + "%') ");
 
@@ -1759,7 +1759,7 @@ public class PrincipalS extends javax.swing.JFrame {
 
                 Statement sentencia = cn.createStatement();
 
-                ResultSet rs = sentencia.executeQuery("SELECT O.Folio, S.Nombre, O.Monto, S.Fecha_salida, S.Fecha_llegada,S.Lugar FROM solicitud_viatico S, oficio_comision O WHERE S.Estado = 'A' AND S.idSolicitud = O.Solicitud_idSolicitud AND (O.Folio LIKE '%" + txtbusquedasoli1.getText() + "%'"
+                ResultSet rs = sentencia.executeQuery("SELECT O.Folio, S.Nombre, O.Monto, S.Fecha_salida, S.Fecha_llegada,S.Lugar FROM Solicitud_viatico S, Oficio_comision O WHERE S.Estado = 'A' AND S.idSolicitud = O.Solicitud_idSolicitud AND (O.Folio LIKE '%" + txtbusquedasoli1.getText() + "%'"
                         + "OR S.Nombre LIKE '%" + txtbusquedasoli1.getText() + "%' OR O.Monto LIKE '%" + txtbusquedasoli1.getText() + "%' OR S.Fecha_salida LIKE '%" + txtbusquedasoli1.getText() + "%' OR S.Fecha_llegada LIKE '%" + txtbusquedasoli1.getText() + "%'"
                         + "OR S.Lugar LIKE '%" + txtbusquedasoli1.getText() + "%') ");
 
@@ -1797,7 +1797,7 @@ public class PrincipalS extends javax.swing.JFrame {
 
                 Statement sentencia = cn.createStatement();
 
-                ResultSet rs = sentencia.executeQuery("SELECT idSolicitud, Nombre, Puesto, Fecha_salida, Fecha_llegada,Lugar, Motivo FROM solicitud_viatico WHERE Estado = 'C' AND (idSolicitud LIKE '%" + txtbusquedasoli1.getText() + "%'"
+                ResultSet rs = sentencia.executeQuery("SELECT idSolicitud, Nombre, Puesto, Fecha_salida, Fecha_llegada,Lugar, Motivo FROM Solicitud_viatico WHERE Estado = 'C' AND (idSolicitud LIKE '%" + txtbusquedasoli1.getText() + "%'"
                         + "OR Nombre LIKE '%" + txtbusquedasoli1.getText() + "%' OR Puesto LIKE '%" + txtbusquedasoli1.getText() + "%' OR Fecha_salida LIKE '%" + txtbusquedasoli1.getText() + "%' OR Fecha_llegada LIKE '%" + txtbusquedasoli1.getText() + "%'"
                         + "OR Lugar LIKE '%" + txtbusquedasoli1.getText() + "%' OR Motivo LIKE '%" + txtbusquedasoli1.getText() + "%')");
 
@@ -1831,7 +1831,7 @@ public class PrincipalS extends javax.swing.JFrame {
                 Class.forName("com.mysql.jdbc.Driver");
 
                 Statement sentencia = cn.createStatement();
-                ResultSet rs = sentencia.executeQuery("SELECT Solicitud_idSolicitud, Monto FROM oficio_comision WHERE Folio = '" + folio + "'");
+                ResultSet rs = sentencia.executeQuery("SELECT Solicitud_idSolicitud, Monto FROM Oficio_comision WHERE Folio = '" + folio + "'");
                 while (rs.next()) {
                     idSolicitud = rs.getString("Solicitud_idSolicitud");
                     monto = rs.getString("Monto");
@@ -1842,8 +1842,8 @@ public class PrincipalS extends javax.swing.JFrame {
                     if (motivo == null) {
 
                     } else {
-                        sentencia.execute("DELETE FROM oficio_comision WHERE (Folio = " + folio + ")");
-                        sentencia.executeUpdate("UPDATE solicitud_viatico SET Estado = 'C', Motivo = '" + motivo + "' WHERE (idSolicitud = " + idSolicitud + ")");
+                        sentencia.execute("DELETE FROM Oficio_comision WHERE (Folio = " + folio + ")");
+                        sentencia.executeUpdate("UPDATE Solicitud_viatico SET Estado = 'C', Motivo = '" + motivo + "' WHERE (idSolicitud = " + idSolicitud + ")");
                         javax.swing.JOptionPane.showMessageDialog(null, "Solicitud cancelada");
                     }
                 } else {
@@ -1904,7 +1904,7 @@ public class PrincipalS extends javax.swing.JFrame {
             GaTot.setVisible(false);
             jScrollPane3.setVisible(false);
             jScrollPane1.setVisible(true);
-            Solicitud("SELECT O.Folio, S.Nombre, S.Actividad, S.Lugar, O.Monto FROM solicitud_viatico S, oficio_comision O WHERE S.Estado = 'A' AND S.Reporte = '0' AND S.idSolicitud = O.Solicitud_idSolicitud AND O.Monto != 0");
+            Solicitud("SELECT O.Folio, S.Nombre, S.Actividad, S.Lugar, O.Monto FROM Solicitud_viatico S, 0ficio_comision O WHERE S.Estado = 'A' AND S.Reporte = '0' AND S.idSolicitud = O.Solicitud_idSolicitud AND O.Monto != 0");
         } else {
         }
     }//GEN-LAST:event_btnregresar1ActionPerformed

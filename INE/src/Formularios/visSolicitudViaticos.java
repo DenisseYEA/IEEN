@@ -227,7 +227,7 @@ public class visSolicitudViaticos extends javax.swing.JDialog {
         try {
             if (ayc == 0) {
                 Statement sentencia = cn.createStatement();
-                ResultSet rs = sentencia.executeQuery("SELECT * FROM solicitud_viatico WHERE idSolicitud = " + id);
+                ResultSet rs = sentencia.executeQuery("SELECT * FROM Solicitud_viatico WHERE idSolicitud = " + id);
                 String p = "";
                 while (rs.next()) {
                     txt_Nombre.setText(rs.getString("Nombre"));
@@ -256,7 +256,7 @@ public class visSolicitudViaticos extends javax.swing.JDialog {
                 lbl_Folio.setVisible(false);
             } else {
                 Statement sentencia = cn.createStatement();
-                ResultSet rs = sentencia.executeQuery("SELECT * FROM solicitud_viatico WHERE idSolicitud = " + id);
+                ResultSet rs = sentencia.executeQuery("SELECT * FROM Solicitud_viatico WHERE idSolicitud = " + id);
                 String p = "";
                 while (rs.next()) {
                     txt_Nombre.setText(rs.getString("Nombre"));
@@ -269,7 +269,7 @@ public class visSolicitudViaticos extends javax.swing.JDialog {
                     p = rs.getString("Pernoctado");
                 }
                 System.out.print(id);
-                ResultSet rs1 = sentencia.executeQuery("SELECT O.Folio, O.Monto FROM solicitud_viatico S, oficio_comision O WHERE S.idSolicitud = "+id+" AND S.idSolicitud = O.Solicitud_idSolicitud");
+                ResultSet rs1 = sentencia.executeQuery("SELECT O.Folio, O.Monto FROM Solicitud_viatico S, Oficio_comision O WHERE S.idSolicitud = "+id+" AND S.idSolicitud = O.Solicitud_idSolicitud");
                 while (rs1.next()) {
                     txt_Folio.setText(rs1.getString("Folio"));
                     txt_Monto.setText(rs1.getString("Monto"));

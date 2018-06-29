@@ -49,7 +49,7 @@ public class ManagerVehiculos {
     public boolean guardarImagen(String marca, String linea, String clase, String color, String modelo, String motor,
             String kilomentraje, String matricula, String observaciones, String ruta) {
         con = db.getConexion();
-        String insert = "insert into vehiculos(marca, linea, clase, color, modelo, motor,kilometraje ,matricula,observaciones,imagen) values(?,?,?,?,?,?,?,?,?,?);";
+        String insert = "insert into Vehiculos(marca, linea, clase, color, modelo, motor,kilometraje ,matricula,observaciones,imagen) values(?,?,?,?,?,?,?,?,?,?);";
         FileInputStream fi = null;
         PreparedStatement ps = null;
 
@@ -84,7 +84,7 @@ public class ManagerVehiculos {
     
     public Blob leerImagen(String matricula) throws IOException {
         con = db.getConexion();
-        String sSql = "select imagen from vehiculos where matricula = '"+matricula+"';";
+        String sSql = "select imagen from Vehiculos where matricula = '"+matricula+"';";
         PreparedStatement pst;
         Blob blob = null;
         try {
@@ -115,7 +115,7 @@ public class ManagerVehiculos {
             
             
             //Consulta de los empleados
-            String sql = "select marca,linea,modelo,color,matricula from vehiculos;";
+            String sql = "select marca,linea,modelo,color,matricula from Vehiculos;";
             con = db.getConexion();
             Statement st = con.createStatement();
             Object datos[] = new Object[5];
@@ -149,7 +149,7 @@ public class ManagerVehiculos {
         try {
 
             Statement st = con.createStatement();
-            String sql = "select marca,linea,clase,kilometraje,modelo,color,motor,matricula,observaciones,estado from vehiculos where matricula = '"+matricula+"';";
+            String sql = "select marca,linea,clase,kilometraje,modelo,color,motor,matricula,observaciones,estado from Vehiculos where matricula = '"+matricula+"';";
             ResultSet resultados = st.executeQuery(sql);
             while (resultados.next()) {
                 String temp = "";
@@ -178,9 +178,9 @@ public class ManagerVehiculos {
             String sql;
             //Consulta de los vehiculos
             if(tipoBusqueda.equals("Año")){
-                sql = "select marca,linea,modelo,color,matricula from vehiculos where modelo like '"+busqueda+"%';";
+                sql = "select marca,linea,modelo,color,matricula from Vehiculos where modelo like '"+busqueda+"%';";
             }else{
-                sql = "select marca,linea,modelo,color,matricula from vehiculos where "+tipoBusqueda+" like '"+busqueda+"%';";
+                sql = "select marca,linea,modelo,color,matricula from Vehiculos where "+tipoBusqueda+" like '"+busqueda+"%';";
             }
             con = db.getConexion();
             Statement st = con.createStatement();
@@ -211,9 +211,9 @@ public class ManagerVehiculos {
             String sql;
             //Consulta de los vehiculos
             if(tipoBusqueda.equals("Año")){
-                sql = "select marca,linea,modelo,color,matricula from vehiculos where modelo like '"+busqueda+"%';";
+                sql = "select marca,linea,modelo,color,matricula from Vehiculos where modelo like '"+busqueda+"%';";
             }else{
-                sql = "select marca,linea,modelo,color,matricula from vehiculos where "+tipoBusqueda+" like '"+busqueda+"%';";
+                sql = "select marca,linea,modelo,color,matricula from Vehiculos where "+tipoBusqueda+" like '"+busqueda+"%';";
             }
             con = db.getConexion();
             Statement st = con.createStatement();
@@ -245,7 +245,7 @@ public class ManagerVehiculos {
             String kilomentraje, String matricula, String observaciones, String ruta) {
         con = db.getConexion();
         
-        String update = "update vehiculos set marca = ?, linea = ?,clase = ?,color = ?,modelo = ?,motor = ?,kilometraje = ?,observaciones = ?,imagen = ? where matricula = '"+matricula+"'";
+        String update = "update Vehiculos set marca = ?, linea = ?,clase = ?,color = ?,modelo = ?,motor = ?,kilometraje = ?,observaciones = ?,imagen = ? where matricula = '"+matricula+"'";
         FileInputStream fi = null;
         PreparedStatement ps = null;
 
@@ -281,7 +281,7 @@ public class ManagerVehiculos {
             String kilomentraje, String matricula, String observaciones) {
         con = db.getConexion();
         
-        String update = "update vehiculos set marca = ?, linea = ?,clase = ?,color = ?,modelo = ?,motor = ?,kilometraje = ?,observaciones = ? where matricula = '"+matricula+"'";
+        String update = "update Vehiculos set marca = ?, linea = ?,clase = ?,color = ?,modelo = ?,motor = ?,kilometraje = ?,observaciones = ? where matricula = '"+matricula+"'";
         
         PreparedStatement ps = null;
 

@@ -35,7 +35,7 @@ public class ManagerPermisos {
         try {
             
             //Consulta de los productos
-            String sql = "select modulo,alta,baja,actualizar,consulta from permisos where id_user = '"+usuario+"';";
+            String sql = "select modulo,alta,baja,actualizar,consulta from Permisos where id_user = '"+usuario+"';";
             conexion = db.getConexion();
             Statement st = conexion.createStatement();
             Object datos[] = new Object[5];
@@ -79,7 +79,7 @@ public class ManagerPermisos {
         try {
             
             //Consulta de los productos
-            String sql = "select modulo,alta,baja,actualizar,consulta from permisos_puesto where puesto = '"+puesto+"';";
+            String sql = "select modulo,alta,baja,actualizar,consulta from Permisos_puesto where puesto = '"+puesto+"';";
             conexion = db.getConexion();
             Statement st = conexion.createStatement();
             Object datos[] = new Object[5];
@@ -120,7 +120,7 @@ public class ManagerPermisos {
         
         try {
             Statement st = conexion.createStatement();
-            String sql = "update permisos set alta = "+alta+", baja = "+baja+",actualizar = "+actualizar+",consulta = "+consulta
+            String sql = "update Permisos set alta = "+alta+", baja = "+baja+",actualizar = "+actualizar+",consulta = "+consulta
                          +" where id_user = '"+usuario+"' and modulo = '"+modulo+"';";
 
             st.executeUpdate(sql);
@@ -142,7 +142,7 @@ public class ManagerPermisos {
         
         try {
             Statement st = conexion.createStatement();
-            String sql = "update permisos_puesto set alta = "+alta+", baja = "+baja+",actualizar = "+actualizar+",consulta = "+consulta
+            String sql = "update Permisos_puesto set alta = "+alta+", baja = "+baja+",actualizar = "+actualizar+",consulta = "+consulta
                          +" where puesto = '"+puesto+"' and modulo = '"+modulo+"';";
 
             st.executeUpdate(sql);
@@ -188,7 +188,7 @@ public class ManagerPermisos {
             
             //Llenamos los arreglos con su permiso correspondiente
             for(int i = 0; i<tamaño; i++){
-                sql = "select alta,baja,actualizar,consulta from permisos_puesto where modulo = '"+modulo[i]+"' and puesto = '"+puesto+"';";
+                sql = "select alta,baja,actualizar,consulta from Permisos_puesto where modulo = '"+modulo[i]+"' and puesto = '"+puesto+"';";
                 rs = st.executeQuery(sql);
                 rs.next();
                 alta[i] = rs.getBoolean(1);
@@ -200,19 +200,19 @@ public class ManagerPermisos {
             //Ahora se le daran los permisos de acuerdo al puesto, solo si no los tiene se van a actualizar
             for(int i = 0; i<tamaño;i++){
                 if(alta[i]){
-                    sql = "update permisos set alta = true where alta = false and modulo = '"+modulo[i]+"' and id_user = '"+usuario+"';";
+                    sql = "update Permisos set alta = true where alta = false and modulo = '"+modulo[i]+"' and id_user = '"+usuario+"';";
                     st.executeUpdate(sql);
                 }
                 if(baja[i]){
-                    sql = "update permisos set baja = true where baja = false and modulo = '"+modulo[i]+"' and id_user = '"+usuario+"';";
+                    sql = "update Permisos set baja = true where baja = false and modulo = '"+modulo[i]+"' and id_user = '"+usuario+"';";
                     st.executeUpdate(sql);
                 }
                 if(actualizar[i]){
-                    sql = "update permisos set actualizar = true where actualizar = false and modulo = '"+modulo[i]+"' and id_user = '"+usuario+"';";
+                    sql = "update Permisos set actualizar = true where actualizar = false and modulo = '"+modulo[i]+"' and id_user = '"+usuario+"';";
                     st.executeUpdate(sql);
                 }
                 if(consulta[i]){
-                    sql = "update permisos set consulta = true where consulta = false and modulo = '"+modulo[i]+"' and id_user = '"+usuario+"';";
+                    sql = "update Permisos set consulta = true where consulta = false and modulo = '"+modulo[i]+"' and id_user = '"+usuario+"';";
                     st.executeUpdate(sql);
                 }
             }//for
@@ -239,23 +239,23 @@ public class ManagerPermisos {
         try {
             Statement st = conexion.createStatement();
             //Realizamos los nuevos cambios para los permisos de atender la solicitudes de baja o comodato o donación
-            String sql = "update permisos_solicitud set permiso = "+usuario+" where puesto = 'Usuario Depto.' and tipo_solicitud = '"+tipo+"';";
+            String sql = "update Permisos_Solicitud set permiso = "+usuario+" where puesto = 'Usuario Depto.' and tipo_solicitud = '"+tipo+"';";
             st.executeUpdate(sql);
             System.out.println("Se actualizo la secretaria");
             
-            sql = "update permisos_solicitud set permiso = "+auxiliar+" where puesto = 'Auxiliar' and tipo_solicitud = '"+tipo+"';";
+            sql = "update Permisos_Solicitud set permiso = "+auxiliar+" where puesto = 'Auxiliar' and tipo_solicitud = '"+tipo+"';";
             st.executeUpdate(sql);
             System.out.println("Se actualizo el auxiliar");
             
-            sql = "update permisos_solicitud set permiso = "+administracion+" where puesto = 'Administración' and tipo_solicitud = '"+tipo+"';";
+            sql = "update Permisos_Solicitud set permiso = "+administracion+" where puesto = 'Administración' and tipo_solicitud = '"+tipo+"';";
             st.executeUpdate(sql);
             System.out.println("Se actualizo el supervisor");
             
-            sql = "update permisos_solicitud set permiso = "+jefe+" where puesto = 'Jefe de departamento' and tipo_solicitud = '"+tipo+"';";
+            sql = "update Permisos_Solicitud set permiso = "+jefe+" where puesto = 'Jefe de departamento' and tipo_solicitud = '"+tipo+"';";
             st.executeUpdate(sql);
             System.out.println("Se actualizo el jefe");
             
-            sql = "update permisos_solicitud set permiso = "+organizacion+" where puesto = 'Organización' and tipo_solicitud = '"+tipo+"';";
+            sql = "update Permisos_Solicitud set permiso = "+organizacion+" where puesto = 'Organización' and tipo_solicitud = '"+tipo+"';";
             st.executeUpdate(sql);
             System.out.println("Se actualizo la organización");
             
@@ -277,7 +277,7 @@ public class ManagerPermisos {
         try {
             Statement st = conexion.createStatement();
             //Obtenemos la respuesta de permiso para la secretaria de acuerdo al tipo de solicitud
-            String sql = "select permiso from permisos_solicitud where tipo_solicitud = '"+tipo+"' and puesto = 'Usuario Depto.';";
+            String sql = "select permiso from Permisos_Solicitud where tipo_solicitud = '"+tipo+"' and puesto = 'Usuario Depto.';";
             ResultSet rs = st.executeQuery(sql);
             rs.next();
             estado = rs.getBoolean(1);
@@ -300,7 +300,7 @@ public class ManagerPermisos {
         try {
             Statement st = conexion.createStatement();
             //Obtenemos la respuesta de permiso para la secretaria de acuerdo al tipo de solicitud
-            String sql = "select permiso from permisos_solicitud where tipo_solicitud = '"+tipo+"' and puesto = 'Auxiliar';";
+            String sql = "select permiso from Permisos_Solicitud where tipo_solicitud = '"+tipo+"' and puesto = 'Auxiliar';";
             ResultSet rs = st.executeQuery(sql);
             rs.next();
             estado = rs.getBoolean(1);
@@ -323,7 +323,7 @@ public class ManagerPermisos {
         try {
             Statement st = conexion.createStatement();
             //Obtenemos la respuesta de permiso para la secretaria de acuerdo al tipo de solicitud
-            String sql = "select permiso from permisos_solicitud where tipo_solicitud = '"+tipo+"' and puesto = 'Administración';";
+            String sql = "select permiso from Permisos_Solicitud where tipo_solicitud = '"+tipo+"' and puesto = 'Administración';";
             ResultSet rs = st.executeQuery(sql);
             rs.next();
             estado = rs.getBoolean(1);
@@ -345,7 +345,7 @@ public class ManagerPermisos {
         try {
             Statement st = conexion.createStatement();
             //Obtenemos la respuesta de permiso para la secretaria de acuerdo al tipo de solicitud
-            String sql = "select permiso from permisos_solicitud where tipo_solicitud = '"+tipo+"' and puesto = 'Jefe de departamento';";
+            String sql = "select permiso from Permisos_Solicitud where tipo_solicitud = '"+tipo+"' and puesto = 'Jefe de departamento';";
             ResultSet rs = st.executeQuery(sql);
             rs.next();
             estado = rs.getBoolean(1);
@@ -368,7 +368,7 @@ public class ManagerPermisos {
         try {
             Statement st = conexion.createStatement();
             //Obtenemos la respuesta de permiso para la secretaria de acuerdo al tipo de solicitud
-            String sql = "select permiso from permisos_solicitud where tipo_solicitud = '"+tipo+"' and puesto = 'Organización';";
+            String sql = "select permiso from Permisos_Solicitud where tipo_solicitud = '"+tipo+"' and puesto = 'Organización';";
             ResultSet rs = st.executeQuery(sql);
             rs.next();
             estado = rs.getBoolean(1);
@@ -392,31 +392,31 @@ public class ManagerPermisos {
         try {
             Statement st = conexion.createStatement();
             //obtenemos el puesto 
-            String sql = "select puesto from user where id_user = '"+user+"';";
+            String sql = "select puesto from User where id_user = '"+user+"';";
             ResultSet rs = st.executeQuery(sql);
             rs.next();
             puesto = rs.getString(1);
             
             //Obtenemos la respuesta de permiso para el puesto de la persona que se logeo de la solicitud baja
-            sql = "select permiso from permisos_solicitud where tipo_solicitud = 'Solicitud Baja' and puesto = '"+puesto+"';";
+            sql = "select permiso from Permisos_Solicitud where tipo_solicitud = 'Solicitud Baja' and puesto = '"+puesto+"';";
             rs = st.executeQuery(sql);
             if(rs.next()){
                 baja = rs.getBoolean(1);
             }
             //Obtenemos la respuesta de permiso para el puesto de la persona que se logeo de la solicitud comodato
-            sql = "select permiso from permisos_solicitud where tipo_solicitud = 'Solicitud Comodato' and puesto = '"+puesto+"';";
+            sql = "select permiso from Permisos_Solicitud where tipo_solicitud = 'Solicitud Comodato' and puesto = '"+puesto+"';";
             rs = st.executeQuery(sql);
             if(rs.next()){
                 comodato = rs.getBoolean(1);
             }
             //Obtenemos la respuesta de permiso para el puesto de la persona que se logeo de la solicitud donación
-            sql = "select permiso from permisos_solicitud where tipo_solicitud = 'Solicitud Donación' and puesto = '"+puesto+"';";
+            sql = "select permiso from Permisos_Solicitud where tipo_solicitud = 'Solicitud Donación' and puesto = '"+puesto+"';";
             rs = st.executeQuery(sql);
             if(rs.next()){
                 donacion = rs.getBoolean(1);
             }
             //Obtenemos la respuesta de permiso para el puesto de la persona que se logeo de la solicitud reemplazo
-            sql = "select permiso from permisos_solicitud where tipo_solicitud = 'Solicitud Reemplazo' and puesto = '"+puesto+"';";
+            sql = "select permiso from Permisos_Solicitud where tipo_solicitud = 'Solicitud Reemplazo' and puesto = '"+puesto+"';";
             rs = st.executeQuery(sql);
             if(rs.next()){
                 reemplazo = rs.getBoolean(1);
@@ -514,7 +514,7 @@ public class ManagerPermisos {
         try {
             Statement st = conexion.createStatement();
             //obtenemos el puesto
-            String sql = "select puesto from user where id_user = '"+usuario+"';";
+            String sql = "select puesto from User where id_user = '"+usuario+"';";
             ResultSet rs = st.executeQuery(sql);
             rs.next();
             String puesto = rs.getString(1);
@@ -523,7 +523,7 @@ public class ManagerPermisos {
             estado = true;
             }else{
                 //Obtenemos la respuesta de permiso para la alta de usuarios
-                sql = "select alta from permisos where id_user = '"+usuario+"' and modulo = 'Usuarios';";
+                sql = "select alta from Permisos where id_user = '"+usuario+"' and modulo = 'Usuarios';";
                 rs = st.executeQuery(sql);
                 rs.next();
                 estado = rs.getBoolean(1);
@@ -546,7 +546,7 @@ public class ManagerPermisos {
         try {
             Statement st = conexion.createStatement();
             //obtenemos el puesto
-            String sql = "select puesto from user where id_user = '"+usuario+"';";
+            String sql = "select puesto from User where id_user = '"+usuario+"';";
             ResultSet rs = st.executeQuery(sql);
             rs.next();
             String puesto = rs.getString(1);
@@ -555,7 +555,7 @@ public class ManagerPermisos {
             estado = true;
             }else{
                 //Obtenemos la respuesta de permiso para la alta de usuarios
-                sql = "select baja from permisos where id_user = '"+usuario+"' and modulo = 'Usuarios';";
+                sql = "select baja from Permisos where id_user = '"+usuario+"' and modulo = 'Usuarios';";
                 rs = st.executeQuery(sql);
                 rs.next();
                 estado = rs.getBoolean(1);
@@ -579,7 +579,7 @@ public class ManagerPermisos {
             Statement st = conexion.createStatement();
             
             //obtenemos el puesto
-            String sql = "select puesto from user where id_user = '"+usuario+"';";
+            String sql = "select puesto from User where id_user = '"+usuario+"';";
             ResultSet rs = st.executeQuery(sql);
             rs.next();
             String puesto = rs.getString(1);
@@ -588,7 +588,7 @@ public class ManagerPermisos {
             estado = true;
             }else{
                 //Obtenemos la respuesta de permiso para la alta de usuarios
-                sql = "select actualizar from permisos where id_user = '"+usuario+"' and modulo = 'Usuarios';";
+                sql = "select actualizar from Permisos where id_user = '"+usuario+"' and modulo = 'Usuarios';";
                 rs = st.executeQuery(sql);
                 rs.next();
                 estado = rs.getBoolean(1);
@@ -612,7 +612,7 @@ public class ManagerPermisos {
             Statement st = conexion.createStatement();
             
             //obtenemos el puesto
-            String sql = "select puesto from user where id_user = '"+usuario+"';";
+            String sql = "select puesto from User where id_user = '"+usuario+"';";
             ResultSet rs = st.executeQuery(sql);
             rs.next();
             String puesto = rs.getString(1);
@@ -621,7 +621,7 @@ public class ManagerPermisos {
             estado = true;
             }else{
                 //Obtenemos la respuesta de permiso para la alta de usuarios
-                sql = "select consulta from permisos where id_user = '"+usuario+"' and modulo = 'Usuarios';";
+                sql = "select consulta from Permisos where id_user = '"+usuario+"' and modulo = 'Usuarios';";
                 rs = st.executeQuery(sql);
                 rs.next();
                 estado = rs.getBoolean(1);
@@ -648,7 +648,7 @@ public class ManagerPermisos {
         try {
             Statement st = conexion.createStatement();
             //obtenemos el puesto
-            String sql = "select puesto from user where id_user = '"+usuario+"';";
+            String sql = "select puesto from User where id_user = '"+usuario+"';";
             ResultSet rs = st.executeQuery(sql);
             rs.next();
             String puesto = rs.getString(1);
@@ -657,7 +657,7 @@ public class ManagerPermisos {
             estado = true;
             }else{
                 //Obtenemos la respuesta de permiso para la alta de usuarios
-                sql = "select alta from permisos where id_user = '"+usuario+"' and modulo = 'Permisos';";
+                sql = "select alta from Permisos where id_user = '"+usuario+"' and modulo = 'Permisos';";
                 rs = st.executeQuery(sql);
                 rs.next();
                 estado = rs.getBoolean(1);
@@ -680,7 +680,7 @@ public class ManagerPermisos {
         try {
             Statement st = conexion.createStatement();
             //obtenemos el puesto
-            String sql = "select puesto from user where id_user = '"+usuario+"';";
+            String sql = "select puesto from User where id_user = '"+usuario+"';";
             ResultSet rs = st.executeQuery(sql);
             rs.next();
             String puesto = rs.getString(1);
@@ -689,7 +689,7 @@ public class ManagerPermisos {
             estado = true;
             }else{
                 //Obtenemos la respuesta de permiso para la alta de usuarios
-                sql = "select baja from permisos where id_user = '"+usuario+"' and modulo = 'Permisos';";
+                sql = "select baja from Permisos where id_user = '"+usuario+"' and modulo = 'Permisos';";
                 rs = st.executeQuery(sql);
                 rs.next();
                 estado = rs.getBoolean(1);
@@ -713,7 +713,7 @@ public class ManagerPermisos {
             Statement st = conexion.createStatement();
             
             //obtenemos el puesto
-            String sql = "select puesto from user where id_user = '"+usuario+"';";
+            String sql = "select puesto from User where id_user = '"+usuario+"';";
             ResultSet rs = st.executeQuery(sql);
             rs.next();
             String puesto = rs.getString(1);
@@ -722,7 +722,7 @@ public class ManagerPermisos {
             estado = true;
             }else{
                 //Obtenemos la respuesta de permiso para la alta de usuarios
-                sql = "select actualizar from permisos where id_user = '"+usuario+"' and modulo = 'Permisos';";
+                sql = "select actualizar from Permisos where id_user = '"+usuario+"' and modulo = 'Permisos';";
                 rs = st.executeQuery(sql);
                 rs.next();
                 estado = rs.getBoolean(1);
@@ -746,7 +746,7 @@ public class ManagerPermisos {
             Statement st = conexion.createStatement();
             
             //obtenemos el puesto
-            String sql = "select puesto from user where id_user = '"+usuario+"';";
+            String sql = "select puesto from User where id_user = '"+usuario+"';";
             ResultSet rs = st.executeQuery(sql);
             rs.next();
             String puesto = rs.getString(1);
@@ -755,7 +755,7 @@ public class ManagerPermisos {
             estado = true;
             }else{
                 //Obtenemos la respuesta de permiso para la alta de usuarios
-                sql = "select consulta from permisos where id_user = '"+usuario+"' and modulo = 'Permisos';";
+                sql = "select consulta from Permisos where id_user = '"+usuario+"' and modulo = 'Permisos';";
                 rs = st.executeQuery(sql);
                 rs.next();
                 estado = rs.getBoolean(1);
@@ -782,7 +782,7 @@ public class ManagerPermisos {
         try {
             Statement st = conexion.createStatement();
             //obtenemos el puesto
-            String sql = "select puesto from user where id_user = '"+usuario+"';";
+            String sql = "select puesto from User where id_user = '"+usuario+"';";
             ResultSet rs = st.executeQuery(sql);
             rs.next();
             String puesto = rs.getString(1);
@@ -791,7 +791,7 @@ public class ManagerPermisos {
             estado = true;
             }else{
                 //Obtenemos la respuesta de permiso para la alta de usuarios
-                sql = "select alta from permisos where id_user = '"+usuario+"' and modulo = 'Inventario';";
+                sql = "select alta from Permisos where id_user = '"+usuario+"' and modulo = 'Inventario';";
                 rs = st.executeQuery(sql);
                 rs.next();
                 estado = rs.getBoolean(1);
@@ -814,7 +814,7 @@ public class ManagerPermisos {
         try {
             Statement st = conexion.createStatement();
             //obtenemos el puesto
-            String sql = "select puesto from user where id_user = '"+usuario+"';";
+            String sql = "select puesto from User where id_user = '"+usuario+"';";
             ResultSet rs = st.executeQuery(sql);
             rs.next();
             String puesto = rs.getString(1);
@@ -823,7 +823,7 @@ public class ManagerPermisos {
             estado = true;
             }else{
                 //Obtenemos la respuesta de permiso para la alta de usuarios
-                sql = "select baja from permisos where id_user = '"+usuario+"' and modulo = 'Inventario';";
+                sql = "select baja from Permisos where id_user = '"+usuario+"' and modulo = 'Inventario';";
                 rs = st.executeQuery(sql);
                 rs.next();
                 estado = rs.getBoolean(1);
@@ -847,7 +847,7 @@ public class ManagerPermisos {
             Statement st = conexion.createStatement();
             
             //obtenemos el puesto
-            String sql = "select puesto from user where id_user = '"+usuario+"';";
+            String sql = "select puesto from User where id_user = '"+usuario+"';";
             ResultSet rs = st.executeQuery(sql);
             rs.next();
             String puesto = rs.getString(1);
@@ -856,7 +856,7 @@ public class ManagerPermisos {
             estado = true;
             }else{
                 //Obtenemos la respuesta de permiso para la alta de usuarios
-                sql = "select actualizar from permisos where id_user = '"+usuario+"' and modulo = 'Inventario';";
+                sql = "select actualizar from Permisos where id_user = '"+usuario+"' and modulo = 'Inventario';";
                 rs = st.executeQuery(sql);
                 rs.next();
                 estado = rs.getBoolean(1);
@@ -880,7 +880,7 @@ public class ManagerPermisos {
             Statement st = conexion.createStatement();
             
             //obtenemos el puesto
-            String sql = "select puesto from user where id_user = '"+usuario+"';";
+            String sql = "select puesto from User where id_user = '"+usuario+"';";
             ResultSet rs = st.executeQuery(sql);
             rs.next();
             String puesto = rs.getString(1);
@@ -889,7 +889,7 @@ public class ManagerPermisos {
             estado = true;
             }else{
                 //Obtenemos la respuesta de permiso para la alta de usuarios
-                sql = "select consulta from permisos where id_user = '"+usuario+"' and modulo = 'Inventario';";
+                sql = "select consulta from Permisos where id_user = '"+usuario+"' and modulo = 'Inventario';";
                 rs = st.executeQuery(sql);
                 rs.next();
                 estado = rs.getBoolean(1);
@@ -914,7 +914,7 @@ public class ManagerPermisos {
         try {
             Statement st = conexion.createStatement();
             //obtenemos el puesto
-            String sql = "select puesto from user where id_user = '"+usuario+"';";
+            String sql = "select puesto from User where id_user = '"+usuario+"';";
             ResultSet rs = st.executeQuery(sql);
             rs.next();
             String puesto = rs.getString(1);
@@ -923,7 +923,7 @@ public class ManagerPermisos {
             estado = true;
             }else{
                 //Obtenemos la respuesta de permiso para la alta de usuarios
-                sql = "select alta from permisos where id_user = '"+usuario+"' and modulo = 'Asignación';";
+                sql = "select alta from Permisos where id_user = '"+usuario+"' and modulo = 'Asignación';";
                 rs = st.executeQuery(sql);
                 rs.next();
                 estado = rs.getBoolean(1);
@@ -946,7 +946,7 @@ public class ManagerPermisos {
         try {
             Statement st = conexion.createStatement();
             //obtenemos el puesto
-            String sql = "select puesto from user where id_user = '"+usuario+"';";
+            String sql = "select puesto from User where id_user = '"+usuario+"';";
             ResultSet rs = st.executeQuery(sql);
             rs.next();
             String puesto = rs.getString(1);
@@ -955,7 +955,7 @@ public class ManagerPermisos {
             estado = true;
             }else{
                 //Obtenemos la respuesta de permiso para la alta de usuarios
-                sql = "select baja from permisos where id_user = '"+usuario+"' and modulo = 'Asignación';";
+                sql = "select baja from Permisos where id_user = '"+usuario+"' and modulo = 'Asignación';";
                 rs = st.executeQuery(sql);
                 rs.next();
                 estado = rs.getBoolean(1);
@@ -979,7 +979,7 @@ public class ManagerPermisos {
             Statement st = conexion.createStatement();
             
             //obtenemos el puesto
-            String sql = "select puesto from user where id_user = '"+usuario+"';";
+            String sql = "select puesto from User where id_user = '"+usuario+"';";
             ResultSet rs = st.executeQuery(sql);
             rs.next();
             String puesto = rs.getString(1);
@@ -988,7 +988,7 @@ public class ManagerPermisos {
             estado = true;
             }else{
                 //Obtenemos la respuesta de permiso para la alta de usuarios
-                sql = "select actualizar from permisos where id_user = '"+usuario+"' and modulo = 'Asignación';";
+                sql = "select actualizar from Permisos where id_user = '"+usuario+"' and modulo = 'Asignación';";
                 rs = st.executeQuery(sql);
                 rs.next();
                 estado = rs.getBoolean(1);
@@ -1012,7 +1012,7 @@ public class ManagerPermisos {
             Statement st = conexion.createStatement();
             
             //obtenemos el puesto
-            String sql = "select puesto from user where id_user = '"+usuario+"';";
+            String sql = "select puesto from User where id_user = '"+usuario+"';";
             ResultSet rs = st.executeQuery(sql);
             rs.next();
             String puesto = rs.getString(1);
@@ -1021,7 +1021,7 @@ public class ManagerPermisos {
             estado = true;
             }else{
                 //Obtenemos la respuesta de permiso para la alta de usuarios
-                sql = "select consulta from permisos where id_user = '"+usuario+"' and modulo = 'Asignación';";
+                sql = "select consulta from Permisos where id_user = '"+usuario+"' and modulo = 'Asignación';";
                 rs = st.executeQuery(sql);
                 rs.next();
                 estado = rs.getBoolean(1);
@@ -1046,7 +1046,7 @@ public class ManagerPermisos {
         try {
             Statement st = conexion.createStatement();
             //obtenemos el puesto
-            String sql = "select puesto from user where id_user = '"+usuario+"';";
+            String sql = "select puesto from User where id_user = '"+usuario+"';";
             ResultSet rs = st.executeQuery(sql);
             rs.next();
             String puesto = rs.getString(1);
@@ -1055,7 +1055,7 @@ public class ManagerPermisos {
             estado = true;
             }else{
                 //Obtenemos la respuesta de permiso para la alta de usuarios
-                sql = "select alta from permisos where id_user = '"+usuario+"' and modulo = 'Vehiculos';";
+                sql = "select alta from Permisos where id_user = '"+usuario+"' and modulo = 'Vehiculos';";
                 rs = st.executeQuery(sql);
                 rs.next();
                 estado = rs.getBoolean(1);
@@ -1078,7 +1078,7 @@ public class ManagerPermisos {
         try {
             Statement st = conexion.createStatement();
             //obtenemos el puesto
-            String sql = "select puesto from user where id_user = '"+usuario+"';";
+            String sql = "select puesto from User where id_user = '"+usuario+"';";
             ResultSet rs = st.executeQuery(sql);
             rs.next();
             String puesto = rs.getString(1);
@@ -1087,7 +1087,7 @@ public class ManagerPermisos {
             estado = true;
             }else{
                 //Obtenemos la respuesta de permiso para la alta de usuarios
-                sql = "select baja from permisos where id_user = '"+usuario+"' and modulo = 'Vehiculos';";
+                sql = "select baja from Permisos where id_user = '"+usuario+"' and modulo = 'Vehiculos';";
                 rs = st.executeQuery(sql);
                 rs.next();
                 estado = rs.getBoolean(1);
@@ -1111,7 +1111,7 @@ public class ManagerPermisos {
             Statement st = conexion.createStatement();
             
             //obtenemos el puesto
-            String sql = "select puesto from user where id_user = '"+usuario+"';";
+            String sql = "select puesto from User where id_user = '"+usuario+"';";
             ResultSet rs = st.executeQuery(sql);
             rs.next();
             String puesto = rs.getString(1);
@@ -1120,7 +1120,7 @@ public class ManagerPermisos {
             estado = true;
             }else{
                 //Obtenemos la respuesta de permiso para la alta de usuarios
-                sql = "select actualizar from permisos where id_user = '"+usuario+"' and modulo = 'Vehiculos';";
+                sql = "select actualizar from Permisos where id_user = '"+usuario+"' and modulo = 'Vehiculos';";
                 rs = st.executeQuery(sql);
                 rs.next();
                 estado = rs.getBoolean(1);
@@ -1144,7 +1144,7 @@ public class ManagerPermisos {
             Statement st = conexion.createStatement();
             
             //obtenemos el puesto
-            String sql = "select puesto from user where id_user = '"+usuario+"';";
+            String sql = "select puesto from User where id_user = '"+usuario+"';";
             ResultSet rs = st.executeQuery(sql);
             rs.next();
             String puesto = rs.getString(1);
@@ -1153,7 +1153,7 @@ public class ManagerPermisos {
             estado = true;
             }else{
                 //Obtenemos la respuesta de permiso para la alta de usuarios
-                sql = "select consulta from permisos where id_user = '"+usuario+"' and modulo = 'Vehiculos';";
+                sql = "select consulta from Permisos where id_user = '"+usuario+"' and modulo = 'Vehiculos';";
                 rs = st.executeQuery(sql);
                 rs.next();
                 estado = rs.getBoolean(1);
@@ -1178,7 +1178,7 @@ public class ManagerPermisos {
         try {
             Statement st = conexion.createStatement();
             //Obtenemos el puesto del usuario
-            String sql = "select puesto from user where id_user = '"+usuario+"';";
+            String sql = "select puesto from User where id_user = '"+usuario+"';";
             ResultSet rs = st.executeQuery(sql);
             rs.next();
             puesto = rs.getString(1);
@@ -1206,7 +1206,7 @@ public class ManagerPermisos {
         try {
             Statement st = conexion.createStatement();
             //Obtenemos el puesto del usuario
-            String sql = "select puesto from user where id_user = '"+usuario+"';";
+            String sql = "select puesto from User where id_user = '"+usuario+"';";
             ResultSet rs = st.executeQuery(sql);
             rs.next();
             puesto = rs.getString(1);
@@ -1233,23 +1233,23 @@ public class ManagerPermisos {
         try {
             Statement st = conexion.createStatement();
             //Realizamos los nuevos cambios para los permisos de atender la solicitudes de baja o comodato o donación
-            String sql = "update permiso_vale set permiso = "+usuario+" where puesto = 'Usuario Depto.' and tipo_vale = '"+tipo+"';";
+            String sql = "update permiso_vale set Permiso = "+usuario+" where puesto = 'Usuario Depto.' and tipo_vale = '"+tipo+"';";
             st.executeUpdate(sql);
             System.out.println("Se actualizo la secretaria");
             
-            sql = "update permiso_vale set permiso = "+auxiliar+" where puesto = 'Auxiliar' and tipo_vale = '"+tipo+"';";
+            sql = "update permiso_vale set Permiso = "+auxiliar+" where puesto = 'Auxiliar' and tipo_vale = '"+tipo+"';";
             st.executeUpdate(sql);
             System.out.println("Se actualizo el auxiliar");
             
-            sql = "update permiso_vale set permiso = "+administracion+" where puesto = 'Administración' and tipo_vale = '"+tipo+"';";
+            sql = "update permiso_vale set Permiso = "+administracion+" where puesto = 'Administración' and tipo_vale = '"+tipo+"';";
             st.executeUpdate(sql);
             System.out.println("Se actualizo el supervisor");
             
-            sql = "update permiso_vale set permiso = "+jefe+" where puesto = 'Jefe de departamento' and tipo_vale = '"+tipo+"';";
+            sql = "update permiso_vale set Permiso = "+jefe+" where puesto = 'Jefe de departamento' and tipo_vale = '"+tipo+"';";
             st.executeUpdate(sql);
             System.out.println("Se actualizo el jefe");
             
-            sql = "update permiso_vale set permiso = "+organizacion+" where puesto = 'Organización' and tipo_vale = '"+tipo+"';";
+            sql = "update permiso_vale set Permiso = "+organizacion+" where puesto = 'Organización' and tipo_vale = '"+tipo+"';";
             st.executeUpdate(sql);
             System.out.println("Se actualizo la organización");
             
@@ -1271,7 +1271,7 @@ public class ManagerPermisos {
         try {
             Statement st = conexion.createStatement();
             //Obtenemos la respuesta de permiso para la secretaria de acuerdo al tipo de solicitud
-            String sql = "select permiso from permiso_vale where tipo_vale = '"+tipo+"' and puesto = 'Usuario Depto.';";
+            String sql = "select permiso from Permiso_vale where tipo_vale = '"+tipo+"' and puesto = 'Usuario Depto.';";
             ResultSet rs = st.executeQuery(sql);
             rs.next();
             estado = rs.getBoolean(1);
@@ -1294,7 +1294,7 @@ public class ManagerPermisos {
         try {
             Statement st = conexion.createStatement();
             //Obtenemos la respuesta de permiso para la secretaria de acuerdo al tipo de solicitud
-            String sql = "select permiso from permiso_vale where tipo_vale = '"+tipo+"' and puesto = 'Auxiliar';";
+            String sql = "select permiso from Permiso_vale where tipo_vale = '"+tipo+"' and puesto = 'Auxiliar';";
             ResultSet rs = st.executeQuery(sql);
             rs.next();
             estado = rs.getBoolean(1);
@@ -1317,7 +1317,7 @@ public class ManagerPermisos {
         try {
             Statement st = conexion.createStatement();
             //Obtenemos la respuesta de permiso para la secretaria de acuerdo al tipo de solicitud
-            String sql = "select permiso from permiso_vale where tipo_vale = '"+tipo+"' and puesto = 'Administración';";
+            String sql = "select permiso from Permiso_vale where tipo_vale = '"+tipo+"' and puesto = 'Administración';";
             ResultSet rs = st.executeQuery(sql);
             rs.next();
             estado = rs.getBoolean(1);
@@ -1339,7 +1339,7 @@ public class ManagerPermisos {
         try {
             Statement st = conexion.createStatement();
             //Obtenemos la respuesta de permiso para la secretaria de acuerdo al tipo de solicitud
-            String sql = "select permiso from permiso_vale where tipo_vale = '"+tipo+"' and puesto = 'Jefe de departamento';";
+            String sql = "select permiso from Permiso_vale where tipo_vale = '"+tipo+"' and puesto = 'Jefe de departamento';";
             ResultSet rs = st.executeQuery(sql);
             rs.next();
             estado = rs.getBoolean(1);
@@ -1362,7 +1362,7 @@ public class ManagerPermisos {
         try {
             Statement st = conexion.createStatement();
             //Obtenemos la respuesta de permiso para la secretaria de acuerdo al tipo de solicitud
-            String sql = "select permiso from permiso_vale where tipo_vale = '"+tipo+"' and puesto = 'Organización';";
+            String sql = "select permiso from Permiso_vale where tipo_vale = '"+tipo+"' and puesto = 'Organización';";
             ResultSet rs = st.executeQuery(sql);
             rs.next();
             estado = rs.getBoolean(1);
@@ -1385,7 +1385,7 @@ public class ManagerPermisos {
         try {
             Statement st = conexion.createStatement();
             //Obtenemos la respuesta de permiso para la secretaria de acuerdo al tipo de solicitud
-            String sql = "select permiso from permiso_vale pv inner join user u on (u.puesto = pv.puesto) where u.id_user = '"+usuario+"' and tipo_vale = '"+tipo+"';";
+            String sql = "select permiso from Permiso_vale pv inner join User u on (u.puesto = pv.puesto) where u.id_user = '"+usuario+"' and tipo_vale = '"+tipo+"';";
             ResultSet rs = st.executeQuery(sql);
             if(rs.next()){
                 estado = rs.getBoolean(1);
