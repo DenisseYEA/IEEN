@@ -70,7 +70,7 @@ public class Conexion {
             System.err.println("IP A CONECTARSE " + DIRECCIONIP);
             Class.forName("com.mysql.jdbc.Driver");
             //con = DriverManager.getConnection("jdbc:mysql://localhost/vboutique3",usuario, contra);
-            con = DriverManager.getConnection("jdbc:mysql://" + DIRECCIONIP + ":3306/ine", usuario, contra);
+            con = DriverManager.getConnection("jdbc:mysql://" + DIRECCIONIP + ":3306/INE", usuario, contra);
             System.out.println("Conexion Correcta");
         } catch (SQLException ex) {
             // throw new SQLException(ex);
@@ -94,7 +94,7 @@ public class Conexion {
 
             Class.forName("com.mysql.jdbc.Driver");
             //con = DriverManager.getConnection("jdbc:mysql://localhost/vboutique3",usuario, contra);
-            con = DriverManager.getConnection("jdbc:mysql://localhost:3306/ine", usuario, contra);
+            con = DriverManager.getConnection("jdbc:mysql://localhost:3306/INE", usuario, contra);
             System.out.println("Conexion Correcta");
         } catch (SQLException ex) {
             // throw new SQLException(ex);
@@ -112,7 +112,7 @@ public class Conexion {
     public  ResultSet getTabla(String consulta,Connection conn) throws SQLException {
         // Connection cn=getConectivity();
         //con = DriverManager.getConnection("jdbc:mysql://" + DIRECCIONIP + ":3306/ine", usuario, contra);
-        conn = DriverManager.getConnection("jdbc:mysql://"+DIRECCIONIP+":3306/ine", usuario, contra);
+        conn = DriverManager.getConnection("jdbc:mysql://"+DIRECCIONIP+":3306/INE", usuario, contra);
         Statement st;
         ResultSet datos = null;
         try {
@@ -128,7 +128,7 @@ public class Conexion {
         leer();
         try {
             Class.forName("com.mysql.jdbc.Driver");
-            con = DriverManager.getConnection("jdbc:mysql://" + DIRECCIONIP + ":3306/ine", usuario, contra);
+            con = DriverManager.getConnection("jdbc:mysql://" + DIRECCIONIP + ":3306/INE", usuario, contra);
 
         
             System.out.println("Conexion Correcta");

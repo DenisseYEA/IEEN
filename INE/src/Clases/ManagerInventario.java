@@ -46,7 +46,7 @@ public class ManagerInventario {
             ResultSet rs;
             
             //Insertamos al inventario
-            String sql = "insert into inventario_Granel (id_productoGranel,nombre_prod,almacen,marca,stock_min,stock,descripcion,observaciones,estatus,tipo_uso) "
+            String sql = "insert into Inventario_granel (id_productoGranel,nombre_prod,almacen,marca,stock_min,stock,descripcion,observaciones,estatus,tipo_uso) "
                          +"values('"+clave+"','"+producto+"','"+almacen+"','"+marca+"','"+stockmin+"','"+stock+"','"
                          +descripcion+"','"+observaciones+"','DISPONIBLE','"+tipo+"');";
             st.executeUpdate(sql);
@@ -65,7 +65,7 @@ public class ManagerInventario {
     
     public boolean guardarImagen(String folio,int numero,String extension, String producto, String descripcion, String ubicacion, String marca, String observaciones,String no_serie,String modelo,String color,String fecha_compra,String factura, float importe,String ruta) {
         conexion = db.getConexion();
-        String insert = "insert into inventario (Folio,Numero,Extension,nombre_prod,descripcion,ubicacion,estatus,marca,observaciones,no_serie,tipo_uso,modelo,color,imagen,Fecha_Compra,Factura,Importe)values(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?);";
+        String insert = "insert into Inventario (Folio,Numero,Extension,nombre_prod,descripcion,ubicacion,estatus,marca,observaciones,no_serie,tipo_uso,modelo,color,imagen,Fecha_Compra,Factura,Importe)values(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?);";
         FileInputStream fi = null;
         PreparedStatement ps = null;
         
@@ -110,7 +110,7 @@ public class ManagerInventario {
         
         try {
             //Consulta para saber si existe o no dicho producto
-            String sql = "select * from inventario_Granel where id_productoGranel = '"+id_producto+"';";
+            String sql = "select * from Inventario_granel where id_productoGranel = '"+id_producto+"';";
             conexion = db.getConexion();
             Statement st = conexion.createStatement();
             ResultSet rs = st.executeQuery(sql);
@@ -218,12 +218,12 @@ public class ManagerInventario {
             if(nomeclatura.equals("")){
                 //Consulta de los empleados
                 sql = "select concat(Folio,'-',Numero,Extension),nombre_prod,descripcion,ubicacion,marca,observaciones,no_serie,modelo,color,fecha_compra,factura,importe,estatus "
-                        + "from inventario where estatus = '"+estatus+"';";
+                        + "from Inventario where estatus = '"+estatus+"';";
             }
             else{
             //Consulta de los empleados
             sql = "select concat(Folio,'-',Numero,Extension),nombre_prod,descripcion,ubicacion,marca,observaciones,no_serie,modelo,color,fecha_compra,factura,importe,estatus "
-                    + "from inventario where Folio = '"+nomeclatura+"' and estatus = '"+estatus+"';";
+                    + "from Inventario where Folio = '"+nomeclatura+"' and estatus = '"+estatus+"';";
             }
             conexion = db.getConexion();
             Statement st = conexion.createStatement();
@@ -258,7 +258,7 @@ public class ManagerInventario {
         
         try {
             //Consulta para saber si existe o no dicho producto
-            String sql = "select * from inventario where concat(Folio,'-',Numero,Extension) = '"+id_producto+"';";
+            String sql = "select * from Inventario where concat(Folio,'-',Numero,Extension) = '"+id_producto+"';";
             conexion = db.getConexion();
             Statement st = conexion.createStatement();
             ResultSet rs = st.executeQuery(sql);
@@ -340,7 +340,7 @@ public class ManagerInventario {
             
             //Consulta de los empleados
             String sql = "select id_producto,nombre_prod,almacen,descripcion,no_serie,marca,observaciones,modelo,color,estatus "
-                         +"from inventario where nombre_prod = '"+prod+"';";
+                         +"from Inventario where nombre_prod = '"+prod+"';";
             conexion = db.getConexion();
             Statement st = conexion.createStatement();
             Object datos[] = new Object[10];
@@ -437,7 +437,7 @@ public class ManagerInventario {
             
             //Consulta de los empleados
             String sql = "select id_producto,nombre_prod,almacen,descripcion,no_serie,marca,observaciones,modelo,color,estatus "
-                         +"from inventario where nombre_prod = '"+prod+"' and "+tipoBusqueda+" like '"+busqueda+"%';";
+                         +"from Inventario where nombre_prod = '"+prod+"' and "+tipoBusqueda+" like '"+busqueda+"%';";
             conexion = db.getConexion();
             Statement st = conexion.createStatement();
             Object datos[] = new Object[10];
@@ -521,7 +521,7 @@ public class ManagerInventario {
             
             //Consulta de los empleados
             String sql = "select id_producto,nombre_prod,almacen,descripcion,no_serie,marca,observaciones,modelo,color,estatus "
-                         +"from inventario where nombre_prod = '"+prod+"' and "+tipoBusqueda+" like '"+busqueda+"%';";
+                         +"from Inventario where nombre_prod = '"+prod+"' and "+tipoBusqueda+" like '"+busqueda+"%';";
             conexion = db.getConexion();
             Statement st = conexion.createStatement();
             ResultSet rs = st.executeQuery(sql);
@@ -618,14 +618,14 @@ public class ManagerInventario {
                 //Si no tiene nada la variable folio significa que esta buscando entre todas las nomeclaturas
                 if(folio.equals("")){
                     sql = "select concat(Folio,'-',Numero,Extension),nombre_prod,descripcion,ubicacion,marca,observaciones,no_serie,modelo,color,fecha_compra,factura,importe,estatus "
-                        + "from inventario where "+campoBusca+" like '"+busqueda+"%' and estatus = '"+estatus+"';";
+                        + "from Inventario where "+campoBusca+" like '"+busqueda+"%' and estatus = '"+estatus+"';";
                 }else{
                     if(filtro == 0){
                     sql = "select concat(Folio,'-',Numero,Extension),nombre_prod,descripcion,ubicacion,marca,observaciones,no_serie,modelo,color,fecha_compra,factura,importe,estatus "
-                            + "from inventario where "+campoBusca+" like '"+folio+"-"+busqueda+"%' and Folio = '"+folio+"' and estatus = '"+estatus+"';";
+                            + "from Inventario where "+campoBusca+" like '"+folio+"-"+busqueda+"%' and Folio = '"+folio+"' and estatus = '"+estatus+"';";
                     }else{
                         sql = "select concat(Folio,'-',Numero,Extension),nombre_prod,descripcion,ubicacion,marca,observaciones,no_serie,modelo,color,fecha_compra,factura,importe,estatus "
-                            + "from inventario where "+campoBusca+" like '"+busqueda+"%' and Folio = '"+folio+"' and estatus = '"+estatus+"';";
+                            + "from Inventario where "+campoBusca+" like '"+busqueda+"%' and Folio = '"+folio+"' and estatus = '"+estatus+"';";
                     }
                 }
                 Connection c = db.getConexion();
@@ -898,14 +898,14 @@ public class ManagerInventario {
             //Si no tiene nada la variable folio significa que esta buscando entre todas las nomeclaturas
             if(folio.equals("")){
                 sql = "select concat(Folio,'-',Numero,Extension),nombre_prod,descripcion,ubicacion,marca,observaciones,no_serie,modelo,color,fecha_compra,factura,importe,estatus "
-                    + "from inventario where "+campoBusca+" like '"+busqueda+"%' and estatus = '"+estatus+"';";
+                    + "from Inventario where "+campoBusca+" like '"+busqueda+"%' and estatus = '"+estatus+"';";
             }else{
                 if(filtro == 0){
                 sql = "select concat(Folio,'-',Numero,Extension),nombre_prod,descripcion,ubicacion,marca,observaciones,no_serie,modelo,color,fecha_compra,factura,importe,estatus "
-                        + "from inventario where "+campoBusca+" like '"+folio+"-"+busqueda+"%' and Folio = '"+folio+"' and estatus = '"+estatus+"';";
+                        + "from Inventario where "+campoBusca+" like '"+folio+"-"+busqueda+"%' and Folio = '"+folio+"' and estatus = '"+estatus+"';";
                 }else{
                     sql = "select concat(Folio,'-',Numero,Extension),nombre_prod,descripcion,ubicacion,marca,observaciones,no_serie,modelo,color,fecha_compra,factura,importe,estatus "
-                        + "from inventario where "+campoBusca+" like '"+busqueda+"%' and Folio = '"+folio+"' and estatus = '"+estatus+"';";
+                        + "from Inventario where "+campoBusca+" like '"+busqueda+"%' and Folio = '"+folio+"' and estatus = '"+estatus+"';";
                 }
             }
             Connection c = db.getConexion();
@@ -947,11 +947,11 @@ public class ManagerInventario {
             }else{
                 if(folio.equals("")){
                     sql = "select concat(Folio,'-',Numero,Extension),nombre_prod,descripcion,ubicacion,marca,observaciones,no_serie,modelo,color,fecha_compra,factura,importe,estatus "
-                        + "from inventario where estatus = '"+estatus+"';";
+                        + "from Inventario where estatus = '"+estatus+"';";
                 }
                 else{
                     sql = "select concat(Folio,'-',Numero,Extension),nombre_prod,descripcion,ubicacion,marca,observaciones,no_serie,modelo,color,fecha_compra,factura,importe,estatus "
-                        + "from inventario where Folio = '"+folio+"' and estatus = '"+estatus+"';";
+                        + "from Inventario where Folio = '"+folio+"' and estatus = '"+estatus+"';";
                 }
             
                 Object datos[] = new Object[14];
@@ -990,7 +990,7 @@ public class ManagerInventario {
         try {
             for(int i = 0;i<ids.length;i++){
                 if(cambio[i]){
-                    update = "update inventario set estatus = ? where concat(Folio,'-',Numero,Extension) = '"+ids[i]+"'";
+                    update = "update Inventario set estatus = ? where concat(Folio,'-',Numero,Extension) = '"+ids[i]+"'";
                     ps = conexion.prepareStatement(update);
                     ps.setString(1, pendientePara);
                     ps.executeUpdate();
@@ -1009,7 +1009,7 @@ public class ManagerInventario {
     public Blob leerImagen(String idProducto) throws IOException {
         conexion = db.getConexion();
         //String sSql = "select imagen from inventario where id_producto = '"+idProducto+"';";
-        String sSql = "select imagen from inventario where id_producto = '"+idProducto+"';";
+        String sSql = "select imagen from Inventario where id_producto = '"+idProducto+"';";
         
         PreparedStatement pst;
         Blob blob = null;
@@ -1033,7 +1033,7 @@ public class ManagerInventario {
         try {
 
             Statement st = conexion.createStatement();
-            String sql = "select nombre_prod,descripcion,almacen,marca,observaciones,no_serie,tipo_uso,modelo,color from inventario where id_producto = '"+idProducto+"';";
+            String sql = "select nombre_prod,descripcion,almacen,marca,observaciones,no_serie,tipo_uso,modelo,color from Inventario where id_producto = '"+idProducto+"';";
             ResultSet resultados = st.executeQuery(sql);
             while (resultados.next()) {
                 String temp = "";
@@ -1058,7 +1058,7 @@ public class ManagerInventario {
      public boolean actualizarProducto(String clave, String producto, String almacen, String marca,String noserie, String descripcion, String observaciones,String tipo,String modelo,String color,String ruta) {
         conexion = db.getConexion();
         
-        String update = "update inventario set nombre_prod = ?,almacen = ?,marca = ?,no_serie = ?,descripcion = ?,observaciones = ?,tipo_uso = ?,modelo = ?,color = ?,imagen = ? where id_producto = '"+clave+"'";
+        String update = "update Inventario set nombre_prod = ?,almacen = ?,marca = ?,no_serie = ?,descripcion = ?,observaciones = ?,tipo_uso = ?,modelo = ?,color = ?,imagen = ? where id_producto = '"+clave+"'";
         FileInputStream fi = null;
         PreparedStatement ps = null;
 
@@ -1095,7 +1095,7 @@ public class ManagerInventario {
      public boolean actualizarProductoSinFoto(String clave, String producto, String almacen, String marca,String noserie, String descripcion, String observaciones,String tipo,String modelo,String color) {
         conexion = db.getConexion();
         
-        String update = "update inventario set nombre_prod = ?,almacen = ?,marca = ?,no_serie = ?,descripcion = ?,observaciones = ?,tipo_uso = ?,modelo = ?,color = ? where id_producto = '"+clave+"'";
+        String update = "update Inventario set nombre_prod = ?,almacen = ?,marca = ?,no_serie = ?,descripcion = ?,observaciones = ?,tipo_uso = ?,modelo = ?,color = ? where id_producto = '"+clave+"'";
         FileInputStream fi = null;
         PreparedStatement ps = null;
 

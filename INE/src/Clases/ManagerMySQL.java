@@ -85,7 +85,7 @@ public class ManagerMySQL {
             table.addColumn("Permiso CRUD");
 
             //Consulta de los empleados
-            String sql = "select * from privilegios;";
+            String sql = "select * from Privilegios;";
             conexion = db.getConexion();
             Statement st = conexion.createStatement();
             Object datos[] = new Object[4];
@@ -119,7 +119,7 @@ public class ManagerMySQL {
         
         try {
             Statement st = conexion.createStatement();
-            String sql = "insert into privilegios values('"+PC+"','"+IP+"','"+Estado+"','"+"SI"+"');";
+            String sql = "insert into Privilegios values('"+PC+"','"+IP+"','"+Estado+"','"+"SI"+"');";
 
             st.executeUpdate(sql);
 
@@ -141,7 +141,7 @@ public class ManagerMySQL {
         
         try {
             Statement st = conexion.createStatement();
-            String sql = "delete from privilegios where ip = '"+IP+"';";
+            String sql = "delete from Privilegios where ip = '"+IP+"';";
 
             st.executeUpdate(sql);
 
@@ -163,7 +163,7 @@ public class ManagerMySQL {
         
         try {
             Statement st = conexion.createStatement();
-            String sql = "select * from privilegios where PC = '"+ip+"';";
+            String sql = "select * from Privilegios where PC = '"+ip+"';";
             ResultSet rs = st.executeQuery(sql);
             resultado = rs.next();
             System.err.println(""+ip+" "+resultado);
