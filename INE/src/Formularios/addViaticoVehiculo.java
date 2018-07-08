@@ -16,7 +16,7 @@ import java.util.List;
  *
  * @author juanpedrog
  */
-public class addViaticoVehiculo extends javax.swing.JFrame {
+public class addViaticoVehiculo extends javax.swing.JDialog {
     Conexion cbd=new Conexion();
     Connection cn=cbd.getConexion();
     int idSolicitudVehiculo=-1;
@@ -26,7 +26,8 @@ public class addViaticoVehiculo extends javax.swing.JFrame {
     public addViaticoVehiculo() {
         initComponents();
     }
-    public addViaticoVehiculo(String idSolicitud,String fecha){
+    public addViaticoVehiculo(java.awt.Frame parent,boolean modal,String idSolicitud,String fecha){
+        super(parent,modal);
         initComponents();
         idSolicitudVehiculo=Integer.parseInt(idSolicitud);
         try{
@@ -77,7 +78,7 @@ public class addViaticoVehiculo extends javax.swing.JFrame {
         jLabel1 = new javax.swing.JLabel();
         btnAceptar = new javax.swing.JButton();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         addWindowListener(new java.awt.event.WindowAdapter() {
             public void windowOpened(java.awt.event.WindowEvent evt) {
                 formWindowOpened(evt);

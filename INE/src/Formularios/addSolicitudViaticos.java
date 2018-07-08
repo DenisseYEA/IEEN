@@ -71,6 +71,7 @@ public class addSolicitudViaticos extends javax.swing.JDialog {
         for(int i=0;i<estados.size();i++){
             cmbEstado.addItem(estados.get(i));
         }
+        cmbEstado.setSelectedItem("Nayarit");
     }
 
     /**

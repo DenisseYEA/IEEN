@@ -2064,7 +2064,7 @@ public class PrincipalS extends javax.swing.JFrame {
         int fila = tablasolicvehiculo.getSelectedRow();
         String idSolicitud=tablasolicvehiculo.getValueAt(fila, 0)+"";
         String fecha=tablasolicvehiculo.getValueAt(fila, 1)+"";
-        addViaticoVehiculo avv=new addViaticoVehiculo(idSolicitud,fecha);
+        addViaticoVehiculo avv=new addViaticoVehiculo(this,true,idSolicitud,fecha);
         avv.setVisible(true);
     }//GEN-LAST:event_AgregarEmpleadosActionPerformed
 
