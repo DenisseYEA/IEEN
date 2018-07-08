@@ -10,6 +10,7 @@ import Clases.ExceptionDatosIncompletos;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+
 import java.sql.Statement;
 import java.text.SimpleDateFormat;
 import javax.swing.JOptionPane;
@@ -67,7 +68,7 @@ public class addSolicitudViaticos extends javax.swing.JDialog {
         
     }
     private void iniciarEstados(){
-        List<String> estados=cbd.acceder("select nombre from estado;");
+        List<String> estados=cbd.acceder("select nombre from Estado;");
         for(int i=0;i<estados.size();i++){
             cmbEstado.addItem(estados.get(i));
         }
@@ -300,7 +301,7 @@ public class addSolicitudViaticos extends javax.swing.JDialog {
         // TODO add your handling code here:
         cmbLocalidad.removeAllItems();
         cmbLocalidad.addItem("Seleccione localidad");
-        List<String> localidades=cbd.acceder("select L.nombre from localidad L inner join estado E on L.estado_idestado=E.idestado where E.nombre='"+cmbEstado.getSelectedItem().toString()+"' order by L.nombre;");
+        List<String> localidades=cbd.acceder("select L.nombre from Localidad L inner join Estado E on L.estado_idestado=E.idestado where E.nombre='"+cmbEstado.getSelectedItem().toString()+"' order by L.nombre;");
         for(int i=0;i<localidades.size();i++){
             cmbLocalidad.addItem(localidades.get(i));
         }
@@ -322,8 +323,8 @@ public class addSolicitudViaticos extends javax.swing.JDialog {
             //Con carro
             conexion.getConexion();
             SimpleDateFormat format=new SimpleDateFormat("h:mm:ss a");
-            boolean insersion = insersion=conexion.ejecutar("insert into Solicitud_viatico (Fecha_Salida,Lugar,Nombre,Actividad,Pernoctado,Puesto,Fecha_Llegada,Estado,Reporte,Hora_Llegada,Hora_Salida) values('"+fecha_Salida+"','"+cmbEstado.getSelectedItem().toString()+"'"
-                + ",'"+comboEmpleados.getSelectedItem().toString()+"','"+txt_Actividad.getText()+"','"+pernoctado+"','"+txt_Puesto.getText()+"','"+fecha_Llegada+"','P','0','"+format.format((Date)hora_Llegada.getValue())+"','"+format.format((Date)hora_Salida.getValue())+"')");
+            boolean insersion = insersion=conexion.ejecutar("insert into Solicitud_viatico (Fecha_Salida,Lugar,Nombre,Actividad,Pernoctado,Puesto,Fecha_Llegada,Estado,Reporte,Hora_Llegada,Hora_Salida,gastos_comprobar,consejero_presidente) values('"+fecha_Salida+"','"+cmbEstado.getSelectedItem().toString()+"'"
+                + ",'"+comboEmpleados.getSelectedItem().toString()+"','"+txt_Actividad.getText()+"','"+pernoctado+"','"+txt_Puesto.getText()+"','"+fecha_Llegada+"','P','0','"+format.format((Date)hora_Llegada.getValue())+"','"+format.format((Date)hora_Salida.getValue())+"','','')");
             
             if(insersion){
                 JOptionPane.showMessageDialog(this, "Insersión correcta");

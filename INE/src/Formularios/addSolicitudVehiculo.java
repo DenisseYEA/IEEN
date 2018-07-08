@@ -244,7 +244,7 @@ public class addSolicitudVehiculo extends javax.swing.JDialog {
                 cmbEstadoItemStateChanged(evt);
             }
         });
-        pn_addInventario.add(cmbEstado, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 190, -1, -1));
+        pn_addInventario.add(cmbEstado, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 190, -1, -1));
         pn_addInventario.add(date_Salida, new org.netbeans.lib.awtextra.AbsoluteConstraints(154, 81, 215, -1));
         date_Salida.getDateEditor().addPropertyChangeListener(
             new java.beans.PropertyChangeListener() {
@@ -682,7 +682,7 @@ public class addSolicitudVehiculo extends javax.swing.JDialog {
         // TODO add your handling code here:
         cmbLocalidad.removeAllItems();
         cmbLocalidad.addItem("Seleccione localidad");
-        List<String> localidades=cbd.acceder("select L.nombre from localidad L inner join estado E on L.estado_idestado=E.idestado where E.nombre='"+cmbEstado.getSelectedItem().toString()+"' order by L.nombre;");
+        List<String> localidades=cbd.acceder("select L.nombre from Localidad L inner join Estado E on L.estado_idestado=E.idestado where E.nombre='"+cmbEstado.getSelectedItem().toString()+"' order by L.nombre;");
         for(int i=0;i<localidades.size();i++){
             cmbLocalidad.addItem(localidades.get(i));
         }

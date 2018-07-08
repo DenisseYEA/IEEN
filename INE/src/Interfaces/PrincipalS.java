@@ -152,10 +152,8 @@ public class PrincipalS extends javax.swing.JFrame {
         txtobveh = new javax.swing.JTextArea();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
-        NoFact = new javax.swing.JTextField();
         GaTot = new javax.swing.JTextField();
         jLabel3 = new javax.swing.JLabel();
-        jLabel4 = new javax.swing.JLabel();
         btnguardar = new javax.swing.JButton();
         btnregresar1 = new javax.swing.JButton();
         jScrollPane3 = new javax.swing.JScrollPane();
@@ -752,18 +750,12 @@ public class PrincipalS extends javax.swing.JFrame {
         jLabel2.setText("Observaciones Vehículo");
         jPanel1.add(jLabel2);
         jLabel2.setBounds(810, 320, 150, 17);
-        jPanel1.add(NoFact);
-        NoFact.setBounds(540, 20, 220, 27);
         jPanel1.add(GaTot);
         GaTot.setBounds(210, 440, 240, 27);
 
         jLabel3.setText("Gasto total");
         jPanel1.add(jLabel3);
         jLabel3.setBounds(140, 440, 70, 17);
-
-        jLabel4.setText("# Factura");
-        jPanel1.add(jLabel4);
-        jLabel4.setBounds(480, 20, 60, 17);
 
         btnguardar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Iconos/guardarsol.png"))); // NOI18N
         btnguardar.setText("Guardar");
@@ -1414,15 +1406,24 @@ public class PrincipalS extends javax.swing.JFrame {
             int s = JOptionPane.showConfirmDialog(null, "¿Esta seguro?", "Alerta!", JOptionPane.YES_NO_OPTION);
             if (s == JOptionPane.YES_OPTION) {
                 String id = "";
+                String monto = "";
                 Statement sentencia = cn.createStatement();
                 ResultSet rs = sentencia.executeQuery("SELECT Solicitud_idSolicitud FROM Oficio_comision WHERE Folio = " + folio);
                 while (rs.next()) {
                     id = rs.getString("Solicitud_idSolicitud");
                 }
+                ResultSet rs4 = sentencia.executeQuery("SELECT Monto FROM Oficio_comision WHERE Solicitud_idSolicitud = " + folio);
+                while (rs4.next()) {
+                    monto = rs4.getString("Monto");
+                }
+                float cambio = 0;
+                float gasto = Float.parseFloat(GaTot.getText());
+                float monto2 = Float.parseFloat(monto);
+                cambio = monto2-gasto;
                 if (c == 1) {
-                    sentencia.execute("INSERT INTO Informe (Observaciones,Observaciones_Vehiculo,Factura,Total,Solicitud_idSolicitud) VALUES('" + txtobvia.getText() + "','" + txtobveh.getText() + "','" + NoFact.getText() + "'," + GaTot.getText() + "," + id + ")");
+                    sentencia.execute("INSERT INTO Informe (Observaciones,Observaciones_Vehiculo,Total,Cambio,Solicitud_idSolicitud) VALUES('" + txtobvia.getText() + "','" + txtobveh.getText() + "','" + gasto + ","+cambio+"," + id + ")");
                 } else {
-                    sentencia.execute("INSERT INTO Informe (Observaciones,Observaciones_Vehiculo,Factura,Total,Solicitud_idSolicitud) VALUES('" + txtobvia.getText() + "',' '," + NoFact.getText() + "'," + GaTot.getText() + "," + id + ")");
+                    sentencia.execute("INSERT INTO Informe (Observaciones,Observaciones_Vehiculo,Total,Cambio,Solicitud_idSolicitud) VALUES('" + txtobvia.getText() + "',' '," + gasto + "," +cambio+","+ id + ")");
                 }
                 sentencia.executeUpdate("UPDATE Solicitud_viatico SET Reporte = '1' WHERE (idSolicitud = " + id + ")");
                 String idInforme = "";
@@ -1434,7 +1435,7 @@ public class PrincipalS extends javax.swing.JFrame {
                 int filas = tablaact.getRowCount();
                 if (filas != 0) {
                     for (int j = 0; filas > j; j++) {
-                        sentencia.execute("INSERT INTO Gastos (Descripcion,Precio,NoFactura) VALUES('" + tablaact.getValueAt(j, 0).toString() + "','" + tablaact.getValueAt(j, 1).toString()+ "','" + tablaact.getValueAt(j, 3).toString() + "')");
+                        sentencia.execute("INSERT INTO Gastos (Descripcion,Precio,Factura) VALUES('" + tablaact.getValueAt(j, 0).toString() + "','" + tablaact.getValueAt(j, 1).toString()+ "','" + tablaact.getValueAt(j, 3).toString() + "')");
                         ResultSet rs3 = sentencia.executeQuery("SELECT MAX(id_gastos) AS id_gastos FROM Gastos");
                         while (rs3.next()) {
                             idGastos = rs3.getString("id_gastos");
@@ -1904,7 +1905,6 @@ public class PrincipalS extends javax.swing.JFrame {
         if (s == JOptionPane.YES_OPTION) {
             txtobvia.setText("");
             txtobveh.setText("");
-            NoFact.setText("");
             GaTot.setText("");
             txtobvia.enable(false);
             txtobveh.enable(false);
@@ -1918,14 +1918,11 @@ public class PrincipalS extends javax.swing.JFrame {
             jLabel1.setVisible(false);
             jLabel2.setVisible(false);
             jLabel3.setVisible(false);
-            jLabel4.setVisible(false);
-            NoFact.enable(false);
-            NoFact.setVisible(false);
             GaTot.enable(false);
             GaTot.setVisible(false);
             jScrollPane3.setVisible(false);
             jScrollPane1.setVisible(true);
-            Solicitud("SELECT O.Folio, S.Nombre, S.Actividad, S.Lugar, O.Monto FROM Solicitud_viatico S, 0ficio_comision O WHERE S.Estado = 'A' AND S.Reporte = '0' AND S.idSolicitud = O.Solicitud_idSolicitud AND O.Monto != 0");
+            Solicitud("SELECT O.Folio, S.Nombre, S.Actividad, S.Lugar, O.Monto FROM Solicitud_viatico S, Oficio_comision O WHERE S.Estado = 'A' AND S.Reporte = '0' AND S.idSolicitud = O.Solicitud_idSolicitud AND O.Monto != 0");
         } else {
         }
     }//GEN-LAST:event_btnregresar1ActionPerformed
@@ -1980,7 +1977,7 @@ public class PrincipalS extends javax.swing.JFrame {
             try {
                 Statement sentencia = cn.createStatement();
                 String vehiculo = "";
-                ResultSet rs = sentencia.executeQuery("SELECT S.Vehiculo FROM Solicitud_viatico S, Oficio_Comision O WHERE S.Estado = 'A' AND S.Reporte = '0' AND S.idSolicitud = O.Solicitud_idSolicitud AND O.Folio = " + folio);
+                ResultSet rs = sentencia.executeQuery("SELECT S.Vehiculo FROM Solicitud_viatico S, Oficio_comision O WHERE S.Estado = 'A' AND S.Reporte = '0' AND S.idSolicitud = O.Solicitud_idSolicitud AND O.Folio = " + folio);
                 while (rs.next()) {
                     vehiculo = rs.getString("Vehiculo");
                 }
@@ -2001,9 +1998,6 @@ public class PrincipalS extends javax.swing.JFrame {
                 txtbusquedasoli2.setVisible(false);
                 jLabel1.setVisible(true);
                 jLabel3.setVisible(true);
-                jLabel4.setVisible(true);
-                NoFact.enable(true);
-                NoFact.setVisible(true);
                 GaTot.enable(true);
                 GaTot.setVisible(true);
                 jScrollPane3.setVisible(true);
@@ -2195,7 +2189,6 @@ public class PrincipalS extends javax.swing.JFrame {
     private javax.swing.JPopupMenu MenuTablonA;
     private javax.swing.JPopupMenu MenuTablonC;
     private javax.swing.JPopupMenu MenuTablonP;
-    private javax.swing.JTextField NoFact;
     private javax.swing.JMenuItem OficioComision;
     private javax.swing.JMenuItem OficioViatico;
     private javax.swing.JMenuItem SolicitarVehiculo;
@@ -2218,7 +2211,6 @@ public class PrincipalS extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel24;
     private javax.swing.JLabel jLabel28;
     private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu2;
