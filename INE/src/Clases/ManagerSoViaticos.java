@@ -242,5 +242,38 @@ public class ManagerSoViaticos {
         } 
     }
        
-    
+    public DefaultTableModel SolicitudAr() {
+        modelo=new DefaultTableModel();
+        modelo.addColumn("Folio");
+        modelo.addColumn("Monto");
+        modelo.addColumn("Fecha de salida");
+        modelo.addColumn("Fecha de llegada");
+        modelo.addColumn("Lugar");
+        modelo.addColumn("Gastos a comprobar");
+        modelo.addColumn("Informe");
+        try {
+            //conexion = db.getConexion();
+            String sql="SELECT O.Folio, O.Monto, S.Fecha_salida, S.Fecha_llegada,S.Lugar,S.gastos_comprobar,S.Reporte FROM Solicitud_viatico S, Oficio_comision O WHERE S.Estado = 'AR' AND S.idSolicitud = O.Solicitud_idSolicitud";
+            Statement sentencia = cn.createStatement();
+            Object datos[] = new Object[7];
+            ResultSet rs = sentencia.executeQuery(sql);
+            //Llenar tabla
+            while (rs.next()) {
+
+                for(int i = 0;i<7;i++){
+                    datos[i] = rs.getObject(i+1);
+                }//Llenamos las columnas por registro
+
+                modelo.addRow(datos);//Añadimos la fila
+           }//while
+            //cn.close();
+
+        } catch (SQLException ex) {
+            javax.swing.JOptionPane.showMessageDialog(null, "Error en la consulta de la tabla Aceptados");
+
+        }finally {
+
+            return modelo;
+        }
+    }
 }

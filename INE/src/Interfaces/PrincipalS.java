@@ -61,6 +61,7 @@ public class PrincipalS extends javax.swing.JFrame {
         tablonpendientes.getTableHeader().setReorderingAllowed(false);
         tablonaceptadas.getTableHeader().setReorderingAllowed(false);
         tabloncanceladas.getTableHeader().setReorderingAllowed(false);
+        tablonarchivadas.getTableHeader().setReorderingAllowed(false);
         manager_soviaticos = new ManagerSoViaticos();
         c = 0;
     }
@@ -92,7 +93,6 @@ public class PrincipalS extends javax.swing.JFrame {
         MenuTablonA = new javax.swing.JPopupMenu();
         ConsultarA = new javax.swing.JMenuItem();
         OficioComision = new javax.swing.JMenuItem();
-        OficioViatico = new javax.swing.JMenuItem();
         AsignarMonto = new javax.swing.JMenuItem();
         CancelarA = new javax.swing.JMenuItem();
         MenuTablonC = new javax.swing.JPopupMenu();
@@ -109,6 +109,12 @@ public class PrincipalS extends javax.swing.JFrame {
         MenuGI = new javax.swing.JPopupMenu();
         AñadirA = new javax.swing.JMenuItem();
         EliminarA = new javax.swing.JMenuItem();
+        MenuTablonAr = new javax.swing.JPopupMenu();
+        ConsultarAr = new javax.swing.JMenuItem();
+        OficioComisionAr = new javax.swing.JMenuItem();
+        OficioViaticoAr = new javax.swing.JMenuItem();
+        AsignarMontoAr = new javax.swing.JMenuItem();
+        CancelarAr = new javax.swing.JMenuItem();
         solicviaticos = new javax.swing.JTabbedPane();
         solicitudviaticos1 = new javax.swing.JPanel();
         jPanel16 = new javax.swing.JPanel();
@@ -139,6 +145,11 @@ public class PrincipalS extends javax.swing.JFrame {
         jPanel25 = new javax.swing.JPanel();
         jScrollPane15 = new javax.swing.JScrollPane();
         tabloncanceladas = new JTable(){  public boolean isCellEditable(int rowIndex, int colIndex){  return false;  }  };
+        jLabel4 = new javax.swing.JLabel();
+        jScrollPane4 = new javax.swing.JScrollPane();
+        tablonarchivadas = new javax.swing.JTable();
+        jScrollPane5 = new javax.swing.JScrollPane();
+        tablaact2 = new javax.swing.JTable();
         jLabel28 = new javax.swing.JLabel();
         informe = new javax.swing.JPanel();
         jlb = new javax.swing.JLabel();
@@ -292,14 +303,6 @@ public class PrincipalS extends javax.swing.JFrame {
         });
         MenuTablonA.add(OficioComision);
 
-        OficioViatico.setText("Oficio de viatico");
-        OficioViatico.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                OficioViaticoActionPerformed(evt);
-            }
-        });
-        MenuTablonA.add(OficioViatico);
-
         AsignarMonto.setText("Asignar monto");
         AsignarMonto.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -388,6 +391,46 @@ public class PrincipalS extends javax.swing.JFrame {
             }
         });
         MenuGI.add(EliminarA);
+
+        ConsultarAr.setText("Consultar");
+        ConsultarAr.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ConsultarArActionPerformed(evt);
+            }
+        });
+        MenuTablonAr.add(ConsultarAr);
+
+        OficioComisionAr.setText("Oficio de comisión");
+        OficioComisionAr.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                OficioComisionArActionPerformed(evt);
+            }
+        });
+        MenuTablonAr.add(OficioComisionAr);
+
+        OficioViaticoAr.setText("Oficio de viatico");
+        OficioViaticoAr.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                OficioViaticoArActionPerformed(evt);
+            }
+        });
+        MenuTablonAr.add(OficioViaticoAr);
+
+        AsignarMontoAr.setText("Modificar monto");
+        AsignarMontoAr.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                AsignarMontoArActionPerformed(evt);
+            }
+        });
+        MenuTablonAr.add(AsignarMontoAr);
+
+        CancelarAr.setText("Cancelar");
+        CancelarAr.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                CancelarArActionPerformed(evt);
+            }
+        });
+        MenuTablonAr.add(CancelarAr);
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         addWindowListener(new java.awt.event.WindowAdapter() {
@@ -651,26 +694,82 @@ public class PrincipalS extends javax.swing.JFrame {
         });
         jScrollPane15.setViewportView(tabloncanceladas);
 
+        jLabel4.setText("  Solicitudes Canceladas");
+
+        jScrollPane4.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                jScrollPane4MouseReleased(evt);
+            }
+        });
+
+        tablonarchivadas.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+
+            }
+        ));
+        tablonarchivadas.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                tablonarchivadasMouseReleased(evt);
+            }
+        });
+        jScrollPane4.setViewportView(tablonarchivadas);
+
+        jScrollPane5.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                jScrollPane5MouseReleased(evt);
+            }
+        });
+
+        tablaact2.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+
+            }
+        ));
+        tablaact2.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                tablaact2MouseReleased(evt);
+            }
+        });
+        jScrollPane5.setViewportView(tablaact2);
+
         javax.swing.GroupLayout jPanel25Layout = new javax.swing.GroupLayout(jPanel25);
         jPanel25.setLayout(jPanel25Layout);
         jPanel25Layout.setHorizontalGroup(
             jPanel25Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jScrollPane15, javax.swing.GroupLayout.DEFAULT_SIZE, 1320, Short.MAX_VALUE)
             .addGroup(jPanel25Layout.createSequentialGroup()
-                .addComponent(jScrollPane15, javax.swing.GroupLayout.DEFAULT_SIZE, 1308, Short.MAX_VALUE)
-                .addContainerGap())
+                .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 1084, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
+            .addGroup(jPanel25Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addComponent(jScrollPane4)
+                .addComponent(jScrollPane5, javax.swing.GroupLayout.DEFAULT_SIZE, 1320, Short.MAX_VALUE))
         );
         jPanel25Layout.setVerticalGroup(
             jPanel25Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel25Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jScrollPane15, javax.swing.GroupLayout.PREFERRED_SIZE, 475, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(43, Short.MAX_VALUE))
+                .addGap(217, 217, 217)
+                .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane15, javax.swing.GroupLayout.PREFERRED_SIZE, 229, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(46, Short.MAX_VALUE))
+            .addGroup(jPanel25Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(jPanel25Layout.createSequentialGroup()
+                    .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 210, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGap(45, 45, 45)
+                    .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, 223, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGap(0, 52, Short.MAX_VALUE)))
         );
 
         solicanceladas.add(jPanel25);
         jPanel25.setBounds(0, 0, 1320, 530);
 
-        menutablones.addTab("Solicitudes Canceladas", new javax.swing.ImageIcon(getClass().getResource("/Iconos/solicitud.png")), solicanceladas); // NOI18N
+        menutablones.addTab("Solicitudes Archivadas", new javax.swing.ImageIcon(getClass().getResource("/Iconos/solicitud.png")), solicanceladas); // NOI18N
 
         javax.swing.GroupLayout jPanel20Layout = new javax.swing.GroupLayout(jPanel20);
         jPanel20.setLayout(jPanel20Layout);
@@ -791,6 +890,14 @@ public class PrincipalS extends javax.swing.JFrame {
 
             }
         ));
+        tablaact.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                tablaactFocusGained(evt);
+            }
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                tablaactFocusLost(evt);
+            }
+        });
         tablaact.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseReleased(java.awt.event.MouseEvent evt) {
                 tablaactMouseReleased(evt);
@@ -975,7 +1082,7 @@ public class PrincipalS extends javax.swing.JFrame {
 
     private void MenuSolicitudActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MenuSolicitudActionPerformed
         // TODO add your handling code here:
-       /* if((manager_permisos.alta_permisos(Username) && manager_permisos.baja_permisos(Username)) || manager_permisos.consulta_permisos(Username)){
+        /* if((manager_permisos.alta_permisos(Username) && manager_permisos.baja_permisos(Username)) || manager_permisos.consulta_permisos(Username)){
          if(manager_permisos.alta_permisos(Username) && manager_permisos.baja_permisos(Username)){
          Ventana_permisosSolicitud ob = new Ventana_permisosSolicitud(this, true);
          ob.setVisible(true);
@@ -1008,8 +1115,9 @@ public class PrincipalS extends javax.swing.JFrame {
         tablonpendientes.setModel(manager_soviaticos.SolicitudP());
         tablonaceptadas.setModel(manager_soviaticos.SolicitudA());
         tabloncanceladas.setModel(manager_soviaticos.SolicitudC());
-        Solicitud("SELECT O.Folio, S.Nombre, S.Actividad, S.Lugar, O.Monto FROM Solicitud_viatico S, Oficio_comision O WHERE S.Estado = 'A' AND S.Reporte = '0' AND S.idSolicitud = O.Solicitud_idSolicitud AND O.Monto != 0");
-        SolicitudR("SELECT I.Id_Informe, O.FOLIO, S.Nombre, O.Monto, I.Total, I.Factura FROM Solicitud_viatico S, Oficio_comision O, Informe I WHERE S.Estado = 'A' AND S.Reporte = '1' AND S.idSolicitud = O.Solicitud_idSolicitud AND I.Solicitud_idSolicitud = S.idSolicitud AND O.Monto != 0");
+        tablonarchivadas.setModel(manager_soviaticos.SolicitudAr());
+        Solicitud("SELECT O.Folio, S.Nombre, S.Actividad, S.Lugar, O.Monto FROM Solicitud_viatico S, Oficio_comision O WHERE S.Estado = 'AR' AND S.Reporte = '0' AND S.idSolicitud = O.Solicitud_idSolicitud AND O.Monto != 0");
+        SolicitudR("SELECT I.Id_Informe, O.FOLIO, S.Nombre, O.Monto, I.importe_total FROM Solicitud_viatico S, Oficio_comision O, Informe I WHERE S.Estado = 'AR' AND S.Reporte = '1' AND S.idSolicitud = O.Solicitud_idSolicitud AND I.Solicitud_idSolicitud = S.idSolicitud AND O.Monto != 0");
     }//GEN-LAST:event_formWindowOpened
 
     private void mi_inventarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mi_inventarioActionPerformed
@@ -1082,7 +1190,8 @@ public class PrincipalS extends javax.swing.JFrame {
             } catch (SQLException ex) {
                 javax.swing.JOptionPane.showMessageDialog(null, "Error en la consulta");
 
-            } /*catch (ClassNotFoundException e) {
+            }
+            /*catch (ClassNotFoundException e) {
              e.printStackTrace();
              }//fin del catch*/
 
@@ -1126,26 +1235,12 @@ public class PrincipalS extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_OficioComisionActionPerformed
 
-    private void OficioViaticoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_OficioViaticoActionPerformed
-        // TODO add your handling code here:
-        int i = tablonaceptadas.getSelectedRow();
-        if (i >= 0) {
-            String folio = tablonaceptadas.getValueAt(i, 0).toString();
-            try {
-                pdf.pdfFolio(folio);
-            } catch (DocumentException ex) {
-                Logger.getLogger(PrincipalS.class.getName()).log(Level.SEVERE, null, ex);
-            }
-        } else {
-            javax.swing.JOptionPane.showMessageDialog(null, "Seleccionar solicitud");
-        }
-    }//GEN-LAST:event_OficioViaticoActionPerformed
-
     private void AsignarMontoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AsignarMontoActionPerformed
         // TODO add your handling code here:
         int k = tablonaceptadas.getSelectedRow();
         if (k >= 0) {
             String folio = tablonaceptadas.getValueAt(k, 0).toString();
+            String idSolicitud = "";
             try {
 
                 Statement sentencia = cn.createStatement();
@@ -1161,6 +1256,12 @@ public class PrincipalS extends javax.swing.JFrame {
                         sentencia.executeUpdate("UPDATE Oficio_comision SET Monto = " + monto + "WHERE(Folio =" + folio + ")");
                         //sentencia.executeUpdate("UPDATE solicitud_viatico SET Estado = 'C' WHERE (idSolicitud = '" + id + "')");
                         javax.swing.JOptionPane.showMessageDialog(null, "Monto Asignado");
+                        ResultSet rs = sentencia.executeQuery("SELECT Solicitud_idSolicitud FROM Oficio_comision WHERE Folio = '" + folio + "'");
+                        while (rs.next()) {
+                            idSolicitud = rs.getString("Solicitud_idSolicitud");
+                        }
+                        sentencia.executeUpdate("UPDATE Solicitud_viatico SET Estado = 'AR' WHERE (idSolicitud = " + idSolicitud + ")");
+                        javax.swing.JOptionPane.showMessageDialog(null, "Solicitud archivada");
                     }
                 }
             } catch (SQLException ex) {
@@ -1313,7 +1414,7 @@ public class PrincipalS extends javax.swing.JFrame {
             // If Nimbus is not available, you can set the GUI to another look and feel.
         }
         addSolicitudViaticos asv = new addSolicitudViaticos(this, true);
-        conVehiculo=0;
+        conVehiculo = 0;
         asv.setVisible(true);
     }//GEN-LAST:event_Add1ActionPerformed
 
@@ -1358,7 +1459,7 @@ public class PrincipalS extends javax.swing.JFrame {
             // If Nimbus is not available, you can set the GUI to another look and feel.
         }
         addSolicitudViaticos asv = new addSolicitudViaticos(this, true);
-        conVehiculo=1;
+        conVehiculo = 1;
         asv.setVisible(true);
     }//GEN-LAST:event_SolicitarVehiculo1ActionPerformed
 
@@ -1406,24 +1507,15 @@ public class PrincipalS extends javax.swing.JFrame {
             int s = JOptionPane.showConfirmDialog(null, "¿Esta seguro?", "Alerta!", JOptionPane.YES_NO_OPTION);
             if (s == JOptionPane.YES_OPTION) {
                 String id = "";
-                String monto = "";
                 Statement sentencia = cn.createStatement();
                 ResultSet rs = sentencia.executeQuery("SELECT Solicitud_idSolicitud FROM Oficio_comision WHERE Folio = " + folio);
                 while (rs.next()) {
                     id = rs.getString("Solicitud_idSolicitud");
                 }
-                ResultSet rs4 = sentencia.executeQuery("SELECT Monto FROM Oficio_comision WHERE Solicitud_idSolicitud = " + folio);
-                while (rs4.next()) {
-                    monto = rs4.getString("Monto");
-                }
-                float cambio = 0;
-                float gasto = Float.parseFloat(GaTot.getText());
-                float monto2 = Float.parseFloat(monto);
-                cambio = monto2-gasto;
                 if (c == 1) {
-                    sentencia.execute("INSERT INTO Informe (Observaciones,Observaciones_Vehiculo,Total,Cambio,Solicitud_idSolicitud) VALUES('" + txtobvia.getText() + "','" + txtobveh.getText() + "','" + gasto + ","+cambio+"," + id + ")");
+                    sentencia.execute("INSERT INTO Informe (Observaciones,Observaciones_Vehiculo,Solicitud_idSolicitud,importe_total) VALUES('" + txtobvia.getText() + "','" + txtobveh.getText() + "'," + id + "," + GaTot.getText() + ")");
                 } else {
-                    sentencia.execute("INSERT INTO Informe (Observaciones,Observaciones_Vehiculo,Total,Cambio,Solicitud_idSolicitud) VALUES('" + txtobvia.getText() + "',' '," + gasto + "," +cambio+","+ id + ")");
+                    sentencia.execute("INSERT INTO Informe (Observaciones,Observaciones_Vehiculo,Solicitud_idSolicitud,importe_total) VALUES('" + txtobvia.getText() + "',' '," + id + "," + GaTot.getText() + ")");
                 }
                 sentencia.executeUpdate("UPDATE Solicitud_viatico SET Reporte = '1' WHERE (idSolicitud = " + id + ")");
                 String idInforme = "";
@@ -1435,22 +1527,24 @@ public class PrincipalS extends javax.swing.JFrame {
                 int filas = tablaact.getRowCount();
                 if (filas != 0) {
                     for (int j = 0; filas > j; j++) {
-                        sentencia.execute("INSERT INTO Gastos (Descripcion,Precio,Factura) VALUES('" + tablaact.getValueAt(j, 0).toString() + "','" + tablaact.getValueAt(j, 1).toString()+ "','" + tablaact.getValueAt(j, 3).toString() + "')");
-                        ResultSet rs3 = sentencia.executeQuery("SELECT MAX(id_gastos) AS id_gastos FROM Gastos");
+                        sentencia.execute("INSERT INTO Gastos (Precio,Descripcion,Factura) VALUES('" + tablaact.getValueAt(j, 1).toString() + "','" + tablaact.getValueAt(j, 0).toString() + "','" + tablaact.getValueAt(j, 2).toString() + "')");
+                        ResultSet rs3 = sentencia.executeQuery("SELECT MAX(id_Gastos) AS id_Gastos FROM Gastos");
                         while (rs3.next()) {
-                            idGastos = rs3.getString("id_gastos");
+                            idGastos = rs3.getString("id_Gastos");
                         }
-                        sentencia.execute("INSERT INTO Informe_gastos VALUES(" + idInforme + "," + idGastos + ")");
+                        sentencia.execute("INSERT INTO Informe_Gastos VALUES(" + idGastos + "," + idInforme + ")");
                     }
                 }
                 javax.swing.JOptionPane.showMessageDialog(null, "Reporte Generado");
                 if (c == 1) {
                     txtobvia.enable(false);
                     txtobveh.enable(false);
-                    tablainfo.enable(false);
+                    tablaact.enable(false);
+                    GaTot.enable(false);
                 } else {
                     txtobvia.enable(false);
-                    tablainfo.enable(false);
+                    tablaact.enable(false);
+                    GaTot.enable(false);
                 }
             } else {
             }
@@ -1477,7 +1571,7 @@ public class PrincipalS extends javax.swing.JFrame {
             try {
                 Statement sentencia = cn.createStatement();
 
-                ResultSet rs = sentencia.executeQuery("SELECT O.Folio, S.Nombre, S.Actividad, S.Lugar, O.Monto FROM Solicitud_viatico S, Oficio_comision O WHERE S.Estado = 'A' AND S.Reporte = '0' AND S.idSolicitud = O.Solicitud_idSolicitud AND O.Monto != 0 AND (O.Folio LIKE '%" + txtbusquedasoli2.getText() + "%'"
+                ResultSet rs = sentencia.executeQuery("SELECT O.Folio, S.Nombre, S.Actividad, S.Lugar, O.Monto FROM Solicitud_viatico S, Oficio_comision O WHERE S.Estado = 'AR' AND S.Reporte = '0' AND S.idSolicitud = O.Solicitud_idSolicitud AND O.Monto != 0 AND (O.Folio LIKE '%" + txtbusquedasoli2.getText() + "%'"
                         + "OR S.Nombre LIKE '%" + txtbusquedasoli2.getText() + "%' OR S.Actividad LIKE '%" + txtbusquedasoli2.getText() + "%' OR S.Lugar LIKE '%" + txtbusquedasoli2.getText() + "%'OR O.Monto LIKE '%" + txtbusquedasoli2.getText() + "%') ");
 
                 String solicitud[] = new String[5];
@@ -1505,22 +1599,20 @@ public class PrincipalS extends javax.swing.JFrame {
             modelo.addColumn("Folio");
             modelo.addColumn("Nombre");
             modelo.addColumn("Monto");
-            modelo.addColumn("Gasto total");
-            modelo.addColumn("# Factura");
+            modelo.addColumn("Importe total");
             this.tablainfo1.setModel(modelo);
             try {
                 Statement sentencia = cn.createStatement();
-                ResultSet rs = sentencia.executeQuery("SELECT I.Id_Informe, O.Folio, S.Nombre, O.Monto, I.Total, I.Factura FROM Solicitud_viatico S, Oficio_comision O, Informe I WHERE S.Estado = 'A' AND S.Reporte = '1' AND S.idSolicitud = O.Solicitud_idSolicitud AND I.Solicitud_idSolicitud = S.idSolicitud AND (I.Id_Informe LIKE '%" + txtbusquedasoli2.getText()
-                        + "%' OR O.Folio LIKE '%" + txtbusquedasoli2.getText() + "%' OR S.Nombre LIKE '%" + txtbusquedasoli2.getText() + "%' OR O.Monto LIKE '%" + txtbusquedasoli2.getText() + "%' OR I.Total LIKE '%" + txtbusquedasoli2.getText() + "%' OR I.Factura LIKE '%" + txtbusquedasoli2.getText() + "%') ");
+                ResultSet rs = sentencia.executeQuery("SELECT I.Id_Informe, O.Folio, S.Nombre, O.Monto, I.importe_total FROM Solicitud_viatico S, Oficio_comision O, Informe I WHERE S.Estado = 'A' AND S.Reporte = '1' AND S.idSolicitud = O.Solicitud_idSolicitud AND I.Solicitud_idSolicitud = S.idSolicitud AND (I.Id_Informe LIKE '%" + txtbusquedasoli2.getText()
+                        + "%' OR O.Folio LIKE '%" + txtbusquedasoli2.getText() + "%' OR S.Nombre LIKE '%" + txtbusquedasoli2.getText() + "%' OR O.Monto LIKE '%" + txtbusquedasoli2.getText() + "%' OR I.importe_total LIKE '%" + txtbusquedasoli2.getText()+ "%') ");
 
-                String solicitud[] = new String[6];
+                String solicitud[] = new String[5];
                 while (rs.next()) {
                     solicitud[0] = rs.getString("Id_Informe");
                     solicitud[1] = rs.getString("Folio");
                     solicitud[2] = rs.getString("Nombre");
                     solicitud[3] = rs.getString("Monto");
-                    solicitud[4] = rs.getString("Total");
-                    solicitud[5] = rs.getString("Factura");
+                    solicitud[4] = rs.getString("importe_total");
                     modelo.addRow(solicitud);
 
                 }
@@ -1680,7 +1772,8 @@ public class PrincipalS extends javax.swing.JFrame {
                 } catch (SQLException ex) {
                     javax.swing.JOptionPane.showMessageDialog(null, "Error en la consulta");
 
-                } /*catch (ClassNotFoundException e) {
+                }
+                /*catch (ClassNotFoundException e) {
                  e.printStackTrace();
                  }//fin del catch
                  */
@@ -1848,30 +1941,21 @@ public class PrincipalS extends javax.swing.JFrame {
         if (i >= 0) {
             String folio = tablonaceptadas.getValueAt(i, 0).toString();
             String idSolicitud = "";
-            String monto = "";
             try {
                 Class.forName("com.mysql.jdbc.Driver");
 
                 Statement sentencia = cn.createStatement();
-                ResultSet rs = sentencia.executeQuery("SELECT Solicitud_idSolicitud, Monto FROM Oficio_comision WHERE Folio = '" + folio + "'");
+                ResultSet rs = sentencia.executeQuery("SELECT Solicitud_idSolicitud FROM Oficio_comision WHERE Folio = '" + folio + "'");
                 while (rs.next()) {
                     idSolicitud = rs.getString("Solicitud_idSolicitud");
-                    monto = rs.getString("Monto");
                 }
-                int mont = Integer.parseInt(monto);
-                if (mont == 0) {
-                    String motivo = javax.swing.JOptionPane.showInputDialog("Motivo");
-                    if (motivo == null) {
+                String motivo = javax.swing.JOptionPane.showInputDialog("Motivo");
+                if (motivo == null) {
 
-                    } else {
-                        sentencia.execute("DELETE FROM Oficio_comision WHERE (Folio = " + folio + ")");
-                        sentencia.executeUpdate("UPDATE Solicitud_viatico SET Estado = 'C', Motivo = '" + motivo + "' WHERE (idSolicitud = " + idSolicitud + ")");
-                        javax.swing.JOptionPane.showMessageDialog(null, "Solicitud cancelada");
-                    }
                 } else {
-                    javax.swing.JOptionPane.showMessageDialog(null, "No se puede cancelar solicitud por que se asigno un monto");
+                    sentencia.executeUpdate("UPDATE Solicitud_viatico SET Estado = 'C', Motivo = '" + motivo + "' WHERE (idSolicitud = " + idSolicitud + ")");
+                    javax.swing.JOptionPane.showMessageDialog(null, "Solicitud cancelada");
                 }
-
             } catch (SQLException ex) {
                 javax.swing.JOptionPane.showMessageDialog(null, "Error en la consulta");
 
@@ -2056,11 +2140,197 @@ public class PrincipalS extends javax.swing.JFrame {
     private void AgregarEmpleadosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AgregarEmpleadosActionPerformed
         // TODO add your handling code here:
         int fila = tablasolicvehiculo.getSelectedRow();
-        String idSolicitud=tablasolicvehiculo.getValueAt(fila, 0)+"";
-        String fecha=tablasolicvehiculo.getValueAt(fila, 1)+"";
-        addViaticoVehiculo avv=new addViaticoVehiculo(this,true,idSolicitud,fecha);
+        String idSolicitud = tablasolicvehiculo.getValueAt(fila, 0) + "";
+        String fecha = tablasolicvehiculo.getValueAt(fila, 1) + "";
+        addViaticoVehiculo avv = new addViaticoVehiculo(this, true, idSolicitud, fecha);
         avv.setVisible(true);
     }//GEN-LAST:event_AgregarEmpleadosActionPerformed
+
+    private void ConsultarArActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ConsultarArActionPerformed
+        // TODO add your handling code here:
+        if (c == 0) {
+            c = 1;
+        } else {
+            s.setVisible(false);
+            c = 1;
+        }
+        int i = tablonarchivadas.getSelectedRow();
+        if (i >= 0) {
+            String folio = tablonarchivadas.getValueAt(i, 0).toString();
+            String idSolicitud = "";
+            try {
+                Statement sentencia = cn.createStatement();
+                ResultSet rs = sentencia.executeQuery("SELECT Solicitud_idSolicitud FROM Oficio_comision WHERE Folio = '" + folio + "'");
+                rs.next();
+                idSolicitud = rs.getString("Solicitud_idSolicitud");
+
+                s = new visSolicitudViaticos();
+                s.IdUsuario(Integer.parseInt(idSolicitud), 1, 1);
+            } catch (SQLException ex) {
+                javax.swing.JOptionPane.showMessageDialog(null, "Error en la consulta");
+
+            }
+            /*catch (ClassNotFoundException e) {
+             e.printStackTrace();
+             }//fin del catch*/
+
+            s.setVisible(true);
+        } else {
+            javax.swing.JOptionPane.showMessageDialog(null, "Seleccionar solicitud");
+        }
+    }//GEN-LAST:event_ConsultarArActionPerformed
+
+    private void OficioComisionArActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_OficioComisionArActionPerformed
+        // TODO add your handling code here:
+        int i = tablonarchivadas.getSelectedRow();
+        if (i >= 0) {
+            String folio = tablonarchivadas.getValueAt(i, 0).toString();
+            try {
+                pdf.oficio_comision(folio);
+            } catch (DocumentException ex) {
+                Logger.getLogger(PrincipalS.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        } else {
+            javax.swing.JOptionPane.showMessageDialog(null, "Seleccionar solicitud");
+        }
+    }//GEN-LAST:event_OficioComisionArActionPerformed
+
+    private void OficioViaticoArActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_OficioViaticoArActionPerformed
+        // TODO add your handling code here:
+        int i = tablonarchivadas.getSelectedRow();
+        if (i >= 0) {
+            String folio = tablonarchivadas.getValueAt(i, 0).toString();
+            try {
+                pdf.pdfFolio(folio);
+            } catch (DocumentException ex) {
+                Logger.getLogger(PrincipalS.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        } else {
+            javax.swing.JOptionPane.showMessageDialog(null, "Seleccionar solicitud");
+        }
+    }//GEN-LAST:event_OficioViaticoArActionPerformed
+
+    private void AsignarMontoArActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AsignarMontoArActionPerformed
+        // TODO add your handling code here:
+        int k = tablonarchivadas.getSelectedRow();
+        if (k >= 0) {
+            String folio = tablonarchivadas.getValueAt(k, 0).toString();
+            String idSolicitud = "";
+            try {
+
+                Statement sentencia = cn.createStatement();
+                String valor = javax.swing.JOptionPane.showInputDialog("Asignar monto");
+
+                if (valor == null) {
+
+                } else {
+                    float monto = Float.parseFloat(valor);
+                    if (monto < 0) {
+                        javax.swing.JOptionPane.showMessageDialog(null, "Monto no valido");
+                    } else {
+                        sentencia.executeUpdate("UPDATE Oficio_comision SET Monto = " + monto + "WHERE(Folio =" + folio + ")");
+                        //sentencia.executeUpdate("UPDATE solicitud_viatico SET Estado = 'C' WHERE (idSolicitud = '" + id + "')");
+                        javax.swing.JOptionPane.showMessageDialog(null, "Monto Asignado");
+                    }
+                }
+            } catch (SQLException ex) {
+                javax.swing.JOptionPane.showMessageDialog(null, "Error en la consulta");
+
+            } catch (NumberFormatException exp) {
+                javax.swing.JOptionPane.showMessageDialog(null, "Ingresar solo números");
+            }//fin del catch
+
+        } else {
+            javax.swing.JOptionPane.showMessageDialog(null, "Seleccionar solicitud");
+        }
+        tablonarchivadas.setModel(manager_soviaticos.SolicitudAr());
+    }//GEN-LAST:event_AsignarMontoArActionPerformed
+
+    private void CancelarArActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CancelarArActionPerformed
+        // TODO add your handling code here:
+        int i = tablonarchivadas.getSelectedRow();
+        if (i >= 0) {
+            String folio = tablonarchivadas.getValueAt(i, 0).toString();
+            String idSolicitud = "";
+            String monto = "";
+            try {
+                Class.forName("com.mysql.jdbc.Driver");
+
+                Statement sentencia = cn.createStatement();
+                ResultSet rs = sentencia.executeQuery("SELECT Solicitud_idSolicitud, Monto FROM Oficio_comision WHERE Folio = '" + folio + "'");
+                while (rs.next()) {
+                    idSolicitud = rs.getString("Solicitud_idSolicitud");
+                    monto = rs.getString("Monto");
+                }
+                int mont = Integer.parseInt(monto);
+                if (mont == 0) {
+                    String motivo = javax.swing.JOptionPane.showInputDialog("Motivo");
+                    if (motivo == null) {
+
+                    } else {
+                        sentencia.execute("DELETE FROM Oficio_comision WHERE (Folio = " + folio + ")");
+                        sentencia.executeUpdate("UPDATE Solicitud_viatico SET Estado = 'C', Motivo = '" + motivo + "' WHERE (idSolicitud = " + idSolicitud + ")");
+                        javax.swing.JOptionPane.showMessageDialog(null, "Solicitud cancelada");
+                    }
+                } else {
+                    javax.swing.JOptionPane.showMessageDialog(null, "No se puede cancelar solicitud por que se asigno un monto");
+                }
+
+            } catch (SQLException ex) {
+                javax.swing.JOptionPane.showMessageDialog(null, "Error en la consulta");
+
+            } catch (ClassNotFoundException e) {
+                e.printStackTrace();
+            }//fin del catch
+
+        } else {
+            javax.swing.JOptionPane.showMessageDialog(null, "Seleccionar solicitud");
+        }
+        tablonarchivadas.setModel(manager_soviaticos.SolicitudA());
+    }//GEN-LAST:event_CancelarArActionPerformed
+
+    private void tablonarchivadasMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tablonarchivadasMouseReleased
+        // TODO add your handling code here:
+        if (SwingUtilities.isRightMouseButton(evt)) {
+            int r = tablonarchivadas.rowAtPoint(evt.getPoint());
+            if (r >= 0 && r < tablonarchivadas.getRowCount()) {
+                tablonarchivadas.setRowSelectionInterval(r, r);
+            }
+            MenuTablonAr.show(evt.getComponent(), evt.getX(), evt.getY());//Mostramos el popMenu en la posición donde esta el cursor
+        }//clic derecho
+    }//GEN-LAST:event_tablonarchivadasMouseReleased
+
+    private void jScrollPane4MouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jScrollPane4MouseReleased
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jScrollPane4MouseReleased
+
+    private void tablaact2MouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tablaact2MouseReleased
+        // TODO add your handling code here:
+    }//GEN-LAST:event_tablaact2MouseReleased
+
+    private void jScrollPane5MouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jScrollPane5MouseReleased
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jScrollPane5MouseReleased
+
+    private void tablaactFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_tablaactFocusLost
+        // TODO add your handling code here:
+
+    }//GEN-LAST:event_tablaactFocusLost
+
+    private void tablaactFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_tablaactFocusGained
+        // TODO add your handling code here:
+        //suma de precio o costo
+        int valor = 0;
+        int filas = tablaact.getRowCount();
+        if (filas != 0) {
+            for (int j = 0; filas > j; j++) {
+                if (tablaact.getValueAt(j, 1) != null || tablaact.getValueAt(j, 1) != "") {
+                    valor = valor + Integer.parseInt(tablaact.getValueAt(j, 1) + "");
+                }
+            }
+        }
+        GaTot.setText(valor + "");
+    }//GEN-LAST:event_tablaactFocusGained
 
     public void Solicitud(String s) {
         modelo = new DefaultTableModel() {
@@ -2101,20 +2371,18 @@ public class PrincipalS extends javax.swing.JFrame {
         modelo.addColumn("Folio");
         modelo.addColumn("Nombre");
         modelo.addColumn("Monto");
-        modelo.addColumn("Gasto total");
-        modelo.addColumn("# Factura");
+        modelo.addColumn("Importe total");
         this.tablainfo1.setModel(modelo);
         try {
             Statement sentencia = cn.createStatement();
             ResultSet rs = sentencia.executeQuery(s);
-            String solicitud[] = new String[6];
+            String solicitud[] = new String[5];
             while (rs.next()) {
                 solicitud[0] = rs.getString("Id_Informe");
                 solicitud[1] = rs.getString("Folio");
                 solicitud[2] = rs.getString("Nombre");
                 solicitud[3] = rs.getString("Monto");
-                solicitud[4] = rs.getString("Total");
-                solicitud[5] = rs.getString("Factura");
+                solicitud[4] = rs.getString("importe_total");
                 modelo.addRow(solicitud);
             }
 
@@ -2167,12 +2435,15 @@ public class PrincipalS extends javax.swing.JFrame {
     private javax.swing.JMenuItem Add1;
     private javax.swing.JMenuItem AgregarEmpleados;
     private javax.swing.JMenuItem AsignarMonto;
+    private javax.swing.JMenuItem AsignarMontoAr;
     private javax.swing.JMenuItem AñadirA;
     private javax.swing.JMenuItem CambiarConsejero;
     private javax.swing.JMenuItem CambiarConsejero1;
     private javax.swing.JMenuItem CancelarA;
+    private javax.swing.JMenuItem CancelarAr;
     private javax.swing.JMenuItem CancelarP;
     private javax.swing.JMenuItem ConsultarA;
+    private javax.swing.JMenuItem ConsultarAr;
     private javax.swing.JMenuItem ConsultarC;
     private javax.swing.JMenuItem ConsultarInf;
     private javax.swing.JMenuItem ConsultarP;
@@ -2187,10 +2458,12 @@ public class PrincipalS extends javax.swing.JFrame {
     private javax.swing.JMenuItem MenuSolicitud;
     private javax.swing.JPopupMenu MenuSolicitudViaticos;
     private javax.swing.JPopupMenu MenuTablonA;
+    private javax.swing.JPopupMenu MenuTablonAr;
     private javax.swing.JPopupMenu MenuTablonC;
     private javax.swing.JPopupMenu MenuTablonP;
     private javax.swing.JMenuItem OficioComision;
-    private javax.swing.JMenuItem OficioViatico;
+    private javax.swing.JMenuItem OficioComisionAr;
+    private javax.swing.JMenuItem OficioViaticoAr;
     private javax.swing.JMenuItem SolicitarVehiculo;
     private javax.swing.JMenuItem SolicitarVehiculo1;
     private javax.swing.JButton btnAddInventario2;
@@ -2211,6 +2484,7 @@ public class PrincipalS extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel24;
     private javax.swing.JLabel jLabel28;
     private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu2;
@@ -2231,6 +2505,8 @@ public class PrincipalS extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane15;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
+    private javax.swing.JScrollPane jScrollPane4;
+    private javax.swing.JScrollPane jScrollPane5;
     private javax.swing.JPopupMenu.Separator jSeparator1;
     private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JLabel jlb;
@@ -2246,11 +2522,13 @@ public class PrincipalS extends javax.swing.JFrame {
     public static javax.swing.JTabbedPane solicviaticos;
     private javax.swing.JPanel solipendientes;
     private javax.swing.JTable tablaact;
+    private javax.swing.JTable tablaact2;
     private javax.swing.JTable tablainfo;
     private javax.swing.JTable tablainfo1;
     public static javax.swing.JTable tablasolic;
     public static javax.swing.JTable tablasolicvehiculo;
     public static javax.swing.JTable tablonaceptadas;
+    private javax.swing.JTable tablonarchivadas;
     public static javax.swing.JTable tabloncanceladas;
     public static javax.swing.JTable tablonpendientes;
     private javax.swing.JPanel tablonsolicitud1;
