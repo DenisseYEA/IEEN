@@ -1328,6 +1328,7 @@ public class PrincipalS extends javax.swing.JFrame {
             javax.swing.JOptionPane.showMessageDialog(null, "Seleccionar solicitud");
         }
         tablonpendientes.setModel(manager_soviaticos.SolicitudP());
+        tablonaceptadas.setModel(manager_soviaticos.SolicitudA());
     }//GEN-LAST:event_AceptarPActionPerformed
 
     private void AceptarCActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AceptarCActionPerformed
