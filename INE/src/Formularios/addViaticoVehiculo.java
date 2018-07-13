@@ -21,6 +21,8 @@ public class addViaticoVehiculo extends javax.swing.JDialog {
     Conexion cbd=new Conexion();
     Connection cn=cbd.getConexion();
     int idSolicitudVehiculo=-1;
+    String idSolicitud;//Guarda el id de la solicitud
+    String fecha;//Guarda la fecha que viene de la otra pantalla
     /**
      * Creates new form addViaticoVehiculo
      */
@@ -30,6 +32,11 @@ public class addViaticoVehiculo extends javax.swing.JDialog {
     public addViaticoVehiculo(java.awt.Frame parent,boolean modal,String idSolicitud,String fecha){
         super(parent,modal);
         initComponents();
+        this.idSolicitud=idSolicitud;
+        this.fecha=fecha;
+        refrescarPantalla(idSolicitud,fecha);
+    }
+    public void refrescarPantalla(String idSolicitud,String fecha){
         idSolicitudVehiculo=Integer.parseInt(idSolicitud);
         try{
             //Obtenemos todos los empleados que están asociados a esta solicitud de vehiculo
@@ -66,13 +73,23 @@ public class addViaticoVehiculo extends javax.swing.JDialog {
             cmbEmpleados.addItem(empleados.get(i));
         }
     }
-    public void llenarTabla(List<String>empleados){
+    public void llenarTabla(List<String>empleados)throws SQLException{
         //Llenamos la tabla con los empleados que ya han sido asignados a la solicitud de vehiculo
+        //Aplicamos el formato al modelo de la tabla
         DefaultTableModel model=new DefaultTableModel();
         model.addColumn("Nombre");
-        for(int i=0;i<empleados.size();i++){
-            model.addRow(new Object[]{empleados.get(i)});
+        //sacamos los nombres de los empleados asignados.
+        if(empleados.size()>0){
+            String query="select nombre from solicitud_viatico where idSolicitud="+empleados.get(0);
+            for(int i=1;i<empleados.size();i++){
+                query+=" or idSolicitud="+empleados.get(i);
+            }
+            ResultSet res=cbd.getTabla(query, cn);
+            while(res.next()){
+                model.addRow(new Object[]{res.getString("nombre")});
+            }
         }
+        tabla.setModel(model);
     }
     /**
      * This method is called from within the constructor to initialize the form.
@@ -83,12 +100,13 @@ public class addViaticoVehiculo extends javax.swing.JDialog {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        fondo = new javax.swing.JLabel();
         cmbEmpleados = new javax.swing.JComboBox<>();
         jLabel1 = new javax.swing.JLabel();
         btnAceptar = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         tabla = new javax.swing.JTable();
+        btnListo = new javax.swing.JButton();
+        fondo = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         addWindowListener(new java.awt.event.WindowAdapter() {
@@ -96,12 +114,13 @@ public class addViaticoVehiculo extends javax.swing.JDialog {
                 formWindowOpened(evt);
             }
         });
-
-        fondo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/formularios.png"))); // NOI18N
+        getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         cmbEmpleados.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        getContentPane().add(cmbEmpleados, new org.netbeans.lib.awtextra.AbsoluteConstraints(24, 100, 228, -1));
 
         jLabel1.setText("Seleccione el id de la solicitud de viático y el empleado");
+        getContentPane().add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(44, 65, -1, -1));
 
         btnAceptar.setText("Aceptar");
         btnAceptar.addActionListener(new java.awt.event.ActionListener() {
@@ -109,6 +128,7 @@ public class addViaticoVehiculo extends javax.swing.JDialog {
                 btnAceptarActionPerformed(evt);
             }
         });
+        getContentPane().add(btnAceptar, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 140, 140, 40));
 
         tabla.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -123,46 +143,18 @@ public class addViaticoVehiculo extends javax.swing.JDialog {
         ));
         jScrollPane1.setViewportView(tabla);
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
-        getContentPane().setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(44, 44, 44)
-                        .addComponent(jLabel1))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(24, 24, 24)
-                        .addComponent(cmbEmpleados, javax.swing.GroupLayout.PREFERRED_SIZE, 228, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(159, 159, 159)
-                        .addComponent(btnAceptar)))
-                .addGap(18, 18, 18)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 452, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addComponent(fondo, javax.swing.GroupLayout.PREFERRED_SIZE, 897, Short.MAX_VALUE))
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(65, 65, 65)
-                .addComponent(jLabel1)
-                .addGap(18, 18, 18)
-                .addComponent(cmbEmpleados, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 178, Short.MAX_VALUE)
-                .addComponent(btnAceptar)
-                .addGap(35, 35, 35))
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 344, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(layout.createSequentialGroup()
-                    .addComponent(fondo, javax.swing.GroupLayout.PREFERRED_SIZE, 369, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGap(0, 0, Short.MAX_VALUE)))
-        );
+        getContentPane().add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(433, 12, -1, 344));
+
+        btnListo.setText("Listo");
+        btnListo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnListoActionPerformed(evt);
+            }
+        });
+        getContentPane().add(btnListo, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 280, 170, 60));
+
+        fondo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/formularios.png"))); // NOI18N
+        getContentPane().add(fondo, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 897, 369));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -173,11 +165,18 @@ public class addViaticoVehiculo extends javax.swing.JDialog {
 
     private void btnAceptarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAceptarActionPerformed
         // TODO add your handling code here:
-        String item=cmbEmpleados.getSelectedItem()+"";
-        String idSolicitud=item.split("-")[0];
-        cbd.ejecutar("INSERT INTO vehiculo_viatico values("+idSolicitudVehiculo+","+idSolicitud+");");
-        dispose();
+        if(cmbEmpleados.getSelectedIndex()!=0){
+            String item=cmbEmpleados.getSelectedItem()+"";
+            String idSolicitud=item.split("-")[0];
+            cbd.ejecutar("INSERT INTO vehiculo_viatico values("+idSolicitudVehiculo+","+idSolicitud+");");
+            refrescarPantalla(this.idSolicitud,this.fecha);
+        }
     }//GEN-LAST:event_btnAceptarActionPerformed
+
+    private void btnListoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnListoActionPerformed
+        // TODO add your handling code here:
+        dispose();
+    }//GEN-LAST:event_btnListoActionPerformed
 
     /**
      * @param args the command line arguments
@@ -216,6 +215,7 @@ public class addViaticoVehiculo extends javax.swing.JDialog {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAceptar;
+    private javax.swing.JButton btnListo;
     private javax.swing.JComboBox<String> cmbEmpleados;
     private javax.swing.JLabel fondo;
     private javax.swing.JLabel jLabel1;
