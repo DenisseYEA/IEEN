@@ -78,13 +78,18 @@ public class addViaticoVehiculo extends javax.swing.JDialog {
         //Aplicamos el formato al modelo de la tabla
         DefaultTableModel model=new DefaultTableModel();
         model.addColumn("Nombre");
+        //Agregamos el nombre de la persona que hizo la solicitud del vehiculo
+        ResultSet res=cbd.getTabla("select nombre from solicitud_vehiculo where idSolicitud_Vehiculo="+idSolicitudVehiculo, cn);
+        while(res.next()){
+            model.addRow(new Object[]{res.getString("nombre")});
+        }
         //sacamos los nombres de los empleados asignados.
         if(empleados.size()>0){
             String query="select nombre from solicitud_viatico where idSolicitud="+empleados.get(0);
             for(int i=1;i<empleados.size();i++){
                 query+=" or idSolicitud="+empleados.get(i);
             }
-            ResultSet res=cbd.getTabla(query, cn);
+            res=cbd.getTabla(query, cn);
             while(res.next()){
                 model.addRow(new Object[]{res.getString("nombre")});
             }

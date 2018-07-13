@@ -45,7 +45,7 @@ public class ManagerSoViaticos {
         try {
             
             //Consulta de los empleados
-            String sql = "select idSolicitud,Fecha_salida,Lugar,Nombre,Actividad,Pernoctado,Puesto,Fecha_llegada,Estado from Solicitud_viatico";
+            String sql = "select idSolicitud,Fecha_salida,Lugar,Nombre,Actividad,Pernoctado,Puesto,Fecha_llegada,Estado from Solicitud_viatico order by idSolicitud DESC";
             //String sql="select * from solicitud_viatico";
             Statement st = cn.createStatement();
             Object datos[] = new Object[taso.getColumnCount()];
@@ -87,7 +87,7 @@ public class ManagerSoViaticos {
         try {
             
             //Consulta de los empleados
-            String sql = "select idsolicitud_vehiculo,Fecha_salida,Lugar,Nombre,Actividad,Pernoctado,Puesto,Fecha_llegada,Estado from solicitud_vehiculo";
+            String sql = "select idsolicitud_vehiculo,Fecha_salida,Lugar,Nombre,Actividad,Pernoctado,Puesto,Fecha_llegada,Estado from solicitud_vehiculo order by idSolicitud_vehiculo DESC";
             //String sql="select * from solicitud_viatico";
             Statement st = cn.createStatement();
             Object datos[] = new Object[taso.getColumnCount()];
