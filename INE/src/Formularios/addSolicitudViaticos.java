@@ -251,7 +251,7 @@ public class addSolicitudViaticos extends javax.swing.JDialog {
        if(PrincipalS.conVehiculo==1){
            SimpleDateFormat format=new SimpleDateFormat("HH:mm");
          addSolicitudVehiculo asv;
-           asv = new addSolicitudVehiculo(parentVehiculo,true,comboEmpleados.getSelectedIndex(),
+           asv = new addSolicitudVehiculo(this,parentVehiculo,true,comboEmpleados.getSelectedIndex(),
            txt_Puesto.getText(),date_Salida.getDate(),date_Llegada.getDate(),
            hora_Salida.getValue(),hora_Llegada.getValue(),
            chb_Pernoctado.isSelected(),cmbEstado.getSelectedIndex(),cmbLocalidad.getSelectedIndex(),

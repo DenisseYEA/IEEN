@@ -20,6 +20,7 @@ import Clases.ManagerSoViaticos;
 
 import Interfaces.PrincipalS;
 import com.toedter.calendar.JTextFieldDateEditor;
+import java.awt.Frame;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.sql.Array;
@@ -30,6 +31,7 @@ import java.util.List;
 import java.util.Vector;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JDialog;
 import javax.swing.JSpinner;
 import javax.swing.SpinnerDateModel;
 import org.jdesktop.swingx.autocomplete.AutoCompleteDecorator;
@@ -48,14 +50,16 @@ public class addSolicitudVehiculo extends javax.swing.JDialog {
     Conexion cbd=new Conexion();
     Connection cn=cbd.getConexion();
     public static boolean imprimirSolicitud=false;
+    JDialog parent;
     /**
      * Creates new form addSolicitudViaticos
      */
-    public addSolicitudVehiculo(java.awt.Frame parent, boolean modal,
+    public addSolicitudVehiculo(javax.swing.JDialog parent,java.awt.Frame parentVehiculo, boolean modal,
             int empleado,String puesto,Date fecha_salida,Date fecha_llegada,
             Object hora_salida,Object hora_llegada,boolean pernoctado,int estado,
             int municipio,String actividad){
-        super(parent, modal);
+        super(parentVehiculo, modal);
+        this.parent=parent;
         initComponents();
         JTextFieldDateEditor date_Salida_Editor=(JTextFieldDateEditor) date_Salida.getDateEditor();
         JTextFieldDateEditor date_Llegada_Editor=(JTextFieldDateEditor) date_Llegada.getDateEditor();
@@ -220,6 +224,7 @@ public class addSolicitudVehiculo extends javax.swing.JDialog {
         txt_Actividad.setColumns(20);
         txt_Actividad.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         txt_Actividad.setRows(5);
+        txt_Actividad.setEnabled(false);
         jScrollPane1.setViewportView(txt_Actividad);
 
         pn_addInventario.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(14, 251, 420, 209));
@@ -236,15 +241,19 @@ public class addSolicitudVehiculo extends javax.swing.JDialog {
         pn_addInventario.add(lblAviso, new org.netbeans.lib.awtextra.AbsoluteConstraints(446, 228, 15, 233));
 
         cmbLocalidad.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Seleccione localidad" }));
-        pn_addInventario.add(cmbLocalidad, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 190, -1, -1));
+        cmbLocalidad.setEnabled(false);
+        pn_addInventario.add(cmbLocalidad, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 190, 230, -1));
 
         cmbEstado.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Seleccione estado" }));
+        cmbEstado.setEnabled(false);
         cmbEstado.addItemListener(new java.awt.event.ItemListener() {
             public void itemStateChanged(java.awt.event.ItemEvent evt) {
                 cmbEstadoItemStateChanged(evt);
             }
         });
         pn_addInventario.add(cmbEstado, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 190, -1, -1));
+
+        date_Salida.setEnabled(false);
         pn_addInventario.add(date_Salida, new org.netbeans.lib.awtextra.AbsoluteConstraints(154, 81, 215, -1));
         date_Salida.getDateEditor().addPropertyChangeListener(
             new java.beans.PropertyChangeListener() {
@@ -255,10 +264,15 @@ public class addSolicitudVehiculo extends javax.swing.JDialog {
                     }
                 }
             });
+
+            date_Llegada.setEnabled(false);
             pn_addInventario.add(date_Llegada, new org.netbeans.lib.awtextra.AbsoluteConstraints(154, 117, 215, -1));
+
+            chb_Pernoctado.setEnabled(false);
             pn_addInventario.add(chb_Pernoctado, new org.netbeans.lib.awtextra.AbsoluteConstraints(153, 157, -1, -1));
 
             comboEmpleados.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+            comboEmpleados.setEnabled(false);
             comboEmpleados.addActionListener(new java.awt.event.ActionListener() {
                 public void actionPerformed(java.awt.event.ActionEvent evt) {
                     comboEmpleadosActionPerformed(evt);
@@ -330,7 +344,7 @@ public class addSolicitudVehiculo extends javax.swing.JDialog {
                                     .addComponent(jLabel7)
                                     .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                     .addComponent(cmb_Vehiculo, javax.swing.GroupLayout.PREFERRED_SIZE, 216, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                            .addGap(0, 142, Short.MAX_VALUE)))
+                            .addGap(0, 194, Short.MAX_VALUE)))
                     .addContainerGap())
             );
             jPanel1Layout.setVerticalGroup(
@@ -351,10 +365,14 @@ public class addSolicitudVehiculo extends javax.swing.JDialog {
                     .addContainerGap())
             );
 
-            pn_addInventario.add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(580, 40, -1, 387));
+            pn_addInventario.add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(770, 50, 510, 387));
+
+            hora_Llegada.setEnabled(false);
             pn_addInventario.add(hora_Llegada, new org.netbeans.lib.awtextra.AbsoluteConstraints(387, 117, -1, -1));
             JSpinner.DateEditor de2 = new JSpinner.DateEditor(hora_Llegada, "HH:mm");
             hora_Llegada.setEditor(de2);
+
+            hora_Salida.setEnabled(false);
             pn_addInventario.add(hora_Salida, new org.netbeans.lib.awtextra.AbsoluteConstraints(387, 81, -1, -1));
             JSpinner.DateEditor de = new JSpinner.DateEditor(hora_Salida, "HH:mm");
             hora_Salida.setEditor(de);
@@ -362,7 +380,7 @@ public class addSolicitudVehiculo extends javax.swing.JDialog {
             jLabel6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/formularios.png"))); // NOI18N
             pn_addInventario.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
 
-            getContentPane().add(pn_addInventario, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 11, 1150, 500));
+            getContentPane().add(pn_addInventario, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 11, 1290, 500));
 
             pack();
         }// </editor-fold>//GEN-END:initComponents
@@ -403,6 +421,7 @@ public class addSolicitudVehiculo extends javax.swing.JDialog {
     private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
         // TODO add your handling code here:
         this.dispose();
+        parent.dispose();
     }//GEN-LAST:event_btnCancelarActionPerformed
 
     private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
@@ -716,7 +735,9 @@ public class addSolicitudVehiculo extends javax.swing.JDialog {
             if(insersion){
                 JOptionPane.showMessageDialog(this, "Insersión correcta");
                 PrincipalS.tablasolic.setModel(manager_viaticos.getTasol());
-                this.setVisible(false);
+                //this.setVisible(false);
+                this.dispose();
+                parent.dispose();
             }else{
                 System.out.println("insert into Solicitud_vehiculo (Fecha_Salida,Lugar,Nombre,Actividad,Pernoctado,Vehiculo,Puesto,Fecha_Llegada,Estado,Reporte,Hora_Llegada,Hora_Salida,vehiculo_usado_idvehiculo_usado) values('"+fecha_Salida+"','"+
                         cmbLocalidad.getSelectedItem().toString()+","+cmbEstado.getSelectedItem().toString()+"'"
