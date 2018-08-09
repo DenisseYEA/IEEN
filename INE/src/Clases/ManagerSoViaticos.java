@@ -347,7 +347,15 @@ public class ManagerSoViaticos {
                     if(i == 5){
                         datos[i]=rs.getBoolean(i+1);
                     }else{
-                                            datos[i] = rs.getObject(i+1);
+                          if(i == 6){
+                              if(rs.getString("Reporte").equals("1") ){
+                                  datos[i] = "Finalizado";
+                              }else{
+                                  datos[i] = "Pendiente";
+                              }
+                          }else{
+                              datos[i] = rs.getObject(i+1);
+                          }
                     }
                     
                 }//Llenamos las columnas por registro
